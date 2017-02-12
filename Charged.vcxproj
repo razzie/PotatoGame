@@ -1,0 +1,470 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{AC54AE8D-58E7-4666-B9FE-0DC361C4E6C9}</ProjectGuid>
+    <RootNamespace>Charged</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>bin\</OutDir>
+    <IntDir>obj\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName).$(Configuration)</TargetName>
+    <IncludePath>source\thirdparty;source;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <SourcePath>source\thirdparty;source;$(VC_SourcePath);</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>bin\</OutDir>
+    <IntDir>obj\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName).$(Configuration)</TargetName>
+    <IncludePath>source\thirdparty;source;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <SourcePath>source\thirdparty;source;$(VC_SourcePath);</SourcePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="source\common\GLserializers.hpp" />
+    <ClInclude Include="source\common\IDPool.hpp" />
+    <ClInclude Include="source\common\stringhash.hpp" />
+    <ClInclude Include="source\game\creature\action\Action.hpp" />
+    <ClInclude Include="source\game\creature\Creature.hpp" />
+    <ClInclude Include="source\game\creature\trait\Trait.hpp" />
+    <ClInclude Include="source\game\level\Hub.hpp" />
+    <ClInclude Include="source\game\level\Level.hpp" />
+    <ClInclude Include="source\game\level\Platform.hpp" />
+    <ClInclude Include="source\game\level\Resource.hpp" />
+    <ClInclude Include="source\game\level\Trace.hpp" />
+    <ClInclude Include="source\game\level\Transport.hpp" />
+    <ClInclude Include="source\game\level\Trap.hpp" />
+    <ClInclude Include="source\game\player\AIPlayer.hpp" />
+    <ClInclude Include="source\game\player\HumanPlayer.hpp" />
+    <ClInclude Include="source\game\player\Player.hpp" />
+    <ClInclude Include="source\thirdparty\boost\polygon\detail\voronoi_ctypes.hpp" />
+    <ClInclude Include="source\thirdparty\boost\polygon\detail\voronoi_predicates.hpp" />
+    <ClInclude Include="source\thirdparty\boost\polygon\detail\voronoi_robust_fpt.hpp" />
+    <ClInclude Include="source\thirdparty\boost\polygon\detail\voronoi_structures.hpp" />
+    <ClInclude Include="source\thirdparty\boost\polygon\voronoi.hpp" />
+    <ClInclude Include="source\thirdparty\boost\polygon\voronoi_builder.hpp" />
+    <ClInclude Include="source\thirdparty\boost\polygon\voronoi_diagram.hpp" />
+    <ClInclude Include="source\thirdparty\boost\polygon\voronoi_utils.hpp" />
+    <ClInclude Include="source\thirdparty\raz\bitset.hpp" />
+    <ClInclude Include="source\thirdparty\raz\callback.hpp" />
+    <ClInclude Include="source\thirdparty\raz\event.hpp" />
+    <ClInclude Include="source\thirdparty\raz\functional.hpp" />
+    <ClInclude Include="source\thirdparty\raz\memory.hpp" />
+    <ClInclude Include="source\thirdparty\raz\network.hpp" />
+    <ClInclude Include="source\thirdparty\raz\networkbackend.hpp" />
+    <ClInclude Include="source\thirdparty\raz\random.hpp" />
+    <ClInclude Include="source\thirdparty\raz\serialization.hpp" />
+    <ClInclude Include="source\thirdparty\raz\storage.hpp" />
+    <ClInclude Include="source\thirdparty\raz\stream.hpp" />
+    <ClInclude Include="source\thirdparty\raz\timer.hpp" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\Clipboard.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\Controls.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\DataFormatter.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\DataQuery.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\DataSource.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\DataSourceListener.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\ElementDataGrid.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\ElementDataGridCell.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\ElementDataGridExpandButton.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\ElementDataGridRow.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\ElementForm.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\ElementFormControl.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\ElementFormControlDataSelect.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\ElementFormControlInput.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\ElementFormControlSelect.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\ElementFormControlTextArea.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\ElementTabSet.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\Header.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\Lua\Controls.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\Lua\Header.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Controls\SelectOption.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\BaseXMLParser.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\BitmapFont\FontProvider.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Box.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Colour.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Context.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\ContextInstancer.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\ConvolutionFilter.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Core.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Debug.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Decorator.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\DecoratorInstancer.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Dictionary.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Element.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\ElementDocument.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\ElementInstancer.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\ElementInstancerGeneric.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\ElementReference.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\ElementScroll.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\ElementText.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\ElementUtilities.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Event.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\EventInstancer.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\EventListener.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\EventListenerInstancer.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Factory.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\FileInterface.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Font.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\FontDatabase.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\FontEffect.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\FontEffectInstancer.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\FontFace.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\FontFamily.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\FontGlyph.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\FontProvider.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\FreeType\FontProvider.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Geometry.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\GeometryUtilities.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Header.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Input.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Log.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Lua\Header.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Lua\Interpreter.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Lua\lua.hpp" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Lua\LuaType.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Lua\Utilities.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Math.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\MathTypes.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Platform.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Plugin.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Property.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\PropertyDefinition.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\PropertyDictionary.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\PropertyParser.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\PropertySpecification.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Python\ConverterScriptObject.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Python\ElementInstancer.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Python\ElementWrapper.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Python\Header.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Python\NameIndexInterface.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Python\PickleTypeConverter.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Python\Python.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Python\Utilities.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Python\VectorInterface.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Python\Wrapper.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Python\WrapperIter.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\ReferenceCountable.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\RenderInterface.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\ScriptInterface.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Stream.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\StreamMemory.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\String.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\StringBase.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\StringUtilities.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\StyleSheet.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\StyleSheetKeywords.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\StyleSheetSpecification.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\SystemInterface.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Texture.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\TypeConverter.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Types.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\URL.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Variant.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Vector2.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\Vertex.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\WString.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\XMLNodeHandler.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Core\XMLParser.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Debugger.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Debugger\Debugger.h" />
+    <ClInclude Include="source\thirdparty\Rocket\Debugger\Header.h" />
+    <ClInclude Include="source\Application.hpp" />
+    <ClInclude Include="source\common\BoundingBox2D.hpp" />
+    <ClInclude Include="source\common\Circle2D.hpp" />
+    <ClInclude Include="source\common\equals.hpp" />
+    <ClInclude Include="source\common\GLinterpolation.hpp" />
+    <ClInclude Include="source\common\Line2D.hpp" />
+    <ClInclude Include="source\common\Point2D.hpp" />
+    <ClInclude Include="source\common\Polygon2D.hpp" />
+    <ClInclude Include="source\common\Quaternion.hpp" />
+    <ClInclude Include="source\common\Triangle2D.hpp" />
+    <ClInclude Include="source\ui\core\HubShader.hpp" />
+    <ClInclude Include="source\ui\core\SimpleShader.hpp" />
+    <ClInclude Include="source\ui\scene\Camera.hpp" />
+    <ClInclude Include="source\ui\core\Mesh.hpp" />
+    <ClInclude Include="source\ui\scene\model\HubModel.hpp" />
+    <ClInclude Include="source\ui\scene\model\Model.hpp" />
+    <ClInclude Include="source\ui\scene\Scene.hpp" />
+    <ClInclude Include="source\common\PerlinNoise.hpp" />
+    <ClInclude Include="source\ui\core\Vertex.hpp" />
+    <ClInclude Include="source\thirdparty\GL\GL\Context.hpp" />
+    <ClInclude Include="source\thirdparty\GL\GL\Extensions.hpp" />
+    <ClInclude Include="source\thirdparty\GL\GL\Framebuffer.hpp" />
+    <ClInclude Include="source\thirdparty\GL\GL\GC.hpp" />
+    <ClInclude Include="source\thirdparty\GL\GL\Program.hpp" />
+    <ClInclude Include="source\thirdparty\GL\GL\Renderbuffer.hpp" />
+    <ClInclude Include="source\thirdparty\GL\GL\Shader.hpp" />
+    <ClInclude Include="source\thirdparty\GL\GL\Texture.hpp" />
+    <ClInclude Include="source\thirdparty\GL\GL\VertexArray.hpp" />
+    <ClInclude Include="source\thirdparty\GL\GL\VertexBuffer.hpp" />
+    <ClInclude Include="source\thirdparty\GL\Math\Mat3.hpp" />
+    <ClInclude Include="source\thirdparty\GL\Math\Mat4.hpp" />
+    <ClInclude Include="source\thirdparty\GL\Math\Util.hpp" />
+    <ClInclude Include="source\thirdparty\GL\Math\Vec2.hpp" />
+    <ClInclude Include="source\thirdparty\GL\Math\Vec3.hpp" />
+    <ClInclude Include="source\thirdparty\GL\Math\Vec4.hpp" />
+    <ClInclude Include="source\thirdparty\GL\OOGL.hpp" />
+    <ClInclude Include="source\thirdparty\GL\Platform.hpp" />
+    <ClInclude Include="source\thirdparty\GL\Util\ByteBuffer.hpp" />
+    <ClInclude Include="source\thirdparty\GL\Util\Color.hpp" />
+    <ClInclude Include="source\thirdparty\GL\Util\Image.hpp" />
+    <ClInclude Include="source\thirdparty\GL\Util\libjpeg\cderror.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\libjpeg\jconfig.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\libjpeg\jdct.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\libjpeg\jerror.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\libjpeg\jinclude.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\libjpeg\jmemsys.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\libjpeg\jmorecfg.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\libjpeg\jpegint.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\libjpeg\jpeglib.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\libjpeg\jversion.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\libpng\png.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\libpng\pngconf.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\Mesh.hpp" />
+    <ClInclude Include="source\thirdparty\GL\Util\zlib\crc32.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\zlib\deflate.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\zlib\inffast.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\zlib\inffixed.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\zlib\inflate.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\zlib\inftrees.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\zlib\trees.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\zlib\zconf.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\zlib\zlib.h" />
+    <ClInclude Include="source\thirdparty\GL\Util\zlib\zutil.h" />
+    <ClInclude Include="source\thirdparty\GL\Window\Event.hpp" />
+    <ClInclude Include="source\thirdparty\GL\Window\Window.hpp" />
+    <ClInclude Include="source\thirdparty\micropather\micropather.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\thirdparty\Rocket\Core\Colour.inl" />
+    <None Include="source\thirdparty\Rocket\Core\Dictionary.inl" />
+    <None Include="source\thirdparty\Rocket\Core\Element.inl" />
+    <None Include="source\thirdparty\Rocket\Core\ElementInstancerGeneric.inl" />
+    <None Include="source\thirdparty\Rocket\Core\Lua\LuaType.inl" />
+    <None Include="source\thirdparty\Rocket\Core\StringBase.inl" />
+    <None Include="source\thirdparty\Rocket\Core\TypeConverter.inl" />
+    <None Include="source\thirdparty\Rocket\Core\Variant.inl" />
+    <None Include="source\thirdparty\Rocket\Core\Vector2.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\Application.cpp" />
+    <ClCompile Include="source\ui\core\HubShader.cpp" />
+    <ClCompile Include="source\ui\core\SimpleShader.cpp" />
+    <ClCompile Include="source\ui\scene\Camera.cpp" />
+    <ClCompile Include="source\ui\scene\model\HubModel.cpp" />
+    <ClCompile Include="source\ui\scene\model\Model.cpp" />
+    <ClCompile Include="source\ui\scene\Scene.cpp" />
+    <ClCompile Include="source\ui\core\Vertex.cpp" />
+    <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\thirdparty\GL\GL\Context.cpp" />
+    <ClCompile Include="source\thirdparty\GL\GL\Context_Win32.cpp" />
+    <ClCompile Include="source\thirdparty\GL\GL\Context_X11.cpp" />
+    <ClCompile Include="source\thirdparty\GL\GL\Extensions.cpp" />
+    <ClCompile Include="source\thirdparty\GL\GL\Framebuffer.cpp" />
+    <ClCompile Include="source\thirdparty\GL\GL\Program.cpp" />
+    <ClCompile Include="source\thirdparty\GL\GL\Renderbuffer.cpp" />
+    <ClCompile Include="source\thirdparty\GL\GL\Shader.cpp" />
+    <ClCompile Include="source\thirdparty\GL\GL\Texture.cpp" />
+    <ClCompile Include="source\thirdparty\GL\GL\VertexArray.cpp" />
+    <ClCompile Include="source\thirdparty\GL\GL\VertexBuffer.cpp" />
+    <ClCompile Include="source\thirdparty\GL\Math\Mat3.cpp" />
+    <ClCompile Include="source\thirdparty\GL\Math\Mat4.cpp" />
+    <ClCompile Include="source\thirdparty\GL\Math\Vec2.cpp" />
+    <ClCompile Include="source\thirdparty\GL\Math\Vec3.cpp" />
+    <ClCompile Include="source\thirdparty\GL\Math\Vec4.cpp" />
+    <ClCompile Include="source\thirdparty\GL\Util\Image.cpp" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jaricom.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jcapimin.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jcapistd.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jcarith.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jccoefct.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jccolor.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jcdctmgr.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jchuff.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jcinit.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jcmainct.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jcmarker.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jcmaster.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jcomapi.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jcparam.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jcprepct.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jcsample.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jctrans.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdapimin.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdapistd.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdarith.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdatadst.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdatasrc.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdcoefct.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdcolor.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jddctmgr.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdhuff.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdinput.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdmainct.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdmarker.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdmaster.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdmerge.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdpostct.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdsample.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jdtrans.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jerror.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jfdctflt.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jfdctfst.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jfdctint.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jidctflt.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jidctfst.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jidctint.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jmemmgr.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jmemnobs.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jquant1.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jquant2.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libjpeg\jutils.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\png.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngerror.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pnggccrd.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngget.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngmem.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngpread.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngread.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngrio.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngrtran.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngrutil.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngset.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngtrans.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngvcrd.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngwio.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngwrite.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngwtran.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\libpng\pngwutil.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\Mesh.cpp" />
+    <ClCompile Include="source\thirdparty\GL\Util\zlib\adler32.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\zlib\compress.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\zlib\crc32.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\zlib\deflate.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\zlib\inffast.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\zlib\inflate.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\zlib\inftrees.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\zlib\trees.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\zlib\uncompr.c" />
+    <ClCompile Include="source\thirdparty\GL\Util\zlib\zutil.c" />
+    <ClCompile Include="source\thirdparty\GL\Window\Window.cpp" />
+    <ClCompile Include="source\thirdparty\GL\Window\Window_Win32.cpp" />
+    <ClCompile Include="source\thirdparty\GL\Window\Window_X11.cpp" />
+    <ClCompile Include="source\thirdparty\micropather\micropather.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
