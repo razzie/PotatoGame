@@ -10,8 +10,6 @@
 #include <GL/Math/Vec3.hpp>
 #include <raz/event.hpp>
 
-namespace ui
-{
 namespace event
 {
 	using namespace raz::literal;
@@ -23,5 +21,4 @@ namespace event
 	};
 
 	typedef raz::Event<"HubCreate"_event, HubCreateParams> HubCreate;
-}
 }
