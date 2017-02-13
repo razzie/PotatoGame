@@ -13,11 +13,10 @@
 #include "common/Line2D.hpp"
 #include "common/Triangle2D.hpp"
 #include "common/BoundingBox2D.hpp"
+#include "common/PI.hpp"
 
 namespace common
 {
-	constexpr double PI = 3.14159265358979323846;
-
 	template<class T>
 	struct Polygon2D
 	{

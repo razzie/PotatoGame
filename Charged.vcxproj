@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClInclude Include="source\common\GLserializers.hpp" />
     <ClInclude Include="source\common\IDPool.hpp" />
+    <ClInclude Include="source\common\PI.hpp" />
     <ClInclude Include="source\common\stringhash.hpp" />
     <ClInclude Include="source\game\creature\action\Action.hpp" />
     <ClInclude Include="source\game\creature\Creature.hpp" />
@@ -294,7 +295,7 @@
     <ClInclude Include="source\common\Triangle2D.hpp" />
     <ClInclude Include="source\ui\core\HubShader.hpp" />
     <ClInclude Include="source\ui\core\SimpleShader.hpp" />
-    <ClInclude Include="source\ui\event\hubevents.hpp" />
+    <ClInclude Include="source\event\hubevents.hpp" />
     <ClInclude Include="source\ui\scene\Camera.hpp" />
     <ClInclude Include="source\ui\core\Mesh.hpp" />
     <ClInclude Include="source\ui\scene\model\gen\Wire.hpp" />
@@ -367,6 +368,7 @@
     <ClCompile Include="source\ui\core\HubShader.cpp" />
     <ClCompile Include="source\ui\core\SimpleShader.cpp" />
     <ClCompile Include="source\ui\scene\Camera.cpp" />
+    <ClCompile Include="source\ui\scene\model\gen\Wire.cpp" />
     <ClCompile Include="source\ui\scene\model\HubModel.cpp" />
     <ClCompile Include="source\ui\scene\model\Model.cpp" />
     <ClCompile Include="source\ui\scene\Scene.cpp" />

@@ -9,16 +9,16 @@
 #include <boost/polygon/voronoi_diagram.hpp>
 #include <raz/random.hpp>
 #include "common/Point2D.hpp"
+#include "common/PI.hpp"
 #include "ui/scene/Scene.hpp"
 #include "ui/scene/model/HubModel.hpp"
+#include "ui/scene/model/gen/Wire.hpp"
 
-static constexpr double PI = 3.14159265358979323846;
 static constexpr size_t VORONOI_SCALE = 64;
 
-static void createCentralVoronoiDiagram(boost::polygon::voronoi_diagram<double>& diagram, raz::Random& random, size_t hub_size)
+static void createCentralVoronoiDiagram(boost::polygon::voronoi_diagram<double>& diagram, raz::Random& random, size_t hub_size, size_t complexity)
 {
-	const size_t complexity = 6;
-	const float angle_step = static_cast<float>(PI * 2 / complexity);
+	const float angle_step = static_cast<float>(common::PI * 2 / complexity);
 	float angle_rad = 0.f;
 
 	boost::polygon::voronoi_builder<int> builder;
@@ -29,8 +29,8 @@ static void createCentralVoronoiDiagram(boost::polygon::voronoi_diagram<double>&
 	{
 		for (size_t j = 0; j < complexity; ++j)
 		{
-			float x = std::sin(angle_rad) * (VORONOI_SCALE * i) + random(-8, 8);
-			float y = -std::cos(angle_rad) * (VORONOI_SCALE * i) + random(-8, 8);
+			float x = std::sin(angle_rad) * (VORONOI_SCALE * i) + random(-16, 16);
+			float y = -std::cos(angle_rad) * (VORONOI_SCALE * i) + random(-16, 16);
 			
 			builder.insert_point((int)x, (int)y);
 			angle_rad += angle_step;
@@ -69,16 +69,21 @@ static common::Point2D<float> getVoronoiEdgePoint(const boost::polygon::voronoi_
 	}
 }
 
-static common::Point2D<float> getVoronoiCellCenter(const boost::polygon::voronoi_cell<double>& cell)
+static GL::Vec3 getVoronoiCellPosition(const boost::polygon::voronoi_cell<double>& cell, size_t hub_size)
 {
-	return { (float)cell.point0().x() / VORONOI_SCALE, (float)cell.point0().y() / VORONOI_SCALE };
+	float x = (float)cell.point0().x() / VORONOI_SCALE;
+	float z = (float)cell.point0().y() / VORONOI_SCALE;
+
+	float y = 0.5f * ((float)hub_size - common::Point2D<float>{x, z}.getDistanceFrom({ 0.f, 0.f }));
+	y *= y;
+
+	return GL::Vec3(x, y, z);
 }
 
 static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, raz::Random& random, size_t hub_size, ui::core::MeshBuffer<>& meshbuffer)
 {
 	unsigned points_inserted = 0;
-	float height = 0.5f * ((float)hub_size - getVoronoiCellCenter(cell).getDistanceFrom({ 0.f, 0.f }));
-	height *= height;
+	float height = getVoronoiCellPosition(cell, hub_size).Y;
 	auto* edge = cell.incident_edge();
 
 	GL::uchar color = random(128, 255);
@@ -92,7 +97,7 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 
 			if (distance < hub_size)
 			{
-				ui::core::Vertex v {GL::Vec3(point.x, height + 0.125f * ((float)hub_size - distance), point.y), GL::Vec3(0.f, 1.f, 0.f), GL::Color(color, color, color)};
+				ui::core::Vertex v {GL::Vec3(point.x, height/* + 0.125f * ((float)hub_size - distance)*/, point.y), GL::Vec3(0.f, 1.f, 0.f), GL::Color(color, color, color)};
 				meshbuffer.vertices.push_back(v);
 				++points_inserted;
 			}
@@ -146,6 +151,69 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 	}
 }
 
+static size_t getCellPointCount(const boost::polygon::voronoi_cell<double>& cell, size_t hub_size)
+{
+	size_t valid_points = 0;
+
+	auto* edge = cell.incident_edge();
+
+	do
+	{
+		if (edge->is_primary())
+		{
+			auto point = getVoronoiEdgePoint(edge);
+			float distance = point.getDistanceFrom({ 0.f, 0.f });
+
+			if (distance < hub_size)
+				++valid_points;
+		}
+
+		edge = edge->next();
+
+	} while (edge != cell.incident_edge());
+
+	return valid_points;
+}
+
+static void insertCentralWires(const boost::polygon::voronoi_diagram<double>& diagram, raz::Random& random, size_t hub_size, size_t complexity, ui::core::MeshBuffer<>& meshbuffer)
+{
+	const boost::polygon::voronoi_cell<double> *cell1, *cell2;
+
+	for (size_t i = 0; i < complexity * 2; ++i)
+	{
+		do
+		{
+			cell1 = &diagram.cells()[random(0u, diagram.cells().size() - 1)];
+		} while (getCellPointCount(*cell1, hub_size) <= 4);
+
+		for (auto* edge = cell1->incident_edge(); ; edge = edge->next())
+		{
+			if (edge->is_primary() && edge->twin())
+			{
+				cell2 = edge->twin()->cell();
+				if (cell2 && getCellPointCount(*cell2, hub_size) > 3)
+					break;
+			}
+		}
+
+		auto p1 = getVoronoiCellPosition(*cell1, hub_size);
+		auto p2 = getVoronoiCellPosition(*cell2, hub_size);
+		float drop = -0.5f * hub_size + random(-0.5f, 0.5f);
+
+		p1.X += random(-0.35f, 0.35f);
+		p1.Y -= 0.75f;
+		p1.Z += random(-0.35f, 0.35f);
+
+		p2.X += random(-0.35f, 0.35f);
+		p2.Y -= 0.75f;
+		p2.Z += random(-0.35f, 0.35f);
+
+		ui::scene::model::gen::Wire wire(p1, p2, 16, drop);
+		wire.generate(meshbuffer);
+	}
+}
+
+
 typedef std::vector<ui::scene::model::HubModel::Platform, raz::Allocator<ui::scene::model::HubModel::Platform>> PlatformsVector;
 
 static void createPlatforms(PlatformsVector& platforms, size_t hub_size)
@@ -158,19 +226,23 @@ static void insertPlatforms(const PlatformsVector& platforms, ui::core::MeshBuff
 
 }
 
+
 ui::scene::model::HubModel::HubModel(scene::Scene& scene)
 {
 	const uint64_t seed = 12345;
-	const size_t hub_size = 5;
+	const size_t hub_size = 6;
+	const size_t complexity = 8;
 
 
 	core::MeshBuffer<> meshbuffer;
 	raz::Random random(seed);
-
 	boost::polygon::voronoi_diagram<double> diagram;
-	createCentralVoronoiDiagram(diagram, random, hub_size);
+
+	createCentralVoronoiDiagram(diagram, random, hub_size, complexity);
 	for (auto& cell : diagram.cells())
 		insertVoronoiCell(cell, random, hub_size, meshbuffer);
+
+	insertCentralWires(diagram, random, hub_size, complexity, meshbuffer);
 
 	createPlatforms(m_platforms, hub_size);
 	insertPlatforms(m_platforms, meshbuffer);
