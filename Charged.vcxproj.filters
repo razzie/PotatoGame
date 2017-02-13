@@ -974,6 +974,18 @@
     <ClInclude Include="source\thirdparty\micropather\micropather.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\ui\event\hubevents.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\level\Spawn.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\level\Portal.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ui\scene\model\gen\Wire.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\thirdparty\Rocket\Core\Colour.inl">

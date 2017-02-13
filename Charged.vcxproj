@@ -140,7 +140,9 @@
     <ClInclude Include="source\game\level\Hub.hpp" />
     <ClInclude Include="source\game\level\Level.hpp" />
     <ClInclude Include="source\game\level\Platform.hpp" />
+    <ClInclude Include="source\game\level\Portal.hpp" />
     <ClInclude Include="source\game\level\Resource.hpp" />
+    <ClInclude Include="source\game\level\Spawn.hpp" />
     <ClInclude Include="source\game\level\Trace.hpp" />
     <ClInclude Include="source\game\level\Transport.hpp" />
     <ClInclude Include="source\game\level\Trap.hpp" />
@@ -292,8 +294,10 @@
     <ClInclude Include="source\common\Triangle2D.hpp" />
     <ClInclude Include="source\ui\core\HubShader.hpp" />
     <ClInclude Include="source\ui\core\SimpleShader.hpp" />
+    <ClInclude Include="source\ui\event\hubevents.hpp" />
     <ClInclude Include="source\ui\scene\Camera.hpp" />
     <ClInclude Include="source\ui\core\Mesh.hpp" />
+    <ClInclude Include="source\ui\scene\model\gen\Wire.hpp" />
     <ClInclude Include="source\ui\scene\model\HubModel.hpp" />
     <ClInclude Include="source\ui\scene\model\Model.hpp" />
     <ClInclude Include="source\ui\scene\Scene.hpp" />
