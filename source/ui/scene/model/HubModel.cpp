@@ -18,7 +18,6 @@ static constexpr size_t VORONOI_SCALE = 64;
 static void createCentralVoronoiDiagram(boost::polygon::voronoi_diagram<double>& diagram, raz::Random& random, size_t hub_size)
 {
 	const size_t complexity = 6;
-	//const float ring_radius = 2.f;
 	const float angle_step = static_cast<float>(PI * 2 / complexity);
 	float angle_rad = 0.f;
 
@@ -26,7 +25,7 @@ static void createCentralVoronoiDiagram(boost::polygon::voronoi_diagram<double>&
 
 	builder.insert_point(0, 0);
 
-	for (size_t i = 0; i < hub_size; ++i)
+	for (size_t i = 1; i < hub_size; ++i)
 	{
 		for (size_t j = 0; j < complexity; ++j)
 		{
@@ -48,7 +47,7 @@ static common::Point2D<float> getVoronoiEdgePoint(const boost::polygon::voronoi_
 	if (edge->vertex0())
 	{
 		auto v = edge->vertex0()->vertex();
-		return{ (float)v.x(), (float)v.y() };
+		return { (float)v.x() / VORONOI_SCALE, (float)v.y() / VORONOI_SCALE };
 	}
 	else
 	{
@@ -70,19 +69,30 @@ static common::Point2D<float> getVoronoiEdgePoint(const boost::polygon::voronoi_
 	}
 }
 
+static common::Point2D<float> getVoronoiCellCenter(const boost::polygon::voronoi_cell<double>& cell)
+{
+	return { (float)cell.point0().x() / VORONOI_SCALE, (float)cell.point0().y() / VORONOI_SCALE };
+}
+
 static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, raz::Random& random, size_t hub_size, ui::core::MeshBuffer<>& meshbuffer)
 {
 	unsigned points_inserted = 0;
+	float height = 0.5f * ((float)hub_size - getVoronoiCellCenter(cell).getDistanceFrom({ 0.f, 0.f }));
+	height *= height;
 	auto* edge = cell.incident_edge();
+
+	GL::uchar color = random(128, 255);
 
 	do
 	{
 		if (edge->is_primary())
 		{
 			auto point = getVoronoiEdgePoint(edge);
-			if (point.getDistanceFromSq({ 0.f, 0.f }) < (hub_size * hub_size))
+			float distance = point.getDistanceFrom({ 0.f, 0.f });
+
+			if (distance < hub_size)
 			{
-				ui::core::Vertex v {GL::Vec3(point.x, 0.f, point.y), GL::Vec3(0.f, 1.f, 0.f), GL::Color()};
+				ui::core::Vertex v {GL::Vec3(point.x, height + 0.125f * ((float)hub_size - distance), point.y), GL::Vec3(0.f, 1.f, 0.f), GL::Color(color, color, color)};
 				meshbuffer.vertices.push_back(v);
 				++points_inserted;
 			}
@@ -92,7 +102,7 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 
 	} while (edge != cell.incident_edge());
 
-	if (points_inserted < 3)
+	if (points_inserted < 4)
 	{
 		for (unsigned i = 0; i < points_inserted; ++i)
 			meshbuffer.vertices.pop_back();
@@ -101,11 +111,37 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 	{
 		uint16_t base_index = (uint16_t)meshbuffer.vertices.size() - points_inserted;
 
+		// duplicating vertices for bottom
+		for (unsigned i = base_index, len = meshbuffer.vertices.size(); i < len; ++i)
+		{
+			ui::core::Vertex v = meshbuffer.vertices[i];
+			v.position.Y = 0.f;
+			meshbuffer.vertices.push_back(v);
+		}
+
+		// indexing top
 		for (unsigned i = 1; i < points_inserted - 1; ++i)
 		{
 			meshbuffer.indices.push_back(base_index);
-			meshbuffer.indices.push_back(base_index + i);
 			meshbuffer.indices.push_back(base_index + i + 1);
+			meshbuffer.indices.push_back(base_index + i);
+		}
+
+		// indexing sides
+		for (unsigned i = 0; i < points_inserted; ++i)
+		{
+			uint16_t top1 = base_index + i;
+			uint16_t top2 = base_index + ((i + 1) % points_inserted);
+			uint16_t bottom1 = base_index + i + points_inserted;
+			uint16_t bottom2 = base_index + ((i + 1) % points_inserted) + points_inserted;
+
+			meshbuffer.indices.push_back(top1);
+			meshbuffer.indices.push_back(top2);
+			meshbuffer.indices.push_back(bottom1);
+
+			meshbuffer.indices.push_back(top2);
+			meshbuffer.indices.push_back(bottom2);
+			meshbuffer.indices.push_back(bottom1);
 		}
 	}
 }
@@ -139,6 +175,7 @@ ui::scene::model::HubModel::HubModel(scene::Scene& scene)
 	createPlatforms(m_platforms, hub_size);
 	insertPlatforms(m_platforms, meshbuffer);
 
+	meshbuffer.recalculateNormals();
 	m_mesh = meshbuffer.createMesh(scene.getShader("hub"_shader));
 }
 
