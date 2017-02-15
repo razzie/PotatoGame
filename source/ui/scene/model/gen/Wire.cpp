@@ -24,8 +24,8 @@ void ui::scene::model::gen::Wire::generate(ui::core::MeshBuffer<>& meshbuffer) c
 {
 	// triangle points
 	const GL::Vec3 p1 = GL::Vec3(0.f, 0.f, 1.f) * m_thickness;
-	const GL::Vec3 p2 = GL::Vec3(0.f, 0.86602540378f, 0.5f) * m_thickness;
-	const GL::Vec3 p3 = GL::Vec3(0.f, 0.86602540378f, -0.5f) * m_thickness;
+	const GL::Vec3 p2 = GL::Vec3(0.86602540378f, 0.f, -0.5f) * m_thickness;
+	const GL::Vec3 p3 = GL::Vec3(-0.86602540378f, 0.f, -0.5f) * m_thickness;
 
 	uint16_t base_index = (uint16_t)meshbuffer.vertices.size();
 
@@ -36,17 +36,22 @@ void ui::scene::model::gen::Wire::generate(ui::core::MeshBuffer<>& meshbuffer) c
 		float tnext = (float)(i + 1) / m_segments;
 		float tdrop = -(float)std::sin(common::PI * t) * m_drop;
 
-		GL::Vec3 p = common::lerp(m_start, m_end, t);
-		GL::Vec3 pnext = common::lerp(m_start, m_end, tnext);
 		GL::Vec3 pdrop(0.f, tdrop, 0.f);
+		GL::Vec3 p = common::lerp(m_start, m_end, t) + pdrop;
+		GL::Vec3 pnext = common::lerp(m_start, m_end, tnext) + pdrop;
 
-		//GL::Mat4 mat = GL::Mat4::LookAt(p, pnext, GL::Vec3(0.f, -1.f, 0.f));
+		GL::Vec3 direction = (pnext - p).Normal();
+		float pitch = acos(direction.Y);
+		float yaw = atan2(direction.Z, direction.X);
+
 		GL::Mat4 mat;
 		mat.Translate(p);
+		mat.RotateX(pitch);
+		mat.RotateY(yaw);
 
-		ui::core::Vertex v1{ (mat * p1) + pdrop, GL::Vec3(), m_color };
-		ui::core::Vertex v2{ (mat * p2) + pdrop, GL::Vec3(), m_color };
-		ui::core::Vertex v3{ (mat * p3) + pdrop, GL::Vec3(), m_color };
+		ui::core::Vertex v1{ mat * p1, GL::Vec3(), m_color };
+		ui::core::Vertex v2{ mat * p2, GL::Vec3(), m_color };
+		ui::core::Vertex v3{ mat * p3, GL::Vec3(), m_color };
 
 		v1.normal = v1.position.Normal();
 		v2.normal = v2.position.Normal();
