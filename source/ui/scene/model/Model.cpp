@@ -73,3 +73,8 @@ void ui::scene::model::Model::getMatrices(GL::Mat4& world, GL::Mat4& normal) con
 	world = m_world_mat;
 	normal = m_normal_mat;
 }
+
+ui::core::Mesh& ui::scene::model::Model::getMesh()
+{
+	return m_mesh;
+}

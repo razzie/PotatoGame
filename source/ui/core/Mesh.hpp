@@ -9,6 +9,7 @@
 #include <cstdint>
 #include <vector>
 #include <GL/Math/Vec3.hpp>
+#include <GL/GL/Context.hpp>
 #include <GL/GL/Program.hpp>
 #include <GL/GL/VertexBuffer.hpp>
 #include <GL/GL/VertexArray.hpp>
@@ -27,6 +28,14 @@ namespace core
 		GL::VertexArray vertex_array;
 		unsigned num_of_indices;
 		GL::Type::type_t index_type;
+
+		void render(GL::Context& gl, bool use_program = true) const
+		{
+			if (use_program)
+				gl.UseProgram(program);
+
+			gl.DrawElements(vertex_array, GL::Primitive::Triangles, 0, num_of_indices, index_type);
+		}
 	};
 
 	template<class VertexType = Vertex, class IndexType = uint16_t>

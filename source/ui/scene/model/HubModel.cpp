@@ -438,7 +438,7 @@ ui::scene::model::HubModel::HubModel(scene::Scene& scene)
 	insertLowerWires(m_platforms, random, hub_size, complexity, meshbuffer);
 
 	meshbuffer.recalculateNormals();
-	m_mesh = meshbuffer.createMesh(scene.getShader("hub"_shader));
+	getMesh() = meshbuffer.createMesh(scene.getShader("hub"_shader));
 }
 
 void ui::scene::model::HubModel::render(scene::Scene& scene)
@@ -447,13 +447,15 @@ void ui::scene::model::HubModel::render(scene::Scene& scene)
 	GL::Mat4 normal;
 	getMatrices(world, normal);
 
-	m_mesh.program.SetUniform("world_mat", world);
-	m_mesh.program.SetUniform("normal_mat", normal);
-	m_mesh.program.SetUniform("screen_mat", scene.getCameraMatrix() * world);
-	m_mesh.program.SetUniform("light_source", scene.getCamera().getPosition());
+	auto& mesh = getMesh();
+
+	mesh.program.SetUniform("world_mat", world);
+	mesh.program.SetUniform("normal_mat", normal);
+	mesh.program.SetUniform("screen_mat", scene.getCameraMatrix() * world);
+	mesh.program.SetUniform("light_source", scene.getCamera().getPosition());
 
 	GL::Context& gl = scene.getContext();
-	gl.DrawElements(m_mesh.vertex_array, GL::Primitive::Triangles, 0, m_mesh.num_of_indices, m_mesh.index_type);
+	mesh.render(gl, false);
 }
 
 const ui::scene::model::HubModel::Platform& ui::scene::model::HubModel::getPlatform(size_t id)
