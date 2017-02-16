@@ -86,7 +86,7 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 	float height = getVoronoiCellPosition(cell, hub_size).Y;
 	auto* edge = cell.incident_edge();
 
-	GL::uchar color = random(128, 255);
+	GL::uchar color = random(192, 255);
 
 	do
 	{
@@ -120,7 +120,7 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 		for (unsigned i = base_index, len = meshbuffer.vertices.size(); i < len; ++i)
 		{
 			ui::core::Vertex v = meshbuffer.vertices[i];
-			v.position.Y = 0.f;
+			v.position.Y = -1.f;
 			meshbuffer.vertices.push_back(v);
 		}
 
@@ -175,7 +175,7 @@ static size_t getCellPointCount(const boost::polygon::voronoi_cell<double>& cell
 	return valid_points;
 }
 
-static void insertCentralWires(const boost::polygon::voronoi_diagram<double>& diagram, raz::Random& random, size_t hub_size, size_t complexity, ui::core::MeshBuffer<>& meshbuffer)
+static void insertUpperWires(const boost::polygon::voronoi_diagram<double>& diagram, raz::Random& random, size_t hub_size, size_t complexity, ui::core::MeshBuffer<>& meshbuffer)
 {
 	const boost::polygon::voronoi_cell<double> *cell1, *cell2;
 
@@ -213,16 +213,46 @@ static void insertCentralWires(const boost::polygon::voronoi_diagram<double>& di
 	}
 }
 
+static void insertLowerWires(raz::Random& random, size_t hub_size, size_t complexity, ui::core::MeshBuffer<>& meshbuffer)
+{
+	const size_t wires = complexity * 2;
+	const float min_radius = 0.25f * hub_size;
+	const float max_radius = 0.9f * hub_size;
+
+	for (size_t i = 0; i < wires; ++i)
+	{
+		float angle1 = random(0.f, 2.f) * (float)common::PI;
+		float angle2 = random(0.f, 2.f) * (float)common::PI;
+
+		float radius1 = random(min_radius, max_radius);
+		float radius2 = random(min_radius, max_radius);
+
+		GL::Vec3 p1(std::sin(angle1) * radius1, -0.5f, std::cos(angle1) * radius1);
+		GL::Vec3 p2(std::sin(angle2) * radius2, -0.5f, std::cos(angle2) * radius2);
+
+		ui::scene::model::gen::Wire wire(p1, p2, 16, p1.Distance(p2));
+		wire.generate(meshbuffer);
+	}
+}
+
 
 typedef std::vector<ui::scene::model::HubModel::Platform, raz::Allocator<ui::scene::model::HubModel::Platform>> PlatformsVector;
 
 static void createPlatforms(PlatformsVector& platforms, raz::Random& random, size_t hub_size)
 {
-	const size_t inner_platform_count = hub_size * 2;
+	const size_t inner_platform_count = hub_size * 3;
 	size_t platform_count = inner_platform_count;
-
 	float angle_step = static_cast<float>(common::PI * 2 / inner_platform_count);
 	float angle_rad = 0.f;
+	float starting_radius = (float)(hub_size - 2);
+	float radius = 1.5f;
+
+	auto randomize = [&random](GL::Vec3 v) -> GL::Vec3
+	{
+		//return GL::Vec3(v.X + random(-0.125f, 0.125f), v.Y + random(-0.125f, 0.125f), v.Z + random(-0.125f, 0.125f));
+		float scale = random(0.99f, 1.01f);
+		return GL::Vec3(v.X * scale, v.Y + random(-0.125f, 0.125f), v.Z * scale);
+	};
 
 	for (size_t i = 0; i < 2; ++i)
 	{
@@ -235,10 +265,10 @@ static void createPlatforms(PlatformsVector& platforms, raz::Random& random, siz
 
 			ui::scene::model::HubModel::Platform platform;
 			platform.id = j;
-			platform.inner1 = GL::Vec3(x1 * (hub_size - 2 + (i * 2)) + random(-0.125f, 0.125f), random(-0.125f, 0.125f), z1 * (hub_size - 2 + (i * 2)) + random(-0.125f, 0.125f));
-			platform.inner2 = GL::Vec3(x2 * (hub_size - 2 + (i * 2)) + random(-0.125f, 0.125f), random(-0.125f, 0.125f), z2 * (hub_size - 2 + (i * 2)) + random(-0.125f, 0.125f));
-			platform.outer1 = GL::Vec3(x1 * (hub_size     + (i * 2)) + random(-0.125f, 0.125f), random(-0.125f, 0.125f), z1 * (hub_size     + (i * 2)) + random(-0.125f, 0.125f));
-			platform.outer2 = GL::Vec3(x2 * (hub_size     + (i * 2)) + random(-0.125f, 0.125f), random(-0.125f, 0.125f), z2 * (hub_size     + (i * 2)) + random(-0.125f, 0.125f));
+			platform.inner1 = randomize(GL::Vec3(x1 * starting_radius, -0.25f * i, z1 * starting_radius));
+			platform.inner2 = randomize(GL::Vec3(x2 * starting_radius, -0.25f * i, z2 * starting_radius));
+			platform.outer1 = randomize(GL::Vec3(x1 * (starting_radius + radius), -0.25f * i, z1 * (starting_radius + radius)));
+			platform.outer2 = randomize(GL::Vec3(x2 * (starting_radius + radius), -0.25f * i, z2 * (starting_radius + radius)));
 			platform.center = (platform.inner1 + platform.inner2 + platform.outer1 + platform.outer2) / 4.f;
 
 			platforms.push_back(platform);
@@ -249,14 +279,21 @@ static void createPlatforms(PlatformsVector& platforms, raz::Random& random, siz
 		angle_step *= 0.5f;
 		angle_rad = 0.5f * angle_step;
 		platform_count *= 2;
+		starting_radius += radius;
+		radius *= 0.5f;
 	}
 }
 
 static void insertPlatforms(const PlatformsVector& platforms, raz::Random& random, ui::core::MeshBuffer<>& meshbuffer)
 {
+	ui::core::Vertex center { GL::Vec3(0.f, -1.f, 0.f), GL::Vec3(0.f, 1.f, 0.f), GL::Color() };
+	uint16_t center_index = (uint16_t)meshbuffer.vertices.size();
+	meshbuffer.vertices.push_back(center);
+
 	for (auto& platform : platforms)
 	{
-		GL::uchar color = random(128, 255);
+		GL::uchar color = random(128, 192);
+		float height = random(1.f, 2.f);
 
 		ui::core::Vertex inner1 { platform.inner1, GL::Vec3(0.f, 1.f, 0.f), GL::Color(color, color, color) };
 		ui::core::Vertex inner2 { platform.inner2, GL::Vec3(0.f, 1.f, 0.f), GL::Color(color, color, color) };
@@ -265,17 +302,59 @@ static void insertPlatforms(const PlatformsVector& platforms, raz::Random& rando
 
 		uint16_t base_index = (uint16_t)meshbuffer.vertices.size();
 
+		// platform top vertices
 		meshbuffer.vertices.push_back(inner1);
 		meshbuffer.vertices.push_back(inner2);
 		meshbuffer.vertices.push_back(outer1);
 		meshbuffer.vertices.push_back(outer2);
 
+		outer1.position = outer1.position * 0.9f;
+		outer1.position.Y -= height;
+		outer1.normal = outer1.position.Normal();
+		outer2.position = outer2.position * 0.9f;
+		outer2.position.Y -= height;
+		outer2.normal = outer2.position.Normal();
+
+		// platform bottom vertices
+		meshbuffer.vertices.push_back(outer1);
+		meshbuffer.vertices.push_back(outer2);
+
+		// indexing platform top to center vertices
+		meshbuffer.indices.push_back(base_index);
+		meshbuffer.indices.push_back(center_index);
+		meshbuffer.indices.push_back(base_index + 1);
+
+		// indexing top vertices
 		meshbuffer.indices.push_back(base_index);
 		meshbuffer.indices.push_back(base_index + 1);
 		meshbuffer.indices.push_back(base_index + 3);
 		meshbuffer.indices.push_back(base_index);
 		meshbuffer.indices.push_back(base_index + 3);
 		meshbuffer.indices.push_back(base_index + 2);
+
+		// indexing between top and bottom vertices
+		meshbuffer.indices.push_back(base_index + 2);
+		meshbuffer.indices.push_back(base_index + 3);
+		meshbuffer.indices.push_back(base_index + 5);
+		meshbuffer.indices.push_back(base_index + 2);
+		meshbuffer.indices.push_back(base_index + 5);
+		meshbuffer.indices.push_back(base_index + 4);
+
+		// indexing side vertices
+		meshbuffer.indices.push_back(base_index + 1);
+		meshbuffer.indices.push_back(base_index + 5);
+		meshbuffer.indices.push_back(base_index + 3);
+		meshbuffer.indices.push_back(base_index);
+		meshbuffer.indices.push_back(base_index + 2);
+		meshbuffer.indices.push_back(base_index + 4);
+
+		// indexing side to center vertices
+		meshbuffer.indices.push_back(center_index);
+		meshbuffer.indices.push_back(base_index + 5);
+		meshbuffer.indices.push_back(base_index + 1);
+		meshbuffer.indices.push_back(center_index);
+		meshbuffer.indices.push_back(base_index);
+		meshbuffer.indices.push_back(base_index + 4);
 	}
 }
 
@@ -295,7 +374,8 @@ ui::scene::model::HubModel::HubModel(scene::Scene& scene)
 	for (auto& cell : diagram.cells())
 		insertVoronoiCell(cell, random, hub_size, meshbuffer);
 
-	insertCentralWires(diagram, random, hub_size, complexity, meshbuffer);
+	insertUpperWires(diagram, random, hub_size, complexity, meshbuffer);
+	insertLowerWires(random, hub_size, complexity, meshbuffer);
 
 	createPlatforms(m_platforms, random, hub_size);
 	insertPlatforms(m_platforms, random, meshbuffer);
