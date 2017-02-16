@@ -9,7 +9,6 @@
 #include <vector>
 #include <raz/memory.hpp>
 #include "ui/scene/model/Model.hpp"
-#include "ui/core/Mesh.hpp"
 
 namespace ui
 {
@@ -35,7 +34,6 @@ namespace model
 		const Platform& getPlatform(size_t id);
 
 	private:
-		core::Mesh m_mesh;
 		std::vector<Platform, raz::Allocator<Platform>> m_platforms;
 	};
 }

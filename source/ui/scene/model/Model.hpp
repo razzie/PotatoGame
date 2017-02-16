@@ -8,6 +8,7 @@
 
 #include <GL/Math/Vec3.hpp>
 #include <GL/Math/Mat4.hpp>
+#include "ui/core/Mesh.hpp"
 
 namespace ui
 {
@@ -29,6 +30,7 @@ namespace scene
 			void setScale(GL::Vec3 scale);
 			GL::Vec3 getScale() const;
 			void getMatrices(GL::Mat4& world, GL::Mat4& normal) const;
+			ui::core::Mesh& getMesh();
 			virtual void render(Scene&) = 0;
 
 		private:
@@ -38,6 +40,7 @@ namespace scene
 			mutable GL::Mat4 m_world_mat;
 			mutable GL::Mat4 m_normal_mat;
 			mutable bool m_dirty;
+			ui::core::Mesh m_mesh;
 		};
 	}
 }
