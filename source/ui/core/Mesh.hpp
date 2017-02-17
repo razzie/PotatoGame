@@ -7,6 +7,7 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 #include <vector>
 #include <GL/Math/Vec3.hpp>
 #include <GL/GL/Context.hpp>
@@ -22,18 +23,20 @@ namespace core
 {
 	struct Mesh
 	{
-		GL::Program program;
 		GL::VertexBuffer vertices;
 		GL::VertexBuffer indices;
 		GL::VertexArray vertex_array;
 		unsigned num_of_indices;
 		GL::Type::type_t index_type;
+		std::function<void(Mesh&, GL::Program&)> shader_binder;
 
-		void render(GL::Context& gl, bool use_program = true) const
+		void bindShader(GL::Program& program)
 		{
-			if (use_program)
-				gl.UseProgram(program);
+			shader_binder(*this, program);
+		}
 
+		void render(GL::Context& gl) const
+		{
 			gl.DrawElements(vertex_array, GL::Primitive::Triangles, 0, num_of_indices, index_type);
 		}
 	};
@@ -53,22 +56,24 @@ namespace core
 		{
 		}
 
-		Mesh createMesh(GL::Program program) const
+		Mesh createMesh() const
 		{
 			Mesh mesh;
 
-			mesh.program = program;
 			mesh.vertices = GL::VertexBuffer(vertices.data(), vertices.size() * sizeof(VertexType), GL::BufferUsage::StaticCopy);
 			mesh.indices = GL::VertexBuffer(indices.data(), indices.size() * sizeof(IndexType), GL::BufferUsage::StaticCopy);
 			mesh.num_of_indices = indices.size();
 			mesh.index_type = (sizeof(IndexType) == 4) ? GL::Type::UnsignedInt : GL::Type::UnsignedShort;
-
-			for (int i = 0, count = VertexType::getVertexAttributeCount(); i < count; ++i)
-			{
-				const VertexAttribute& attrib = VertexType::getVertexAttribute(i);
-				mesh.vertex_array.BindAttribute(program.GetAttribute(attrib.name), mesh.vertices, attrib.type, attrib.count, attrib.stride, attrib.offset);
-			}
 			mesh.vertex_array.BindElements(mesh.indices);
+
+			mesh.shader_binder = [](Mesh& mesh, GL::Program& program) -> void
+			{
+				for (int i = 0, count = VertexType::getVertexAttributeCount(); i < count; ++i)
+				{
+					const VertexAttribute& attrib = VertexType::getVertexAttribute(i);
+					mesh.vertex_array.BindAttribute(program.GetAttribute(attrib.name), mesh.vertices, attrib.type, attrib.count, attrib.stride, attrib.offset);
+				}
+			};
 
 			return mesh;
 		}
