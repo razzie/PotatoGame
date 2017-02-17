@@ -33,13 +33,15 @@ namespace scene
 		Camera& getCamera();
 		const Camera& getCamera() const;
 		const GL::Mat4& getCameraMatrix() const;
-		const GL::Program& getShader(uint32_t shader) const;
+		GL::Program& getShader(uint32_t shader);
+		GL::Program& getCurrentShader();
 		void render();
 
 	private:
 		GL::Context& m_gl;
 		Camera m_cam;
 		std::map<uint32_t, GL::Program> m_shaders;
+		GL::Program* m_current_shader;
 		std::vector<std::unique_ptr<model::Model>> m_hubs;
 	};
 }
