@@ -330,11 +330,11 @@
     <ClCompile Include="source\ui\scene\model\gen\Wire.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ui\scene\model\CreatureModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\common\GLserializers.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\common\IDPool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -791,9 +791,6 @@
     <ClInclude Include="source\common\equals.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\common\GLinterpolation.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\common\Line2D.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -990,6 +987,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\event\hubevents.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ui\scene\model\CreatureModel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\event\creatureevents.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\common\lerp.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\common\GLhelper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\common\VectorSerializer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\common\BezierCurve.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

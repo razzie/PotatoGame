@@ -7,7 +7,6 @@
 #pragma once
 
 #include <map>
-#include <memory>
 #include <vector>
 #include <GL/Math/Vec3.hpp>
 #include <GL/Math/Mat4.hpp>
@@ -16,7 +15,8 @@
 #include <raz/timer.hpp>
 #include "common/stringhash.hpp"
 #include "ui/scene/Camera.hpp"
-#include "ui/scene/model/Model.hpp"
+#include "ui/scene/model/HubModel.hpp"
+#include "ui/scene/model/CreatureModel.hpp"
 
 namespace ui
 {
@@ -42,7 +42,8 @@ namespace scene
 		Camera m_cam;
 		std::map<uint32_t, GL::Program> m_shaders;
 		GL::Program* m_current_shader;
-		std::vector<std::unique_ptr<model::Model>> m_hubs;
+		std::vector<model::HubModel, raz::Allocator<model::HubModel>> m_hubs;
+		std::vector<model::CreatureModel, raz::Allocator<model::CreatureModel>> m_creatures;
 	};
 }
 }

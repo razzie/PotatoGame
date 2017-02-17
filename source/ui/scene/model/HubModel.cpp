@@ -450,8 +450,6 @@ void ui::scene::model::HubModel::render(scene::Scene& scene)
 	GL::Mat4 normal;
 	getMatrices(world, normal);
 
-	auto& mesh = getMesh();
-
 	auto& program = scene.getCurrentShader();
 	program.SetUniform("world_mat", world);
 	program.SetUniform("normal_mat", normal);
@@ -459,7 +457,7 @@ void ui::scene::model::HubModel::render(scene::Scene& scene)
 	program.SetUniform("light_source", scene.getCamera().getPosition());
 
 	GL::Context& gl = scene.getContext();
-	mesh.render(gl);
+	getMesh().render(gl);
 }
 
 const ui::scene::model::HubModel::Platform& ui::scene::model::HubModel::getPlatform(size_t id)

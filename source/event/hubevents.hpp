@@ -18,6 +18,12 @@ namespace event
 	{
 		uint32_t hub_id;
 		GL::Vec3 position;
+
+		template<class Serializer>
+		void operator()(Serializer& serializer)
+		{
+			serializer(hub_id)(position.X)(position.Y)(position.Z);
+		}
 	};
 
 	typedef raz::Event<"HubCreate"_event, HubCreateParams> HubCreate;

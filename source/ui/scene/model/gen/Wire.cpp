@@ -7,7 +7,7 @@
 #include <cmath>
 #include <GL/Math/Mat4.hpp>
 #include "common/PI.hpp"
-#include "common/GLinterpolation.hpp"
+#include "common/GLhelper.hpp"
 #include "ui/scene/model/gen/Wire.hpp"
 
 ui::scene::model::gen::Wire::Wire(GL::Vec3 start, GL::Vec3 end, size_t segments, float drop, float thickness, GL::Color color) :
