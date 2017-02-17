@@ -131,10 +131,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="source\common\GLserializers.hpp" />
+    <ClInclude Include="source\common\BezierCurve.hpp" />
     <ClInclude Include="source\common\IDPool.hpp" />
+    <ClInclude Include="source\common\lerp.hpp" />
     <ClInclude Include="source\common\PI.hpp" />
     <ClInclude Include="source\common\stringhash.hpp" />
+    <ClInclude Include="source\common\VectorSerializer.hpp" />
+    <ClInclude Include="source\event\creatureevents.hpp" />
     <ClInclude Include="source\game\creature\action\Action.hpp" />
     <ClInclude Include="source\game\creature\Creature.hpp" />
     <ClInclude Include="source\game\creature\trait\Trait.hpp" />
@@ -287,7 +290,7 @@
     <ClInclude Include="source\common\BoundingBox2D.hpp" />
     <ClInclude Include="source\common\Circle2D.hpp" />
     <ClInclude Include="source\common\equals.hpp" />
-    <ClInclude Include="source\common\GLinterpolation.hpp" />
+    <ClInclude Include="source\common\GLhelper.hpp" />
     <ClInclude Include="source\common\Line2D.hpp" />
     <ClInclude Include="source\common\Point2D.hpp" />
     <ClInclude Include="source\common\Polygon2D.hpp" />
@@ -298,6 +301,7 @@
     <ClInclude Include="source\event\hubevents.hpp" />
     <ClInclude Include="source\ui\scene\Camera.hpp" />
     <ClInclude Include="source\ui\core\Mesh.hpp" />
+    <ClInclude Include="source\ui\scene\model\CreatureModel.hpp" />
     <ClInclude Include="source\ui\scene\model\gen\Wire.hpp" />
     <ClInclude Include="source\ui\scene\model\HubModel.hpp" />
     <ClInclude Include="source\ui\scene\model\Model.hpp" />
@@ -368,6 +372,7 @@
     <ClCompile Include="source\ui\core\HubShader.cpp" />
     <ClCompile Include="source\ui\core\SimpleShader.cpp" />
     <ClCompile Include="source\ui\scene\Camera.cpp" />
+    <ClCompile Include="source\ui\scene\model\CreatureModel.cpp" />
     <ClCompile Include="source\ui\scene\model\gen\Wire.cpp" />
     <ClCompile Include="source\ui\scene\model\HubModel.cpp" />
     <ClCompile Include="source\ui\scene\model\Model.cpp" />

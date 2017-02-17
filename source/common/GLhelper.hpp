@@ -8,14 +8,11 @@
 
 #include <cmath>
 #include <GL/Math/Vec3.hpp>
+#include <GL/Util/Color.hpp>
+#include "common/lerp.hpp"
 
 namespace common
 {
-	inline float lerp(float a, float b, float t)
-	{
-		return (1.f - t) * a + t * b;
-	}
-
 	inline GL::Vec3 lerp(GL::Vec3 a, GL::Vec3 b, float t)
 	{
 		return GL::Vec3(lerp(a.X, b.X, t), lerp(a.Y, b.Y, t), lerp(a.Z, b.Z, t));
@@ -38,4 +35,34 @@ namespace common
 			(b_pos.Z + ((a_pos.Z - b_pos.Z) * d))
 			);
 	}
+
+	struct GLVec3Serializer
+	{
+		GL::Vec3& vec;
+
+		GLVec3Serializer(GL::Vec3& v) : vec(v)
+		{
+		}
+
+		template<class Serializer>
+		void operator()(Serializer& serializer)
+		{
+			serializer(vec.X)(vec.Y)(vec.Z);
+		}
+	};
+
+	struct GLColorSerializer
+	{
+		GL::Color& color;
+
+		GLColorSerializer(GL::Color& c) : color(c)
+		{
+		}
+
+		template<class Serializer>
+		void operator()(Serializer& serializer)
+		{
+			serializer(color.R)(color.G)(color.B)(color.A);
+		}
+	};
 }

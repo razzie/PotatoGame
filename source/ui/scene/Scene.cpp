@@ -18,7 +18,8 @@ ui::scene::Scene::Scene(GL::Context& gl) :
 	m_shaders.emplace("simple"_shader, core::SimpleShader().getProgram());
 	m_shaders.emplace("hub"_shader, core::HubShader().getProgram());
 
-	m_hubs.emplace_back(new model::HubModel(*this));
+	m_hubs.emplace_back(*this);
+	m_creatures.emplace_back(*this);
 }
 
 ui::scene::Scene::~Scene()
@@ -65,5 +66,8 @@ void ui::scene::Scene::render()
 	m_gl.UseProgram(*m_current_shader);
 
 	for (auto& hub : m_hubs)
-		hub->render(*this);
+		hub.render(*this);
+
+	for (auto& creature : m_creatures)
+		creature.render(*this);
 }
