@@ -6,13 +6,18 @@
 
 #pragma once
 
+#include "game/level/entity/Entity.hpp"
+
 namespace game
 {
 namespace level
 {
-	class Portal
+namespace entity
+{
+	class TransportEntity : public Entity
 	{
 
 	};
+}
 }
 }

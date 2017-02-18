@@ -6,11 +6,13 @@
 
 #pragma once
 
+#include "game/level/entity/Entity.hpp"
+
 namespace game
 {
 namespace creature
 {
-	class Creature
+	class Creature : public level::entity::Entity
 	{
 
 	};
