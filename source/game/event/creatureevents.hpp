@@ -13,6 +13,8 @@
 #include "common/GLhelper.hpp"
 #include "common/VectorSerializer.hpp"
 
+namespace game
+{
 namespace event
 {
 	using namespace raz::literal;
@@ -33,4 +35,5 @@ namespace event
 	};
 
 	typedef raz::Event<"CreatureCreate"_event, CreatureCreateParams> CreatureCreate;
+}
 }

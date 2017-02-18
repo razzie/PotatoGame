@@ -36,6 +36,8 @@ namespace scene
 		GL::Program& getShader(uint32_t shader);
 		GL::Program& getCurrentShader();
 		void render();
+		model::HubModel* getHub(uint32_t id);
+		model::CreatureModel* getCreature(uint32_t id);
 
 	private:
 		GL::Context& m_gl;

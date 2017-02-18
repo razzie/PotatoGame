@@ -131,20 +131,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="source\common\BezierCurve.hpp" />
+    <ClInclude Include="source\common\bezier.hpp" />
     <ClInclude Include="source\common\IDPool.hpp" />
     <ClInclude Include="source\common\lerp.hpp" />
     <ClInclude Include="source\common\PI.hpp" />
     <ClInclude Include="source\common\stringhash.hpp" />
     <ClInclude Include="source\common\VectorSerializer.hpp" />
-    <ClInclude Include="source\event\creatureevents.hpp" />
+    <ClInclude Include="source\game\event\creatureevents.hpp" />
     <ClInclude Include="source\game\creature\action\Action.hpp" />
     <ClInclude Include="source\game\creature\Creature.hpp" />
     <ClInclude Include="source\game\creature\trait\Trait.hpp" />
+    <ClInclude Include="source\game\creature\trait\TraitMemory.hpp" />
+    <ClInclude Include="source\game\level\Charge.hpp" />
+    <ClInclude Include="source\game\level\entity\Entity.hpp" />
     <ClInclude Include="source\game\level\Hub.hpp" />
     <ClInclude Include="source\game\level\Level.hpp" />
     <ClInclude Include="source\game\level\Platform.hpp" />
     <ClInclude Include="source\game\level\Portal.hpp" />
+    <ClInclude Include="source\game\level\RemoteLevel.hpp" />
     <ClInclude Include="source\game\level\Resource.hpp" />
     <ClInclude Include="source\game\level\Spawn.hpp" />
     <ClInclude Include="source\game\level\Trace.hpp" />
@@ -152,6 +156,7 @@
     <ClInclude Include="source\game\level\Trap.hpp" />
     <ClInclude Include="source\game\player\AIPlayer.hpp" />
     <ClInclude Include="source\game\player\HumanPlayer.hpp" />
+    <ClInclude Include="source\game\player\NetworkPlayer.hpp" />
     <ClInclude Include="source\game\player\Player.hpp" />
     <ClInclude Include="source\thirdparty\boost\polygon\detail\voronoi_ctypes.hpp" />
     <ClInclude Include="source\thirdparty\boost\polygon\detail\voronoi_predicates.hpp" />
@@ -298,11 +303,14 @@
     <ClInclude Include="source\common\Triangle2D.hpp" />
     <ClInclude Include="source\ui\core\HubShader.hpp" />
     <ClInclude Include="source\ui\core\SimpleShader.hpp" />
-    <ClInclude Include="source\event\hubevents.hpp" />
+    <ClInclude Include="source\game\event\hubevents.hpp" />
     <ClInclude Include="source\ui\scene\Camera.hpp" />
     <ClInclude Include="source\ui\core\Mesh.hpp" />
     <ClInclude Include="source\ui\scene\model\CreatureModel.hpp" />
-    <ClInclude Include="source\ui\scene\model\gen\Wire.hpp" />
+    <ClInclude Include="source\ui\shape\CreatureShape.hpp" />
+    <ClInclude Include="source\ui\shape\PlatformRingShape.hpp" />
+    <ClInclude Include="source\ui\shape\VoronoiPillarShape.hpp" />
+    <ClInclude Include="source\ui\shape\WireShape.hpp" />
     <ClInclude Include="source\ui\scene\model\HubModel.hpp" />
     <ClInclude Include="source\ui\scene\model\Model.hpp" />
     <ClInclude Include="source\ui\scene\Scene.hpp" />
@@ -373,7 +381,10 @@
     <ClCompile Include="source\ui\core\SimpleShader.cpp" />
     <ClCompile Include="source\ui\scene\Camera.cpp" />
     <ClCompile Include="source\ui\scene\model\CreatureModel.cpp" />
-    <ClCompile Include="source\ui\scene\model\gen\Wire.cpp" />
+    <ClCompile Include="source\ui\shape\CreatureShape.cpp" />
+    <ClCompile Include="source\ui\shape\PlatformRingShape.cpp" />
+    <ClCompile Include="source\ui\shape\VoronoiPillarShape.cpp" />
+    <ClCompile Include="source\ui\shape\WireShape.cpp" />
     <ClCompile Include="source\ui\scene\model\HubModel.cpp" />
     <ClCompile Include="source\ui\scene\model\Model.cpp" />
     <ClCompile Include="source\ui\scene\Scene.cpp" />

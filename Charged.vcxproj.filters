@@ -327,10 +327,19 @@
     <ClCompile Include="source\thirdparty\micropather\micropather.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\ui\scene\model\gen\Wire.cpp">
+    <ClCompile Include="source\ui\scene\model\CreatureModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\ui\scene\model\CreatureModel.cpp">
+    <ClCompile Include="source\ui\shape\WireShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ui\shape\VoronoiPillarShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ui\shape\PlatformRingShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ui\shape\CreatureShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -980,19 +989,10 @@
     <ClInclude Include="source\game\level\Portal.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\ui\scene\model\gen\Wire.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\common\PI.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\event\hubevents.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\ui\scene\model\CreatureModel.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\event\creatureevents.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\common\lerp.hpp">
@@ -1004,7 +1004,40 @@
     <ClInclude Include="source\common\VectorSerializer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\common\BezierCurve.hpp">
+    <ClInclude Include="source\common\bezier.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ui\shape\WireShape.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ui\shape\VoronoiPillarShape.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ui\shape\PlatformRingShape.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\creature\trait\TraitMemory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\player\NetworkPlayer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ui\shape\CreatureShape.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\event\creatureevents.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\event\hubevents.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\level\RemoteLevel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\level\entity\Entity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\level\Charge.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

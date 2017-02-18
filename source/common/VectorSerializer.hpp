@@ -12,12 +12,12 @@
 
 namespace common
 {
-	template<class T>
+	template<class T, class Allocator = raz::Allocator<T>>
 	struct VectorSerializer
 	{
-		std::vector<T, raz::Allocator<T>>& vector;
+		std::vector<T, Allocator>& vector;
 
-		VectorSerializer(std::vector<T, raz::Allocator<T>>& v) : vector(v)
+		VectorSerializer(std::vector<T, Allocator>& v) : vector(v)
 		{
 		}
 

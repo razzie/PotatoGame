@@ -17,7 +17,7 @@ namespace model
 	class CreatureModel : public Model
 	{
 	public:
-		CreatureModel(scene::Scene& scene);
+		CreatureModel(scene::Scene& scene, uint32_t id, uint64_t seed, GL::Color color);
 		virtual void render(scene::Scene& scene);
 	};
 }

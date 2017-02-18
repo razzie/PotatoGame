@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <GL/Math/Vec3.hpp>
 #include <GL/Math/Mat4.hpp>
 #include "ui/core/Mesh.hpp"
@@ -21,8 +22,9 @@ namespace scene
 		class Model
 		{
 		public:
-			Model();
+			Model(uint32_t id);
 			virtual ~Model() = default;
+			uint32_t getID() const;
 			void setPosition(GL::Vec3 position);
 			GL::Vec3 getPosition() const;
 			void setRotation(GL::Vec3 rotation);
@@ -34,6 +36,7 @@ namespace scene
 			virtual void render(Scene&) = 0;
 
 		private:
+			uint32_t m_id;
 			GL::Vec3 m_position;
 			GL::Vec3 m_rotation;
 			GL::Vec3 m_scale;

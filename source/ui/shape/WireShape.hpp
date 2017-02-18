@@ -12,16 +12,12 @@
 
 namespace ui
 {
-namespace scene
+namespace shape
 {
-namespace model
-{
-namespace gen
-{
-	class Wire
+	class WireShape
 	{
 	public:
-		Wire(GL::Vec3 start, GL::Vec3 end, size_t segments, float drop, float thickness = 0.125, GL::Color color = {});
+		WireShape(GL::Vec3 start, GL::Vec3 end, size_t segments, float drop, float thickness = 0.125, GL::Color color = {});
 		void generate(ui::core::MeshBuffer<>& meshbuffer) const;
 
 	private:
@@ -32,7 +28,5 @@ namespace gen
 		float m_thickness;
 		GL::Color m_color;
 	};
-}
-}
 }
 }
