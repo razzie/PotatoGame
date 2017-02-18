@@ -70,8 +70,8 @@ namespace core
 			{
 				for (int i = 0, count = VertexType::getVertexAttributeCount(); i < count; ++i)
 				{
-					const VertexAttribute& attrib = VertexType::getVertexAttribute(i);
-					mesh.vertex_array.BindAttribute(program.GetAttribute(attrib.name), mesh.vertices, attrib.type, attrib.count, attrib.stride, attrib.offset);
+					const VertexAttribute* attrib = VertexType::getVertexAttribute(i);
+					mesh.vertex_array.BindAttribute(program.GetAttribute(attrib->name), mesh.vertices, attrib->type, attrib->count, attrib->stride, attrib->offset);
 				}
 			};
 
@@ -89,7 +89,7 @@ namespace core
 
 		GL::Vec3* getVector(VertexType* vertex, const char* attrib_name)
 		{
-			const gx::VertexAttribute* attrib = VertexType::getVertexAttribute(attrib_name);
+			const gx::VertexAttribute* attrib = getVertexAttributeByName<VertexType>(attrib_name);
 			if (attrib == nullptr)
 				return nullptr;
 
@@ -112,7 +112,7 @@ namespace core
 
 		bool transform(const GL::Mat4& matrix, const char* attrib_name)
 		{
-			const gx::VertexAttribute* attrib = VertexType::getVertexAttribute(attrib_name);
+			const gx::VertexAttribute* attrib = getVertexAttributeByName<VertexType>(attrib_name);
 			if (attrib == nullptr)
 				return nullptr;
 
@@ -162,8 +162,8 @@ namespace core
 
 		bool recalculateNormals(const char* position_name = "position", const char* normal_name = "normal")
 		{
-			const VertexAttribute* position_attrib = VertexType::getVertexAttribute(position_name);
-			const VertexAttribute* normal_attrib = VertexType::getVertexAttribute(normal_name);
+			const VertexAttribute* position_attrib = getVertexAttributeByName<VertexType>(position_name);
+			const VertexAttribute* normal_attrib = getVertexAttributeByName<VertexType>(normal_name);
 			if (!position_attrib || !normal_attrib)
 				return false;
 

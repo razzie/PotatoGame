@@ -4,8 +4,6 @@
  * Proprietary and confidential
  */
 
-#include <cstring>
-#include <stdexcept>
 #include "ui/core/Vertex.hpp"
 
 static const ui::core::VertexAttribute vertex_attributes[] = {
@@ -14,26 +12,51 @@ static const ui::core::VertexAttribute vertex_attributes[] = {
 	{ "color",    GL::Type::UnsignedByte, 4, sizeof(ui::core::Vertex), sizeof(float) * 6 }
 };
 
-int ui::core::Vertex::getVertexAttributeCount()
+unsigned ui::core::Vertex::getVertexAttributeCount()
 {
 	return sizeof(vertex_attributes) / sizeof(ui::core::VertexAttribute);
 }
 
-const ui::core::VertexAttribute& ui::core::Vertex::getVertexAttribute(int n)
+const ui::core::VertexAttribute* ui::core::Vertex::getVertexAttribute(unsigned n)
 {
 	if (n < sizeof(vertex_attributes) / sizeof(ui::core::VertexAttribute))
-		return vertex_attributes[n];
+		return &vertex_attributes[n];
 	else
-		throw std::out_of_range({});
+		return nullptr;
 }
 
-const ui::core::VertexAttribute* ui::core::Vertex::getVertexAttribute(const char* name)
-{
-	for (size_t i = 0, len = sizeof(vertex_attributes) / sizeof(ui::core::VertexAttribute); i < len; ++i)
-	{
-		if (std::strcmp(vertex_attributes[i].name, name) == 0)
-			return &vertex_attributes[i];
-	}
 
+static const ui::core::VertexAttribute animated_vertex_attributes[] = {
+	{ "begin_position", GL::Type::Float,        3, sizeof(ui::core::Vertex), 0 },
+	{ "end_position",   GL::Type::Float,        3, sizeof(ui::core::Vertex), sizeof(float) * 3 },
+	{ "normal",         GL::Type::Float,        3, sizeof(ui::core::Vertex), sizeof(float) * 6 },
+	{ "color",          GL::Type::UnsignedByte, 4, sizeof(ui::core::Vertex), sizeof(float) * 9 }
+};
+
+unsigned ui::core::AnimatedVertex::getVertexAttributeCount()
+{
+	return 0;
+}
+
+const ui::core::VertexAttribute* ui::core::AnimatedVertex::getVertexAttribute(unsigned n)
+{
+	return nullptr;
+}
+
+
+static const ui::core::VertexAttribute textured_vertex_attributes[] = {
+	{ "position", GL::Type::Float,        3, sizeof(ui::core::Vertex), 0 },
+	{ "normal",   GL::Type::Float,        3, sizeof(ui::core::Vertex), sizeof(float) * 3 },
+	{ "color",    GL::Type::UnsignedByte, 4, sizeof(ui::core::Vertex), sizeof(float) * 6 },
+	{ "tcoords",  GL::Type::Float,        2, sizeof(ui::core::Vertex), sizeof(float) * 6 + sizeof(unsigned char) * 4 }
+};
+
+unsigned ui::core::TexturedVertex::getVertexAttributeCount()
+{
+	return 0;
+}
+
+const ui::core::VertexAttribute* ui::core::TexturedVertex::getVertexAttribute(unsigned n)
+{
 	return nullptr;
 }

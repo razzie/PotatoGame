@@ -6,7 +6,9 @@
 
 #pragma once
 
+#include <cstring>
 #include <GL/Platform.hpp>
+#include <GL/Math/Vec2.hpp>
 #include <GL/Math/Vec3.hpp>
 #include <GL/Util/Color.hpp>
 
@@ -29,9 +31,44 @@ namespace core
 		GL::Vec3 normal;
 		GL::Color color;
 
-		static int getVertexAttributeCount();
-		static const VertexAttribute& getVertexAttribute(int n);
-		static const VertexAttribute* getVertexAttribute(const char* name);
+		static unsigned getVertexAttributeCount();
+		static const VertexAttribute* getVertexAttribute(unsigned n);
 	};
+
+	struct AnimatedVertex
+	{
+		GL::Vec3 begin_position;
+		GL::Vec3 end_position;
+		GL::Vec3 normal;
+		GL::Color color;
+
+		static unsigned getVertexAttributeCount();
+		static const VertexAttribute* getVertexAttribute(unsigned n);
+	};
+
+	struct TexturedVertex
+	{
+		GL::Vec3 position;
+		GL::Vec3 normal;
+		GL::Color color;
+		GL::Vec2 tcoords;
+
+		static unsigned getVertexAttributeCount();
+		static const VertexAttribute* getVertexAttribute(unsigned n);
+	};
+
+	template<class VertexType>
+	const VertexAttribute* getVertexAttributeByName(const char* name)
+	{
+		for (unsigned i = 0, len = VertexType::getVertexAttributeCount(); i < len; ++i)
+		{
+			const VertexAttribute* attrib = VertexType::getVertexAttribute(i);
+
+			if (std::strcmp(attrib->name, name) == 0)
+				return attrib;
+		}
+
+		return nullptr;
+	}
 }
 }
