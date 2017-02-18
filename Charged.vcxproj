@@ -142,18 +142,18 @@
     <ClInclude Include="source\game\creature\Creature.hpp" />
     <ClInclude Include="source\game\creature\trait\Trait.hpp" />
     <ClInclude Include="source\game\creature\trait\TraitMemory.hpp" />
-    <ClInclude Include="source\game\level\Charge.hpp" />
+    <ClInclude Include="source\game\level\entity\ChargeEntity.hpp" />
     <ClInclude Include="source\game\level\entity\Entity.hpp" />
-    <ClInclude Include="source\game\level\Hub.hpp" />
+    <ClInclude Include="source\game\level\entity\HubEntity.hpp" />
     <ClInclude Include="source\game\level\Level.hpp" />
-    <ClInclude Include="source\game\level\Platform.hpp" />
-    <ClInclude Include="source\game\level\Portal.hpp" />
+    <ClInclude Include="source\game\level\entity\PlatformEntity.hpp" />
+    <ClInclude Include="source\game\level\entity\PortalEntity.hpp" />
     <ClInclude Include="source\game\level\RemoteLevel.hpp" />
-    <ClInclude Include="source\game\level\Resource.hpp" />
-    <ClInclude Include="source\game\level\Spawn.hpp" />
-    <ClInclude Include="source\game\level\Trace.hpp" />
-    <ClInclude Include="source\game\level\Transport.hpp" />
-    <ClInclude Include="source\game\level\Trap.hpp" />
+    <ClInclude Include="source\game\level\entity\ResourceEntity.hpp" />
+    <ClInclude Include="source\game\level\entity\SpawnEntity.hpp" />
+    <ClInclude Include="source\game\level\entity\TraceEntity.hpp" />
+    <ClInclude Include="source\game\level\entity\TransportEntity.hpp" />
+    <ClInclude Include="source\game\level\entity\TrapEntity.hpp" />
     <ClInclude Include="source\game\player\AIPlayer.hpp" />
     <ClInclude Include="source\game\player\HumanPlayer.hpp" />
     <ClInclude Include="source\game\player\NetworkPlayer.hpp" />
@@ -377,6 +377,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application.cpp" />
+    <ClCompile Include="source\game\level\entity\Entity.cpp" />
     <ClCompile Include="source\ui\core\HubShader.cpp" />
     <ClCompile Include="source\ui\core\SimpleShader.cpp" />
     <ClCompile Include="source\ui\scene\Camera.cpp" />
