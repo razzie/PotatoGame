@@ -9,6 +9,7 @@
 #include <vector>
 #include <raz/memory.hpp>
 #include "ui/scene/model/Model.hpp"
+#include "ui/shape/PlatformRingShape.hpp"
 
 namespace ui
 {
@@ -19,22 +20,12 @@ namespace model
 	class HubModel : public Model
 	{
 	public:
-		struct Platform
-		{
-			size_t id;
-			GL::Vec3 center;
-			GL::Vec3 inner1;
-			GL::Vec3 inner2;
-			GL::Vec3 outer1;
-			GL::Vec3 outer2;
-		};
-
-		HubModel(scene::Scene& scene);
+		HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, unsigned size, unsigned complexity);
 		virtual void render(scene::Scene& scene);
-		const Platform& getPlatform(size_t id);
+		const ui::shape::PlatformRingShape::Platform& getPlatform(size_t id);
 
 	private:
-		std::vector<Platform, raz::Allocator<Platform>> m_platforms;
+		ui::shape::PlatformRingShape::PlatformVector m_platforms;
 	};
 }
 }

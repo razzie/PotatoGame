@@ -18,8 +18,8 @@ ui::scene::Scene::Scene(GL::Context& gl) :
 	m_shaders.emplace("simple"_shader, core::SimpleShader().getProgram());
 	m_shaders.emplace("hub"_shader, core::HubShader().getProgram());
 
-	m_hubs.emplace_back(*this);
-	m_creatures.emplace_back(*this);
+	m_hubs.emplace_back(*this, 0, 12345, 6, 6);
+	m_creatures.emplace_back(*this, 0, 12345, GL::Color(255, 240, 240));
 }
 
 ui::scene::Scene::~Scene()
@@ -70,4 +70,26 @@ void ui::scene::Scene::render()
 
 	for (auto& creature : m_creatures)
 		creature.render(*this);
+}
+
+ui::scene::model::HubModel* ui::scene::Scene::getHub(uint32_t id)
+{
+	for (auto& hub : m_hubs)
+	{
+		if (hub.getID() == id)
+			return &hub;
+	}
+
+	return nullptr;
+}
+
+ui::scene::model::CreatureModel* ui::scene::Scene::getCreature(uint32_t id)
+{
+	for (auto& creature : m_creatures)
+	{
+		if (creature.getID() == id)
+			return &creature;
+	}
+
+	return nullptr;
 }

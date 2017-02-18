@@ -8,9 +8,9 @@
 #include <GL/Math/Mat4.hpp>
 #include "common/PI.hpp"
 #include "common/GLhelper.hpp"
-#include "ui/scene/model/gen/Wire.hpp"
+#include "ui/shape/WireShape.hpp"
 
-ui::scene::model::gen::Wire::Wire(GL::Vec3 start, GL::Vec3 end, size_t segments, float drop, float thickness, GL::Color color) :
+ui::shape::WireShape::WireShape(GL::Vec3 start, GL::Vec3 end, size_t segments, float drop, float thickness, GL::Color color) :
 	m_start(start),
 	m_end(end),
 	m_segments(segments),
@@ -20,7 +20,7 @@ ui::scene::model::gen::Wire::Wire(GL::Vec3 start, GL::Vec3 end, size_t segments,
 {
 }
 
-void ui::scene::model::gen::Wire::generate(ui::core::MeshBuffer<>& meshbuffer) const
+void ui::shape::WireShape::generate(ui::core::MeshBuffer<>& meshbuffer) const
 {
 	// triangle points
 	const GL::Vec3 p1 = GL::Vec3(0.f, 0.f, 1.f) * m_thickness;

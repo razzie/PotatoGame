@@ -6,12 +6,18 @@
 
 #include "ui/scene/model/Model.hpp"
 
-ui::scene::model::Model::Model() :
+ui::scene::model::Model::Model(uint32_t id) :
+	m_id(id),
 	m_position(0.f, 0.f, 0.f),
 	m_rotation(0.f, 0.f, 0.f),
 	m_scale(1.f, 1.f, 1.f),
 	m_dirty(true)
 {
+}
+
+uint32_t ui::scene::model::Model::getID() const
+{
+	return m_id;
 }
 
 void ui::scene::model::Model::setPosition(GL::Vec3 position)
