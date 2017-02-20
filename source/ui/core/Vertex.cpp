@@ -27,10 +27,10 @@ const ui::core::VertexAttribute* ui::core::Vertex::getVertexAttribute(unsigned n
 
 
 static const ui::core::VertexAttribute animated_vertex_attributes[] = {
-	{ "begin_position", GL::Type::Float,        3, sizeof(ui::core::Vertex), 0 },
-	{ "end_position",   GL::Type::Float,        3, sizeof(ui::core::Vertex), sizeof(float) * 3 },
-	{ "normal",         GL::Type::Float,        3, sizeof(ui::core::Vertex), sizeof(float) * 6 },
-	{ "color",          GL::Type::UnsignedByte, 4, sizeof(ui::core::Vertex), sizeof(float) * 9 }
+	{ "begin_position", GL::Type::Float,        3, sizeof(ui::core::AnimatedVertex), 0 },
+	{ "end_position",   GL::Type::Float,        3, sizeof(ui::core::AnimatedVertex), sizeof(float) * 3 },
+	{ "normal",         GL::Type::Float,        3, sizeof(ui::core::AnimatedVertex), sizeof(float) * 6 },
+	{ "color",          GL::Type::UnsignedByte, 4, sizeof(ui::core::AnimatedVertex), sizeof(float) * 9 }
 };
 
 unsigned ui::core::AnimatedVertex::getVertexAttributeCount()
@@ -45,10 +45,10 @@ const ui::core::VertexAttribute* ui::core::AnimatedVertex::getVertexAttribute(un
 
 
 static const ui::core::VertexAttribute textured_vertex_attributes[] = {
-	{ "position", GL::Type::Float,        3, sizeof(ui::core::Vertex), 0 },
-	{ "normal",   GL::Type::Float,        3, sizeof(ui::core::Vertex), sizeof(float) * 3 },
-	{ "color",    GL::Type::UnsignedByte, 4, sizeof(ui::core::Vertex), sizeof(float) * 6 },
-	{ "tcoords",  GL::Type::Float,        2, sizeof(ui::core::Vertex), sizeof(float) * 6 + sizeof(unsigned char) * 4 }
+	{ "position", GL::Type::Float,        3, sizeof(ui::core::TexturedVertex), 0 },
+	{ "normal",   GL::Type::Float,        3, sizeof(ui::core::TexturedVertex), sizeof(float) * 3 },
+	{ "color",    GL::Type::UnsignedByte, 4, sizeof(ui::core::TexturedVertex), sizeof(float) * 6 },
+	{ "tcoords",  GL::Type::Float,        2, sizeof(ui::core::TexturedVertex), sizeof(float) * 6 + sizeof(unsigned char) * 4 }
 };
 
 unsigned ui::core::TexturedVertex::getVertexAttributeCount()

@@ -20,8 +20,10 @@ namespace menu
 	class Menu
 	{
 	public:
-		Menu(GL::Window& window);
-		void feed(GL::Event& event);
+		Menu(GL::Window& window, GL::Context& gl);
+		~Menu();
+		void feed(GL::Event& ev);
+		void render();
 
 	private:
 		GL::Window* m_window;

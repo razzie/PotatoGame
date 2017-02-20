@@ -303,6 +303,7 @@
     <ClInclude Include="source\common\Quaternion.hpp" />
     <ClInclude Include="source\common\Triangle2D.hpp" />
     <ClInclude Include="source\ui\core\HubShader.hpp" />
+    <ClInclude Include="source\ui\core\MenuShader.hpp" />
     <ClInclude Include="source\ui\core\SimpleShader.hpp" />
     <ClInclude Include="source\game\event\hubevents.hpp" />
     <ClInclude Include="source\ui\menu\Menu.hpp" />
@@ -385,6 +386,7 @@
     <ClCompile Include="source\common\InputHelper.cpp" />
     <ClCompile Include="source\game\level\entity\Entity.cpp" />
     <ClCompile Include="source\ui\core\HubShader.cpp" />
+    <ClCompile Include="source\ui\core\MenuShader.cpp" />
     <ClCompile Include="source\ui\core\SimpleShader.cpp" />
     <ClCompile Include="source\ui\menu\Menu.cpp" />
     <ClCompile Include="source\ui\menu\RocketRenderInterface.cpp" />
