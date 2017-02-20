@@ -6,6 +6,7 @@
 
 #include <raz/timer.hpp>
 #include "Application.hpp"
+#include "ui/menu/Menu.hpp"
 #include "ui/scene/Scene.hpp"
 
 Application::Application(int argc, char** argv) :
@@ -33,6 +34,7 @@ Application::~Application()
 
 int Application::run()
 {
+	ui::menu::Menu menu(m_window, m_gl);
 	ui::scene::Scene m_scene(m_gl);
 
 	GL::Event ev;
@@ -101,6 +103,7 @@ int Application::run()
 		m_gl.ClearColor(GL::Color(255, 255, 255));
 
 		m_scene.render();
+		menu.render();
 
 		m_window.Present();
 	}
