@@ -11,17 +11,18 @@ ui::core::SimpleShader::SimpleShader()
 	GL::Shader vert(GL::ShaderType::Vertex, GLSL(
 		in vec3 position;
 		in vec4 color;
-		out vec4 Color;
+		out vec4 frag_color;
 		uniform mat4 screen_mat;
 		void main() {
-			Color = vec4(color.r / 255.0, color.g / 255.0, color.b / 255.0, color.a / 255.0);
+			frag_color = vec4(color.r / 255.0, color.g / 255.0, color.b / 255.0, color.a / 255.0);
 			gl_Position = screen_mat * vec4(position, 1.0);
 		}
 	));
 	GL::Shader frag(GL::ShaderType::Fragment, GLSL(
-		in vec4 Color;
+		in vec4 frag_color;
+		out vec4 out_color;
 		void main() {
-			gl_FragColor = Color;
+			out_color = frag_color;
 		}
 	));
 	m_program = GL::Program(vert, frag);

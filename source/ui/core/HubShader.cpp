@@ -12,28 +12,29 @@ ui::core::HubShader::HubShader()
 		in vec3 position;
 		in vec3 normal;
 		in vec4 color;
-		out vec3 Position;
-		out vec3 Normal;
-		out vec4 Color;
+		out vec3 frag_position;
+		out vec3 frag_normal;
+		out vec4 frag_color;
 		uniform mat4 world_mat;
 		uniform mat4 normal_mat;
 		uniform mat4 screen_mat;
 		void main() {
-			Position = (world_mat * vec4(position, 1.0)).xyz;
-			Normal = (normal_mat * vec4(normal, 1.0)).xyz;
-			Color = vec4(color.r / 255.0, color.g / 255.0, color.b / 255.0, color.a / 255.0);
+			frag_position = (world_mat * vec4(position, 1.0)).xyz;
+			frag_normal = (normal_mat * vec4(normal, 1.0)).xyz;
+			frag_color = vec4(color.r / 255.0, color.g / 255.0, color.b / 255.0, color.a / 255.0);
 			gl_Position = screen_mat * vec4(position, 1.0);
 		}
 	));
 	GL::Shader frag(GL::ShaderType::Fragment, GLSL(
-		in vec3 Position;
-		in vec3 Normal;
-		in vec4 Color;
+		in vec3 frag_position;
+		in vec3 frag_normal;
+		in vec4 frag_color;
+		out vec4 out_color;
 		uniform vec3 light_source;
-		out vec4 outColor;
 		void main() {
-			float diffuse = clamp(dot(normalize(Normal), normalize(light_source - Position)), 0.0, 1.0) * 0.2 + 0.8;
-			outColor = Color * diffuse;
+			float light_dot = dot(normalize(frag_normal), normalize(light_source - frag_position));
+			float light = clamp(light_dot, 0.0, 1.0) * 0.2 + 0.8;
+			out_color = vec4(frag_color.rgb * light, 1.0);
 		}
 	));
 	m_program = GL::Program(vert, frag);

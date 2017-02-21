@@ -145,7 +145,7 @@ ui::shape::CreatureShape::CreatureShape(const Dimensions& dimensions, unsigned e
 
 void ui::shape::CreatureShape::generate(ui::core::MeshBuffer<>& meshbuffer) const
 {
-	const size_t detail = m_control_points.size() * 4;
+	const size_t detail = m_control_points.size() * 2;
 
 	auto pfirst = common::bezier(m_control_points, 0.f);
 	insertFirstRing(m_edges, pfirst.y, pfirst.x, m_color, meshbuffer);

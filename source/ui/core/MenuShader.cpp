@@ -12,19 +12,26 @@ ui::core::MenuShader::MenuShader()
 		in vec2 position;
 		in vec4 color;
 		in vec2 tcoords;
-		out vec4 Color;
-		out vec2 Tcoords;
+		out vec4 frag_color;
+		out vec2 frag_tcoords;
+		uniform mat4 transform;
 		void main() {
-			Color = vec4(color.r / 255.0, color.g / 255.0, color.b / 255.0, color.a / 255.0);
-			gl_Position = vec4(position, 0.0, 1.0);
+			frag_color = vec4(color.r / 255.0, color.g / 255.0, color.b / 255.0, color.a / 255.0);
+			frag_tcoords = tcoords;
+			gl_Position = transform * vec4(position, 0.0, 1.0);
 		}
 		));
 		GL::Shader frag(GL::ShaderType::Fragment, GLSL(
-			in vec4 Color;
-			in vec2 Tcoords;
+			in vec4 frag_color;
+			in vec2 frag_tcoords;
+			out vec4 out_color;
 			uniform sampler2D texture;
+			uniform int use_texture;
 			void main() {
-				gl_FragColor = texture2D(texture, Tcoords) * Color;
+				if (bool(use_texture))
+					out_color = texture2D(texture, frag_tcoords) * frag_color;
+				else
+					out_color = frag_color;
 			}
 	));
 	m_program = GL::Program(vert, frag);
