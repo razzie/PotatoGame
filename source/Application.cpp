@@ -13,8 +13,13 @@ Application::Application(int argc, char** argv) :
 	m_window(1024, 768, "OpenGL Window", GL::WindowStyle::Close),
 	m_gl(m_window.GetContext(32, 24, 8, 4))
 {
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	m_gl.Enable(GL::Capability::DepthTest);
 	m_gl.Enable(GL::Capability::CullFace);
+
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	m_gl.Clear(GL::Buffer::Depth | GL::Buffer::Color);
 	m_gl.ClearColor(GL::Color(255, 255, 255));

@@ -6,6 +6,8 @@
 
 #include <stdexcept>
 #include <Rocket/Core.h>
+#include <Rocket/Controls.h>
+#include <Rocket/Debugger.h>
 #include "ui/menu/Menu.hpp"
 
 ui::menu::Menu::Menu(GL::Window& window, GL::Context& gl) :
@@ -21,10 +23,9 @@ ui::menu::Menu::Menu(GL::Window& window, GL::Context& gl) :
 	if (!Rocket::Core::Initialise())
 		throw std::runtime_error("librocket initialization error");
 
-	Rocket::Core::FontDatabase::LoadFontFace("Delicious-Bold.otf");
-	Rocket::Core::FontDatabase::LoadFontFace("Delicious-BoldItalic.otf");
-	Rocket::Core::FontDatabase::LoadFontFace("Delicious-Italic.otf");
-	Rocket::Core::FontDatabase::LoadFontFace("Delicious-Roman.otf");
+	Rocket::Controls::Initialise();
+
+	Rocket::Core::FontDatabase::LoadFontFace("Arial.ttf");
 
 	m_context = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(m_window->GetWidth(), m_window->GetHeight()));
 	if (m_context == NULL)
@@ -32,6 +33,9 @@ ui::menu::Menu::Menu(GL::Window& window, GL::Context& gl) :
 		Rocket::Core::Shutdown();
 		throw std::runtime_error("librocket initialization error");
 	}
+
+	//Rocket::Debugger::Initialise(m_context);
+	//Rocket::Debugger::SetVisible(true);
 
 	//Rocket::Core::ElementDocument* document = m_context->LoadDocument("tutorial.rml");
 	//if (document != NULL)
@@ -47,12 +51,19 @@ ui::menu::Menu::~Menu()
 	Rocket::Core::Shutdown();
 }
 
-void ui::menu::Menu::feed(GL::Event& ev)
+bool ui::menu::Menu::feed(GL::Event& ev)
 {
+	return false;
 }
 
 void ui::menu::Menu::render()
 {
+	m_gl->Disable(GL::Capability::DepthTest);
+	m_gl->Disable(GL::Capability::CullFace);
+
 	m_context->Update();
 	m_context->Render();
+
+	m_gl->Enable(GL::Capability::DepthTest);
+	m_gl->Enable(GL::Capability::CullFace);
 }

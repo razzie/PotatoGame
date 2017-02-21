@@ -22,7 +22,7 @@ namespace menu
 	public:
 		Menu(GL::Window& window, GL::Context& gl);
 		~Menu();
-		void feed(GL::Event& ev);
+		bool feed(GL::Event& ev);
 		void render();
 
 	private:

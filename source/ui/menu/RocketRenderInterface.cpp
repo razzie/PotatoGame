@@ -11,15 +11,24 @@
 #include <GL/GL/VertexArray.hpp>
 #include <GL/GL/Texture.hpp>
 #include <GL/Math/Mat4.hpp>
+#include "ui/core/MenuShader.hpp"
 #include "ui/menu/RocketRenderInterface.hpp"
 
 class CompiledGeometry
 {
 public:
-	CompiledGeometry(const GL::Program& shader, Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture)
+	CompiledGeometry(GL::Program& shader, Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture) :
+		m_shader(shader)
 	{
-		m_shader = shader;
-		m_texture = *(GL::Texture*)texture;
+		if (texture)
+		{
+			m_texture = *(GL::Texture*)texture;
+			m_use_texture = true;
+		}
+		else
+		{
+			m_use_texture = false;
+		}
 		m_vertices = GL::VertexBuffer(vertices, num_vertices * sizeof(Rocket::Core::Vertex), GL::BufferUsage::StaticCopy);
 		m_indices = GL::VertexBuffer(indices, num_indices * sizeof(int), GL::BufferUsage::StaticCopy);
 		m_num_indices = num_indices;
@@ -30,33 +39,46 @@ public:
 		m_vertex_array.BindAttribute(m_shader.GetAttribute("tcoords"),  m_vertices, GL::Type::Float,        2, sizeof(Rocket::Core::Vertex), sizeof(float) * 2 + sizeof(unsigned char) * 4);
 	}
 
-	void render(GL::Context& gl, const Rocket::Core::Vector2f& translation)
+	void render(GL::Window& window, GL::Context& gl, const Rocket::Core::Vector2f& translation)
 	{
-		m_shader.SetUniform("position", GL::Vec2(translation.x, translation.y));
+		GL::Mat4 proj = GL::Mat4::Ortho(0.f, (float)window.GetWidth(), (float)window.GetHeight(), 0.f, 0.f, 1000.f);
+		GL::Mat4 world;
+		world.Translate({ translation.x, translation.y, 0.f });
+
 		gl.UseProgram(m_shader);
-		gl.BindTexture(m_texture, 0);
-		gl.DrawElements(m_vertex_array, GL::Primitive::Triangles, 0, m_num_indices, GL::Type::Int);
+
+		if (m_use_texture)
+		{
+			gl.BindTexture(m_texture, 0);
+		}
+		m_shader.SetUniform("transform", proj * world);
+		m_shader.SetUniform("texture", 0);
+		m_shader.SetUniform("use_texture", (int)m_use_texture);
+
+		gl.DrawElements(m_vertex_array, GL::Primitive::Triangles, 0, m_num_indices, GL::Type::UnsignedInt);
 	}
 
 private:
-	GL::Program m_shader;
+	GL::Program& m_shader;
 	GL::Texture m_texture;
 	GL::VertexBuffer m_vertices;
 	GL::VertexBuffer m_indices;
 	GL::VertexArray m_vertex_array;
 	unsigned m_num_indices;
+	bool m_use_texture;
 };
 
 ui::menu::RocketRenderInterface::RocketRenderInterface(GL::Window& window, GL::Context& gl) :
 	m_window(&window),
-	m_gl(&gl)
+	m_gl(&gl),
+	m_shader(ui::core::MenuShader().getProgram())
 {
 }
 
 void ui::menu::RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture, const Rocket::Core::Vector2f& translation)
 {
 	CompiledGeometry geom(m_shader, vertices, num_vertices, indices, num_indices, texture);
-	geom.render(*m_gl, translation);
+	geom.render(*m_window, *m_gl, translation);
 }
 
 Rocket::Core::CompiledGeometryHandle ui::menu::RocketRenderInterface::CompileGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture)
@@ -66,7 +88,7 @@ Rocket::Core::CompiledGeometryHandle ui::menu::RocketRenderInterface::CompileGeo
 
 void ui::menu::RocketRenderInterface::RenderCompiledGeometry(Rocket::Core::CompiledGeometryHandle geometry, const Rocket::Core::Vector2f& translation)
 {
-	((CompiledGeometry*)geometry)->render(*m_gl, translation);
+	((CompiledGeometry*)geometry)->render(*m_window, *m_gl, translation);
 }
 
 void ui::menu::RocketRenderInterface::ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHandle geometry)
@@ -102,21 +124,35 @@ bool ui::menu::RocketRenderInterface::LoadTexture(Rocket::Core::TextureHandle& t
 	file_interface->Read(buffer, buffer_size, file_handle);
 	file_interface->Close(file_handle);
 
-	GL::Image image(buffer, buffer_size);
-	delete buffer;
+	try
+	{
+		GL::Image image(buffer, buffer_size);
+		delete buffer;
 
-	texture_handle = (Rocket::Core::TextureHandle)(new GL::Texture(image));
-	texture_dimensions.x = image.GetWidth();
-	texture_dimensions.y = image.GetHeight();
+		texture_handle = (Rocket::Core::TextureHandle)(new GL::Texture(image));
+		texture_dimensions.x = image.GetWidth();
+		texture_dimensions.y = image.GetHeight();
 
-	return false;
+		return true;
+	}
+	catch (GL::FormatException&)
+	{
+		return false;
+	}
 }
 
 bool ui::menu::RocketRenderInterface::GenerateTexture(Rocket::Core::TextureHandle& texture_handle, const Rocket::Core::byte* source, const Rocket::Core::Vector2i& source_dimensions)
 {
-	GL::Image image((GL::ushort)source_dimensions.x, (GL::ushort)source_dimensions.y, const_cast<GL::uchar*>(source));
-	texture_handle = (Rocket::Core::TextureHandle)(new GL::Texture(image));
-	return true;
+	try
+	{
+		GL::Image image((GL::ushort)source_dimensions.x, (GL::ushort)source_dimensions.y, const_cast<GL::uchar*>(source));
+		texture_handle = (Rocket::Core::TextureHandle)(new GL::Texture(image));
+		return true;
+	}
+	catch (GL::FormatException&)
+	{
+		return false;
+	}
 }
 
 void ui::menu::RocketRenderInterface::ReleaseTexture(Rocket::Core::TextureHandle texture_handle)
