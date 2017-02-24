@@ -4,6 +4,7 @@
  * Proprietary and confidential
  */
 
+#include <ctime>
 #include <GL/Math/Util.hpp>
 #include "ui/core/SimpleShader.hpp"
 #include "ui/core/HubShader.hpp"
@@ -18,8 +19,8 @@ ui::scene::Scene::Scene(GL::Context& gl) :
 	m_shaders.emplace("simple"_shader, core::SimpleShader().getProgram());
 	m_shaders.emplace("hub"_shader, core::HubShader().getProgram());
 
-	m_hubs.emplace_back(*this, 0, 12345, 6, 6);
-	m_creatures.emplace_back(*this, 0, 12345, GL::Color(255, 240, 240));
+	m_hubs.emplace_back(*this, 0, std::time(NULL), 6, 6);
+	m_creatures.emplace_back(*this, 0, std::time(NULL), GL::Color(255, 240, 240));
 }
 
 ui::scene::Scene::~Scene()
