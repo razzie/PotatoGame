@@ -98,10 +98,14 @@ static void insertLastRing(size_t edges, float height, float radius, GL::Color c
 
 
 ui::shape::CreatureShape::CreatureShape(raz::Random& random, GL::Color color) :
-	m_edges(random(3, 8)),
+	m_edges(random(3, 5)),
 	m_color(color)
 {
+	if (m_edges == 5)
+		m_edges = 8;
+
 	const size_t parts = random(3, 8);
+
 	m_control_points.push_back({ 0.f, 0.f });
 	for (size_t i = 0; i < parts; ++i)
 	{
@@ -114,10 +118,14 @@ ui::shape::CreatureShape::CreatureShape(raz::Random& random, GL::Color color) :
 
 ui::shape::CreatureShape::CreatureShape(raz::Random& random, GL::Color color, raz::IMemoryPool& memory) :
 	m_control_points(memory),
-	m_edges(random(3, 8)),
+	m_edges(random(3, 5)),
 	m_color(color)
 {
+	if (m_edges == 5)
+		m_edges = 8;
+
 	const size_t parts = random(3, 8);
+
 	m_control_points.push_back({ 0.f, 0.f });
 	for (size_t i = 0; i < parts; ++i)
 	{
