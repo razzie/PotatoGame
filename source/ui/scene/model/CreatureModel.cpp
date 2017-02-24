@@ -12,7 +12,7 @@ ui::scene::model::CreatureModel::CreatureModel(scene::Scene& scene, uint32_t id,
 	Model(id)
 {
 	raz::Random random(seed);
-	ui::core::MeshBuffer<> meshbuffer;
+	ui::core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 
 	ui::shape::CreatureShape shape(random, color);
 	shape.generate(meshbuffer);

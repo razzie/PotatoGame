@@ -11,7 +11,7 @@
 ui::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, unsigned size, unsigned complexity) :
 	Model(id)
 {
-	core::MeshBuffer<> meshbuffer;
+	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 	raz::Random random(seed);
 
 	ui::shape::VoronoiPillarShape pillar((float)size, complexity);

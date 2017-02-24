@@ -97,26 +97,7 @@ static void insertLastRing(size_t edges, float height, float radius, GL::Color c
 #pragma warning(pop)
 
 
-ui::shape::CreatureShape::CreatureShape(raz::Random& random, GL::Color color) :
-	m_edges(random(3, 5)),
-	m_color(color)
-{
-	if (m_edges == 5)
-		m_edges = 8;
-
-	const size_t parts = random(3, 8);
-
-	m_control_points.push_back({ 0.f, 0.f });
-	for (size_t i = 0; i < parts; ++i)
-	{
-		float r = 0.125f * random(1, 5);
-		float h = 0.25f * i;
-		m_control_points.push_back({ r, h });
-	}
-	m_control_points.push_back({ 0.f, 0.25f * (parts - 1) });
-}
-
-ui::shape::CreatureShape::CreatureShape(raz::Random& random, GL::Color color, raz::IMemoryPool& memory) :
+ui::shape::CreatureShape::CreatureShape(raz::Random& random, GL::Color color, raz::IMemoryPool* memory) :
 	m_control_points(memory),
 	m_edges(random(3, 5)),
 	m_color(color)

@@ -47,14 +47,13 @@ namespace core
 		std::vector<VertexType, raz::Allocator<VertexType>> vertices;
 		std::vector<IndexType, raz::Allocator<IndexType>> indices;
 
-		MeshBuffer() = default;
-		MeshBuffer(const MeshBuffer&) = default;
-
-		explicit MeshBuffer(raz::IMemoryPool& memory) :
+		MeshBuffer(raz::IMemoryPool* memory = nullptr) :
 			vertices(memory),
 			indices(memory)
 		{
 		}
+
+		MeshBuffer(const MeshBuffer&) = default;
 
 		Mesh createMesh() const
 		{

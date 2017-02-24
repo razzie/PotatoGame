@@ -12,6 +12,7 @@
 #include <GL/Math/Mat4.hpp>
 #include <GL/GL/Context.hpp>
 #include <GL/GL/Program.hpp>
+#include <raz/memory.hpp>
 #include <raz/timer.hpp>
 #include "common/stringhash.hpp"
 #include "ui/scene/Camera.hpp"
@@ -30,6 +31,7 @@ namespace scene
 		~Scene();
 		Scene& operator=(const Scene&) = delete;
 		GL::Context& getContext();
+		raz::IMemoryPool* getMemoryPool();
 		Camera& getCamera();
 		const Camera& getCamera() const;
 		const GL::Mat4& getCameraMatrix() const;

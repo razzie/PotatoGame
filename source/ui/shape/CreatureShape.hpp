@@ -24,8 +24,7 @@ namespace shape
 		typedef std::vector<uint8_t, raz::Allocator<uint8_t>> Dimensions;
 		typedef std::vector<common::Point2D<float>, raz::Allocator<common::Point2D<float>>> ControlPoints;
 
-		CreatureShape(raz::Random& random, GL::Color color);
-		CreatureShape(raz::Random& random, GL::Color color, raz::IMemoryPool& memory);
+		CreatureShape(raz::Random& random, GL::Color color, raz::IMemoryPool* memory = nullptr);
 		CreatureShape(const Dimensions& dimensions, unsigned edges, GL::Color color);
 		void generate(ui::core::MeshBuffer<>& meshbuffer) const;
 

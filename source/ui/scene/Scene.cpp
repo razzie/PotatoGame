@@ -32,6 +32,11 @@ GL::Context& ui::scene::Scene::getContext()
 	return m_gl;
 }
 
+raz::IMemoryPool* ui::scene::Scene::getMemoryPool()
+{
+	return nullptr;
+}
+
 ui::scene::Camera& ui::scene::Scene::getCamera()
 {
 	return m_cam;
