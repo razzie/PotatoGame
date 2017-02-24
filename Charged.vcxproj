@@ -159,6 +159,9 @@
     <ClInclude Include="source\game\player\HumanPlayer.hpp" />
     <ClInclude Include="source\game\player\NetworkPlayer.hpp" />
     <ClInclude Include="source\game\player\Player.hpp" />
+    <ClInclude Include="source\resource\ArchiveReader.hpp" />
+    <ClInclude Include="source\resource\ArchiveWriter.hpp" />
+    <ClInclude Include="source\common\Encoder.hpp" />
     <ClInclude Include="source\thirdparty\boost\polygon\detail\voronoi_ctypes.hpp" />
     <ClInclude Include="source\thirdparty\boost\polygon\detail\voronoi_predicates.hpp" />
     <ClInclude Include="source\thirdparty\boost\polygon\detail\voronoi_robust_fpt.hpp" />
@@ -167,6 +170,10 @@
     <ClInclude Include="source\thirdparty\boost\polygon\voronoi_builder.hpp" />
     <ClInclude Include="source\thirdparty\boost\polygon\voronoi_diagram.hpp" />
     <ClInclude Include="source\thirdparty\boost\polygon\voronoi_utils.hpp" />
+    <ClInclude Include="source\thirdparty\Doboz\Common.h" />
+    <ClInclude Include="source\thirdparty\Doboz\Compressor.h" />
+    <ClInclude Include="source\thirdparty\Doboz\Decompressor.h" />
+    <ClInclude Include="source\thirdparty\Doboz\Dictionary.h" />
     <ClInclude Include="source\thirdparty\raz\bitset.hpp" />
     <ClInclude Include="source\thirdparty\raz\callback.hpp" />
     <ClInclude Include="source\thirdparty\raz\event.hpp" />
@@ -385,6 +392,12 @@
     <ClCompile Include="source\Application.cpp" />
     <ClCompile Include="source\common\InputHelper.cpp" />
     <ClCompile Include="source\game\level\entity\Entity.cpp" />
+    <ClCompile Include="source\resource\ArchiveReader.cpp" />
+    <ClCompile Include="source\resource\ArchiveWriter.cpp" />
+    <ClCompile Include="source\common\Encoder.cpp" />
+    <ClCompile Include="source\thirdparty\Doboz\Compressor.cpp" />
+    <ClCompile Include="source\thirdparty\Doboz\Decompressor.cpp" />
+    <ClCompile Include="source\thirdparty\Doboz\Dictionary.cpp" />
     <ClCompile Include="source\ui\core\HubShader.cpp" />
     <ClCompile Include="source\ui\core\MenuShader.cpp" />
     <ClCompile Include="source\ui\core\SimpleShader.cpp" />
