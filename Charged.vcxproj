@@ -314,9 +314,9 @@
     <ClInclude Include="source\ui\core\SimpleShader.hpp" />
     <ClInclude Include="source\game\event\hubevents.hpp" />
     <ClInclude Include="source\ui\menu\Menu.hpp" />
+    <ClInclude Include="source\ui\menu\RocketFileInterface.hpp" />
     <ClInclude Include="source\ui\menu\RocketRenderInterface.hpp" />
     <ClInclude Include="source\ui\menu\RocketSystemInterface.hpp" />
-    <ClInclude Include="source\ui\menu\ShellFileInterface.h" />
     <ClInclude Include="source\ui\scene\Camera.hpp" />
     <ClInclude Include="source\ui\core\Mesh.hpp" />
     <ClInclude Include="source\ui\scene\model\CreatureModel.hpp" />
@@ -402,9 +402,9 @@
     <ClCompile Include="source\ui\core\MenuShader.cpp" />
     <ClCompile Include="source\ui\core\SimpleShader.cpp" />
     <ClCompile Include="source\ui\menu\Menu.cpp" />
+    <ClCompile Include="source\ui\menu\RocketFileInterface.cpp" />
     <ClCompile Include="source\ui\menu\RocketRenderInterface.cpp" />
     <ClCompile Include="source\ui\menu\RocketSystemInterface.cpp" />
-    <ClCompile Include="source\ui\menu\ShellFileInterface.cpp" />
     <ClCompile Include="source\ui\scene\Camera.cpp" />
     <ClCompile Include="source\ui\scene\model\CreatureModel.cpp" />
     <ClCompile Include="source\ui\shape\CreatureShape.cpp" />

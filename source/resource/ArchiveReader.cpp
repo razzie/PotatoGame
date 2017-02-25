@@ -31,13 +31,17 @@ size_t resource::ArchiveReader::getFileCount() const
 	return m_file_table.size();
 }
 
-bool resource::ArchiveReader::getFileIndex(const char* filename, size_t& file_index) const
+bool resource::ArchiveReader::getFileInfo(const char* filename, FileInfo& file_info) const
 {
 	for (size_t i = 0, count = m_file_table.size(); i < count; ++i)
 	{
-		if (m_file_table[i].filename.compare(filename) == 0)
+		auto& file = m_file_table[i];
+
+		if (file.filename.compare(filename) == 0)
 		{
-			file_index = i;
+			file_info.file_index = i;
+			file_info.filename = file.filename.c_str();
+			file_info.size = file.original_size;
 			return true;
 		}
 	}

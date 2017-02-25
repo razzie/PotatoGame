@@ -9,7 +9,7 @@
 #include <GL/Window/Window.hpp>
 #include <GL/Window/Event.hpp>
 #include <GL/GL/Context.hpp>
-#include "ui/menu/ShellFileInterface.h"
+#include "ui/menu/RocketFileInterface.hpp"
 #include "ui/menu/RocketSystemInterface.hpp"
 #include "ui/menu/RocketRenderInterface.hpp"
 
@@ -29,7 +29,7 @@ namespace menu
 		GL::Window* m_window;
 		GL::Context* m_gl;
 		Rocket::Core::Context* m_context;
-		ShellFileInterface m_file_if;
+		RocketFileInterface m_file_if;
 		RocketSystemInterface m_system_if;
 		RocketRenderInterface m_render_if;
 	};

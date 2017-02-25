@@ -345,9 +345,6 @@
     <ClCompile Include="source\game\level\entity\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\ui\menu\ShellFileInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\ui\menu\RocketSystemInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -379,6 +376,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\common\Encoder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ui\menu\RocketFileInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1079,9 +1079,6 @@
     <ClInclude Include="source\game\level\entity\TrapEntity.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\ui\menu\ShellFileInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\ui\menu\RocketSystemInterface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1116,6 +1113,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\common\Encoder.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ui\menu\RocketFileInterface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
