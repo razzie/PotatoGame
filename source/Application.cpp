@@ -6,8 +6,8 @@
 
 #include <raz/timer.hpp>
 #include "Application.hpp"
-#include "ui/menu/Menu.hpp"
-#include "ui/scene/Scene.hpp"
+#include "gfx/gui/GUI.hpp"
+#include "gfx/scene/Scene.hpp"
 
 Application::Application(int argc, char** argv) :
 	m_window(1024, 768, "OpenGL Window", GL::WindowStyle::Close),
@@ -39,8 +39,8 @@ Application::~Application()
 
 int Application::run()
 {
-	ui::menu::Menu menu(m_window, m_gl);
-	ui::scene::Scene m_scene(m_gl);
+	gfx::gui::GUI gui(m_window, m_gl);
+	gfx::scene::Scene m_scene(m_gl);
 
 	GL::Event ev;
 	raz::Timer timer;
@@ -108,7 +108,7 @@ int Application::run()
 		m_gl.ClearColor(GL::Color(255, 255, 255));
 
 		m_scene.render();
-		menu.render();
+		gui.render();
 
 		m_window.Present();
 	}
