@@ -13,7 +13,7 @@
 ui::menu::Menu::Menu(GL::Window& window, GL::Context& gl) :
 	m_window(&window),
 	m_gl(&gl),
-	m_file_if("../data/"),
+	m_file_if(nullptr),
 	m_render_if(window, gl)
 {
 	Rocket::Core::SetFileInterface(&m_file_if);
@@ -25,7 +25,7 @@ ui::menu::Menu::Menu(GL::Window& window, GL::Context& gl) :
 
 	Rocket::Controls::Initialise();
 
-	Rocket::Core::FontDatabase::LoadFontFace("Arial.ttf");
+	Rocket::Core::FontDatabase::LoadFontFace("arial.ttf");
 
 	m_context = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(m_window->GetWidth(), m_window->GetHeight()));
 	if (m_context == NULL)

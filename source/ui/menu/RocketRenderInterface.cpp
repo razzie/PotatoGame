@@ -12,6 +12,7 @@
 #include <GL/GL/Texture.hpp>
 #include <GL/Math/Mat4.hpp>
 #include "ui/core/MenuShader.hpp"
+#include "ui/menu/RocketFileInterface.hpp"
 #include "ui/menu/RocketRenderInterface.hpp"
 
 class CompiledGeometry
@@ -68,9 +69,10 @@ private:
 	bool m_use_texture;
 };
 
-ui::menu::RocketRenderInterface::RocketRenderInterface(GL::Window& window, GL::Context& gl) :
+ui::menu::RocketRenderInterface::RocketRenderInterface(GL::Window& window, GL::Context& gl, raz::IMemoryPool* memory) :
 	m_window(&window),
 	m_gl(&gl),
+	m_memory(memory),
 	m_shader(ui::core::MenuShader().getProgram())
 {
 }
@@ -83,17 +85,25 @@ void ui::menu::RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* verti
 
 Rocket::Core::CompiledGeometryHandle ui::menu::RocketRenderInterface::CompileGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture)
 {
-	return (Rocket::Core::CompiledGeometryHandle)(new CompiledGeometry(m_shader, vertices, num_vertices, indices, num_indices, texture));
+	raz::Allocator<CompiledGeometry> alloc(m_memory);
+	CompiledGeometry* geom = std::allocator_traits<raz::Allocator<CompiledGeometry>>::allocate(alloc, 1);
+	std::allocator_traits<raz::Allocator<CompiledGeometry>>::construct(alloc, geom, m_shader, vertices, num_vertices, indices, num_indices, texture);
+
+	return Rocket::Core::CompiledGeometryHandle(geom);
 }
 
 void ui::menu::RocketRenderInterface::RenderCompiledGeometry(Rocket::Core::CompiledGeometryHandle geometry, const Rocket::Core::Vector2f& translation)
 {
-	((CompiledGeometry*)geometry)->render(*m_window, *m_gl, translation);
+	reinterpret_cast<CompiledGeometry*>(geometry)->render(*m_window, *m_gl, translation);
 }
 
 void ui::menu::RocketRenderInterface::ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHandle geometry)
 {
-	delete (CompiledGeometry*)geometry;
+	CompiledGeometry* geom = reinterpret_cast<CompiledGeometry*>(geometry);
+
+	raz::Allocator<CompiledGeometry> alloc(m_memory);
+	std::allocator_traits<raz::Allocator<CompiledGeometry>>::destroy(alloc, geom);
+	std::allocator_traits<raz::Allocator<CompiledGeometry>>::deallocate(alloc, geom, 1);
 }
 
 void ui::menu::RocketRenderInterface::EnableScissorRegion(bool enable)
@@ -113,32 +123,33 @@ bool ui::menu::RocketRenderInterface::LoadTexture(Rocket::Core::TextureHandle& t
 {
 	Rocket::Core::FileInterface* file_interface = Rocket::Core::GetFileInterface();
 	Rocket::Core::FileHandle file_handle = file_interface->Open(source);
-	if (file_handle == NULL)
+	if (file_handle == 0)
 		return false;
 
-	file_interface->Seek(file_handle, 0, SEEK_END);
-	size_t buffer_size = file_interface->Tell(file_handle);
-	file_interface->Seek(file_handle, 0, SEEK_SET);
-
-	GL::uchar* buffer = new GL::uchar[buffer_size];
-	file_interface->Read(buffer, buffer_size, file_handle);
-	file_interface->Close(file_handle);
+	bool return_value = true;
 
 	try
 	{
-		GL::Image image(buffer, buffer_size);
-		delete buffer;
+		RocketFileInterface::File* file = reinterpret_cast<RocketFileInterface::File*>(file_handle);
 
-		texture_handle = (Rocket::Core::TextureHandle)(new GL::Texture(image));
+		GL::Image image(reinterpret_cast<GL::uchar*>(file->data.data()), file->data.size());
+
+		raz::Allocator<GL::Texture> tex_alloc(m_memory);
+		GL::Texture* tex = std::allocator_traits<raz::Allocator<GL::Texture>>::allocate(tex_alloc, 1);
+		std::allocator_traits<raz::Allocator<GL::Texture>>::construct(tex_alloc, tex, image);
+
+		texture_handle = Rocket::Core::TextureHandle(tex);
 		texture_dimensions.x = image.GetWidth();
 		texture_dimensions.y = image.GetHeight();
-
-		return true;
 	}
 	catch (GL::FormatException&)
 	{
-		return false;
+		return_value = false;
 	}
+
+	file_interface->Close(file_handle);
+
+	return return_value;
 }
 
 bool ui::menu::RocketRenderInterface::GenerateTexture(Rocket::Core::TextureHandle& texture_handle, const Rocket::Core::byte* source, const Rocket::Core::Vector2i& source_dimensions)
@@ -146,7 +157,13 @@ bool ui::menu::RocketRenderInterface::GenerateTexture(Rocket::Core::TextureHandl
 	try
 	{
 		GL::Image image((GL::ushort)source_dimensions.x, (GL::ushort)source_dimensions.y, const_cast<GL::uchar*>(source));
-		texture_handle = (Rocket::Core::TextureHandle)(new GL::Texture(image));
+
+		raz::Allocator<GL::Texture> tex_alloc(m_memory);
+		GL::Texture* tex = std::allocator_traits<raz::Allocator<GL::Texture>>::allocate(tex_alloc, 1);
+		std::allocator_traits<raz::Allocator<GL::Texture>>::construct(tex_alloc, tex, image);
+
+		texture_handle = Rocket::Core::TextureHandle(tex);
+
 		return true;
 	}
 	catch (GL::FormatException&)
@@ -157,5 +174,9 @@ bool ui::menu::RocketRenderInterface::GenerateTexture(Rocket::Core::TextureHandl
 
 void ui::menu::RocketRenderInterface::ReleaseTexture(Rocket::Core::TextureHandle texture_handle)
 {
-	delete (GL::Texture*)texture_handle;
+	GL::Texture* tex = reinterpret_cast<GL::Texture*>(texture_handle);
+
+	raz::Allocator<GL::Texture> tex_alloc(m_memory);
+	std::allocator_traits<raz::Allocator<GL::Texture>>::destroy(tex_alloc, tex);
+	std::allocator_traits<raz::Allocator<GL::Texture>>::deallocate(tex_alloc, tex, 1);
 }

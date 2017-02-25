@@ -19,6 +19,7 @@ namespace resource
 	public:
 		struct FileInfo
 		{
+			size_t file_index;
 			const char* filename;
 			size_t size;
 		};
@@ -26,7 +27,7 @@ namespace resource
 		ArchiveReader(const char*    archive, raz::IMemoryPool* memory = nullptr);
 		ArchiveReader(const wchar_t* archive, raz::IMemoryPool* memory = nullptr);
 		size_t getFileCount() const;
-		bool getFileIndex(const char* filename, size_t& file_index) const;
+		bool getFileInfo(const char* filename, FileInfo& file_info) const;
 		bool getFileInfo(size_t file_index, FileInfo& file_info) const;
 		bool decompress(size_t file_index, void* destination);
 
