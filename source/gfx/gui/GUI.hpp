@@ -9,6 +9,7 @@
 #include <GL/Window/Window.hpp>
 #include <GL/Window/Event.hpp>
 #include <GL/GL/Context.hpp>
+#include "gfx/core/ShaderTable.hpp"
 #include "gfx/gui/RocketFileInterface.hpp"
 #include "gfx/gui/RocketSystemInterface.hpp"
 #include "gfx/gui/RocketRenderInterface.hpp"
@@ -20,7 +21,7 @@ namespace gui
 	class GUI
 	{
 	public:
-		GUI(GL::Window& window, GL::Context& gl);
+		GUI(GL::Window& window, GL::Context& gl, gfx::core::ShaderTable& shader_table);
 		~GUI();
 		bool feed(GL::Event& ev);
 		void render();

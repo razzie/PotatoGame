@@ -19,7 +19,7 @@ namespace gui
 	class RocketRenderInterface : public Rocket::Core::RenderInterface
 	{
 	public:
-		RocketRenderInterface(GL::Window& window, GL::Context& gl, raz::IMemoryPool* memory = nullptr);
+		RocketRenderInterface(GL::Window& window, GL::Context& gl, GL::Program& gui_shader, raz::IMemoryPool* memory = nullptr);
 		virtual void RenderGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture, const Rocket::Core::Vector2f& translation);
 		virtual Rocket::Core::CompiledGeometryHandle CompileGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture);
 		virtual void RenderCompiledGeometry(Rocket::Core::CompiledGeometryHandle geometry, const Rocket::Core::Vector2f& translation);
@@ -34,7 +34,7 @@ namespace gui
 		GL::Window* m_window;
 		GL::Context* m_gl;
 		raz::IMemoryPool* m_memory;
-		GL::Program m_shader;
+		GL::Program& m_shader;
 	};
 }
 }

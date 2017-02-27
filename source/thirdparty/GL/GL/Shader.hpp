@@ -74,6 +74,7 @@ namespace GL
 		Shader( const Shader& other );
 		Shader( ShaderType::shader_type_t type );
 		Shader( ShaderType::shader_type_t type, const std::string& code );
+		Shader( ShaderType::shader_type_t type, const char* code );
 
 		~Shader();
 
@@ -81,6 +82,7 @@ namespace GL
 		const Shader& operator=( const Shader& other );
 
 		void Source( const std::string& code );
+		void Source( const char* code );
 		void Compile();
 
 		std::string GetInfoLog();

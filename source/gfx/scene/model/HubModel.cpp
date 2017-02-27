@@ -24,7 +24,7 @@ gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t
 
 	auto& mesh = getMesh();
 	mesh = meshbuffer.createMesh();
-	mesh.bindShader(scene.getShader("hub"_shader));
+	mesh.bindShader(scene.getHubShader());
 }
 
 void gfx::scene::model::HubModel::render(scene::Scene& scene)

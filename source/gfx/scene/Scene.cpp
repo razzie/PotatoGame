@@ -6,19 +6,15 @@
 
 #include <ctime>
 #include <GL/Math/Util.hpp>
-#include "gfx/core/SimpleShader.hpp"
-#include "gfx/core/HubShader.hpp"
 #include "gfx/scene/Scene.hpp"
 #include "gfx/scene/model/HubModel.hpp"
 
-gfx::scene::Scene::Scene(GL::Context& gl) :
+gfx::scene::Scene::Scene(GL::Context& gl, gfx::core::ShaderTable& shader_table) :
 	m_gl(gl),
+	m_shader_table(shader_table),
 	m_cam(1024.f / 768.f),
 	m_current_shader(nullptr)
 {
-	m_shaders.emplace("simple"_shader, core::SimpleShader().getProgram());
-	m_shaders.emplace("hub"_shader, core::HubShader().getProgram());
-
 	m_hubs.emplace_back(*this, 0, std::time(NULL), 6, 6);
 	m_creatures.emplace_back(*this, 0, std::time(NULL), GL::Color(255, 240, 240));
 }
@@ -52,15 +48,6 @@ const GL::Mat4& gfx::scene::Scene::getCameraMatrix() const
 	return m_cam.getMatrix();
 }
 
-GL::Program& gfx::scene::Scene::getShader(uint32_t shader)
-{
-	auto it = m_shaders.find(shader);
-	if (it == m_shaders.end())
-		throw std::runtime_error("no such shader exists");
-
-	return it->second;
-}
-
 GL::Program& gfx::scene::Scene::getCurrentShader()
 {
 	return *m_current_shader;
@@ -68,7 +55,7 @@ GL::Program& gfx::scene::Scene::getCurrentShader()
 
 void gfx::scene::Scene::render()
 {
-	m_current_shader = &getShader("hub"_shader);
+	m_current_shader = &m_shader_table.getHubShader();
 	m_gl.UseProgram(*m_current_shader);
 
 	for (auto& hub : m_hubs)
@@ -76,6 +63,12 @@ void gfx::scene::Scene::render()
 
 	for (auto& creature : m_creatures)
 		creature.render(*this);
+}
+
+
+GL::Program& gfx::scene::Scene::getHubShader()
+{
+	return m_shader_table.getHubShader();
 }
 
 gfx::scene::model::HubModel* gfx::scene::Scene::getHub(uint32_t id)
@@ -87,6 +80,12 @@ gfx::scene::model::HubModel* gfx::scene::Scene::getHub(uint32_t id)
 	}
 
 	return nullptr;
+}
+
+
+GL::Program& gfx::scene::Scene::getCreatureShader()
+{
+	return m_shader_table.getHubShader();
 }
 
 gfx::scene::model::CreatureModel* gfx::scene::Scene::getCreature(uint32_t id)

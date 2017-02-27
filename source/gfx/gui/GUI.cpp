@@ -10,11 +10,11 @@
 #include <Rocket/Debugger.h>
 #include "gfx/gui/GUI.hpp"
 
-gfx::gui::GUI::GUI(GL::Window& window, GL::Context& gl) :
+gfx::gui::GUI::GUI(GL::Window& window, GL::Context& gl, gfx::core::ShaderTable& shader_table) :
 	m_window(&window),
 	m_gl(&gl),
 	m_file_if(nullptr),
-	m_render_if(window, gl)
+	m_render_if(window, gl, shader_table.getGUIShader())
 {
 	Rocket::Core::SetFileInterface(&m_file_if);
 	Rocket::Core::SetRenderInterface(&m_render_if);
