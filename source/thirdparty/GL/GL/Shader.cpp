@@ -41,6 +41,13 @@ namespace GL
 		Compile();
 	}
 
+	Shader::Shader( ShaderType::shader_type_t shader, const char* code )
+	{
+		obj = gc.Create( glCreateShader( shader ), glDeleteShader );
+		Source( code );
+		Compile();
+	}
+
 	Shader::~Shader()
 	{
 		gc.Destroy( obj );
@@ -61,6 +68,11 @@ namespace GL
 	{
 		const char* c = code.c_str();
 		glShaderSource( obj, 1, &c, NULL );
+	}
+
+	void Shader::Source( const char* code )
+	{
+		glShaderSource( obj, 1, &code, NULL );
 	}
 
 	void Shader::Compile()

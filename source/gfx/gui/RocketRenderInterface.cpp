@@ -11,7 +11,6 @@
 #include <GL/GL/VertexArray.hpp>
 #include <GL/GL/Texture.hpp>
 #include <GL/Math/Mat4.hpp>
-#include "gfx/core/MenuShader.hpp"
 #include "gfx/gui/RocketFileInterface.hpp"
 #include "gfx/gui/RocketRenderInterface.hpp"
 
@@ -69,11 +68,11 @@ private:
 	bool m_use_texture;
 };
 
-gfx::gui::RocketRenderInterface::RocketRenderInterface(GL::Window& window, GL::Context& gl, raz::IMemoryPool* memory) :
+gfx::gui::RocketRenderInterface::RocketRenderInterface(GL::Window& window, GL::Context& gl, GL::Program& gui_shader, raz::IMemoryPool* memory) :
 	m_window(&window),
 	m_gl(&gl),
 	m_memory(memory),
-	m_shader(gfx::core::MenuShader().getProgram())
+	m_shader(gui_shader)
 {
 }
 

@@ -8,6 +8,7 @@
 
 #include <fstream>
 #include <string>
+#include <Doboz/Compressor.h>
 #include <raz/memory.hpp>
 
 namespace resource
@@ -24,6 +25,7 @@ namespace resource
 		typedef std::basic_string<char, std::char_traits<char>, raz::Allocator<char>> String;
 
 		std::ofstream m_archive;
+		doboz::Compressor m_compressor;
 
 		bool compressInternal(std::ifstream& source, const char* dest_filename, raz::IMemoryPool* memory);
 	};

@@ -6,7 +6,6 @@
 
 #include <cstdint>
 #include <vector>
-#include <Doboz/Compressor.h>
 #include "common/Encoder.hpp"
 #include "resource/ArchiveWriter.hpp"
 
@@ -67,10 +66,10 @@ bool resource::ArchiveWriter::compressInternal(std::ifstream& file, const char* 
 	if (!file.read(buffer.data(), original_size))
 		return false;
 
-	file.close();
-
 	// compress data (also updates compressed_size)
-	doboz::Compressor().compress(&buffer[0], original_size, &buffer[original_size], buffer.size(), compressed_size);
+	doboz::Result result = m_compressor.compress(&buffer[0], original_size, &buffer[original_size], buffer.size(), compressed_size);
+	if (result != doboz::RESULT_OK)
+		return false;
 
 	// encrypt file name
 	String filename(dest_filename, memory);

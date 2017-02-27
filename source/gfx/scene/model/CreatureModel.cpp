@@ -21,7 +21,7 @@ gfx::scene::model::CreatureModel::CreatureModel(scene::Scene& scene, uint32_t id
 
 	auto& mesh = getMesh();
 	mesh = meshbuffer.createMesh();
-	mesh.bindShader(scene.getShader("hub"_shader));
+	mesh.bindShader(scene.getCreatureShader());
 
 	setPosition({ 10.f, 0.f, 0.f });
 }

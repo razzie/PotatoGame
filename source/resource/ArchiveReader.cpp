@@ -77,8 +77,8 @@ bool resource::ArchiveReader::decompress(size_t file_index, void* destination)
 	m_archive.read(&compressed_data[0], file.compressed_size);
 
 	// decompress
-	doboz::Decompressor().decompress(&compressed_data[0], file.compressed_size, destination, file.original_size);
-	return true;
+	doboz::Result result = doboz::Decompressor().decompress(&compressed_data[0], file.compressed_size, destination, file.original_size);
+	return (result == doboz::RESULT_OK);
 }
 
 void resource::ArchiveReader::readFileData()

@@ -7,19 +7,22 @@
 #pragma once
 
 #include <GL/GL/Program.hpp>
+#include <raz/memory.hpp>
 
 namespace gfx
 {
 namespace core
 {
-	class SimpleShader
+	class ShaderTable
 	{
 	public:
-		SimpleShader();
-		const GL::Program& getProgram() const;
+		ShaderTable(raz::IMemoryPool* memory = nullptr);
+		GL::Program& getGUIShader();
+		GL::Program& getHubShader();
 
 	private:
-		GL::Program m_program;
+		GL::Program m_gui;
+		GL::Program m_hub;
 	};
 }
 }

@@ -6,6 +6,7 @@
 
 #include <raz/timer.hpp>
 #include "Application.hpp"
+#include "gfx/core/ShaderTable.hpp"
 #include "gfx/gui/GUI.hpp"
 #include "gfx/scene/Scene.hpp"
 
@@ -39,8 +40,9 @@ Application::~Application()
 
 int Application::run()
 {
-	gfx::gui::GUI gui(m_window, m_gl);
-	gfx::scene::Scene m_scene(m_gl);
+	gfx::core::ShaderTable shader_table;
+	gfx::gui::GUI gui(m_window, m_gl, shader_table);
+	gfx::scene::Scene m_scene(m_gl, shader_table);
 
 	GL::Event ev;
 	raz::Timer timer;
