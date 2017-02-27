@@ -13,11 +13,8 @@
 #pragma warning(push)
 #pragma warning(disable: 4267) // possible loss of data
 
-static void insertRingPoints(size_t edges, bool thick_edges, float height, float radius, GL::Color color, gfx::core::MeshBuffer<>& meshbuffer)
+static void insertRingPoints(size_t edges, bool sharp_edges, float height, float radius, GL::Color color, gfx::core::MeshBuffer<>& meshbuffer)
 {
-	if (thick_edges)
-		edges *= 2;
-
 	const float angle_step = static_cast<float>(common::PI * 2 / edges);
 	float angle_rad = 0.f;
 
@@ -25,7 +22,7 @@ static void insertRingPoints(size_t edges, bool thick_edges, float height, float
 	{
 		float x, z;
 
-		if (thick_edges && i % 2)
+		if (sharp_edges && i % 2)
 		{
 			x = std::sin(angle_rad - 0.8f * angle_step);
 			z = std::cos(angle_rad - 0.8f * angle_step);
@@ -43,13 +40,10 @@ static void insertRingPoints(size_t edges, bool thick_edges, float height, float
 	}
 }
 
-static void insertFirstRing(size_t edges, bool thick_edges, float height, float radius, GL::Color color, gfx::core::MeshBuffer<>& meshbuffer)
+static void insertFirstRing(size_t edges, bool sharp_edges, float height, float radius, GL::Color color, gfx::core::MeshBuffer<>& meshbuffer)
 {
 	uint16_t base_index = (uint16_t)meshbuffer.vertices.size();
-	insertRingPoints(edges, thick_edges, height, radius, color, meshbuffer);
-
-	if (thick_edges)
-		edges *= 2;
+	insertRingPoints(edges, sharp_edges, height, radius, color, meshbuffer);
 
 	for (unsigned i = 1; i < edges - 1; ++i)
 	{
@@ -75,13 +69,10 @@ static void insertFirstRing(size_t edges, bool thick_edges, float height, float 
 	}
 }
 
-static void insertRing(size_t edges, bool thick_edges, float height, float radius, GL::Color color, gfx::core::MeshBuffer<>& meshbuffer)
+static void insertRing(size_t edges, bool sharp_edges, float height, float radius, GL::Color color, gfx::core::MeshBuffer<>& meshbuffer)
 {
 	uint16_t base_index = (uint16_t)meshbuffer.vertices.size();
-	insertRingPoints(edges, thick_edges, height, radius, color, meshbuffer);
-
-	if (thick_edges)
-		edges *= 2;
+	insertRingPoints(edges, sharp_edges, height, radius, color, meshbuffer);
 
 	for (unsigned i = 0; i < edges; ++i)
 	{
@@ -100,13 +91,10 @@ static void insertRing(size_t edges, bool thick_edges, float height, float radiu
 	}
 }
 
-static void insertLastRing(size_t edges, bool thick_edges, float height, float radius, GL::Color color, gfx::core::MeshBuffer<>& meshbuffer)
+static void insertLastRing(size_t edges, bool sharp_edges, float height, float radius, GL::Color color, gfx::core::MeshBuffer<>& meshbuffer)
 {
 	uint16_t base_index = (uint16_t)meshbuffer.vertices.size();
-	insertRingPoints(edges, thick_edges, height, radius, color, meshbuffer);
-
-	if (thick_edges)
-		edges *= 2;
+	insertRingPoints(edges, sharp_edges, height, radius, color, meshbuffer);
 
 	for (unsigned i = 1; i < edges - 1; ++i)
 	{
@@ -126,14 +114,14 @@ gfx::shape::CreatureShape::CreatureShape(raz::Random& random, GL::Color color, r
 {
 	const size_t parts = random(3, 8);
 
-	m_control_points.push_back({ 0.f, 0.f });
+	m_control_points.push_back({ 0.0625f, 0.f });
 	for (size_t i = 0; i < parts; ++i)
 	{
 		float r = 0.125f * random(1, 5);
 		float h = 0.25f * i;
 		m_control_points.push_back({ r, h });
 	}
-	m_control_points.push_back({ 0.f, 0.25f * (parts - 1) });
+	m_control_points.push_back({ 0.0625f, 0.25f * (parts - 1) });
 }
 
 gfx::shape::CreatureShape::CreatureShape(const Dimensions& dimensions, unsigned edge_mode, GL::Color color) :
@@ -141,48 +129,48 @@ gfx::shape::CreatureShape::CreatureShape(const Dimensions& dimensions, unsigned 
 	m_edge_mode(edge_mode),
 	m_color(color)
 {
-	m_control_points.push_back({ 0.f, 0.f });
+	m_control_points.push_back({ 0.0625f, 0.f });
 	for (size_t i = 0; i < dimensions.size(); ++i)
 	{
 		float r = 0.125f * dimensions[i];
 		float h = 0.25f * i;
 		m_control_points.push_back({ r, h });
 	}
-	m_control_points.push_back({ 0.f, 0.25f * (dimensions.size() - 1) });
+	m_control_points.push_back({ 0.0625f, 0.25f * (dimensions.size() - 1) });
 }
 
 void gfx::shape::CreatureShape::generate(gfx::core::MeshBuffer<>& meshbuffer) const
 {
 	const size_t detail = m_control_points.size() * 2;
 	unsigned edges;
-	bool thick_edges;
+	bool sharp_edges;
 
 	if (m_edge_mode == 1)
 	{
-		edges = 3;
-		thick_edges = true;
+		edges = 6;
+		sharp_edges = true;
 	}
 	else if (m_edge_mode == 2)
 	{
-		edges = 4;
-		thick_edges = true;
+		edges = 8;
+		sharp_edges = true;
 	}
 	else
 	{
 		edges = 8;
-		thick_edges = false;
+		sharp_edges = false;
 	}
 
 	auto pfirst = common::bezier(m_control_points, 0.f);
-	insertFirstRing(edges, thick_edges, pfirst.y, pfirst.x, m_color, meshbuffer);
+	insertFirstRing(edges, false, pfirst.y, pfirst.x, m_color, meshbuffer);
 
 	for (size_t i = 1; i < detail; ++i)
 	{
 		float t = (float)i / detail;
 		auto p = common::bezier(m_control_points, t);
-		insertRing(edges, thick_edges, p.y, p.x, m_color, meshbuffer);
+		insertRing(edges, sharp_edges, p.y, p.x, m_color, meshbuffer);
 	}
 
 	auto plast = common::bezier(m_control_points, 1.f);
-	insertLastRing(edges, thick_edges, plast.y, plast.x, m_color, meshbuffer);
+	insertLastRing(edges, false, plast.y, plast.x, m_color, meshbuffer);
 }
