@@ -6,14 +6,24 @@
 
 #include "Potato.hpp"
 
+Potato::Settings::Settings(int argc, char** argv)
+{
+}
+
 Potato::Potato(int argc, char** argv) :
+	m_settings(argc, argv),
 	m_game(*this, nullptr),
-	m_render(*this, 1366, 768, false, nullptr)
+	m_render(*this, m_settings.screen_width, m_settings.screen_height, m_settings.fullscreen, nullptr)
 {
 }
 
 Potato::~Potato()
 {
+}
+
+Potato::Settings& Potato::getSettings()
+{
+	return m_settings;
 }
 
 game::GameThread& Potato::getGameThread()
