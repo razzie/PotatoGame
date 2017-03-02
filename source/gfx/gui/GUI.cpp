@@ -60,7 +60,6 @@ gfx::gui::GUI::~GUI()
 bool gfx::gui::GUI::feed(const GL::Event& ev)
 {
 	const int modifiers = getKeyModifiers();
-	m_mouse_event_consumed = false;
 
 	switch (ev.Type)
 	{
@@ -71,10 +70,12 @@ bool gfx::gui::GUI::feed(const GL::Event& ev)
 		return !m_context->ProcessKeyUp(m_system_if.translateKey(ev.Key.Code), modifiers);
 
 	case GL::Event::MouseDown:
+		m_mouse_event_consumed = false;
 		m_context->ProcessMouseButtonDown(ev.Mouse.Button, modifiers);
 		break;
 
 	case GL::Event::MouseUp:
+		m_mouse_event_consumed = false;
 		m_context->ProcessMouseButtonUp(ev.Mouse.Button, modifiers);
 		break;
 
@@ -82,6 +83,7 @@ bool gfx::gui::GUI::feed(const GL::Event& ev)
 		return !m_context->ProcessMouseWheel(-ev.Mouse.Delta, modifiers);
 
 	case GL::Event::MouseMove:
+		m_mouse_event_consumed = false;
 		m_context->ProcessMouseMove(ev.Mouse.X, ev.Mouse.Y, modifiers);
 		break;
 	}
@@ -94,15 +96,12 @@ void gfx::gui::GUI::render()
 	auto& gl = m_render_thread.getContext();
 
 	gl.Disable(GL::Capability::DepthTest);
-	gl.Disable(GL::Capability::CullFace);
-
 	gl.UseProgram(m_gui_shader);
 
 	m_context->Update();
 	m_context->Render();
 
 	gl.Enable(GL::Capability::DepthTest);
-	gl.Enable(GL::Capability::CullFace);
 }
 
 void gfx::gui::GUI::ProcessEvent(Rocket::Core::Event& ev)

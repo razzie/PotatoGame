@@ -9,7 +9,7 @@
 
 gfx::RenderThread::RenderThread(Potato& potato, unsigned width, unsigned height, bool fullscreen, raz::IMemoryPool* memory) :
 	m_potato(potato),
-	m_window(1024, 768, "OpenGL Window", fullscreen ? GL::WindowStyle::Fullscreen : GL::WindowStyle::Base | GL::WindowStyle::Close),
+	m_window(width, height, "OpenGL Window", fullscreen ? GL::WindowStyle::Fullscreen : GL::WindowStyle::Base | GL::WindowStyle::Close),
 	m_gl(m_window.GetContext(32, 24, 8, 4)),
 	m_memory(memory),
 	m_shader_table(memory),
@@ -24,17 +24,6 @@ gfx::RenderThread::RenderThread(Potato& potato, unsigned width, unsigned height,
 	m_gl.Enable(GL::Capability::CullFace);
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-	m_gl.Clear(GL::Buffer::Depth | GL::Buffer::Color);
-	m_gl.ClearColor(GL::Color(255, 255, 255));
-	m_window.Present();
-
-	//GL::Event ev;
-	//while (m_window.GetEvent(ev));
-
-	m_gl.Clear(GL::Buffer::Depth | GL::Buffer::Color);
-	m_gl.ClearColor(GL::Color(255, 255, 255));
-	m_window.Present();
 }
 
 gfx::RenderThread::~RenderThread()
