@@ -24,8 +24,8 @@ static void insertRingPoints(size_t edges, bool sharp_edges, float height, float
 
 		if (sharp_edges && i % 2)
 		{
-			x = std::sin(angle_rad - 0.8f * angle_step);
-			z = std::cos(angle_rad - 0.8f * angle_step);
+			x = std::sin(angle_rad - 0.5f * angle_step);
+			z = std::cos(angle_rad - 0.5f * angle_step);
 		}
 		else
 		{
@@ -157,7 +157,7 @@ void gfx::shape::CreatureShape::generate(gfx::core::MeshBuffer<>& meshbuffer) co
 	}
 	else
 	{
-		edges = 8;
+		edges = 12;
 		sharp_edges = false;
 	}
 

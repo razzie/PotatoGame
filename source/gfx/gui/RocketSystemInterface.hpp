@@ -19,8 +19,8 @@ namespace gui
 	class RocketSystemInterface : public Rocket::Core::SystemInterface
 	{
 	public:
-		Rocket::Core::Input::KeyIdentifier translateKey(GL::Key::key_t);
-		int translateModifiers(bool alt, bool control, bool shift);
+		Rocket::Core::Input::KeyIdentifier translateKey(GL::Key::key_t) const;
+		int translateModifiers(bool alt, bool control, bool shift) const;
 		virtual float GetElapsedTime();
 		//virtual bool LogMessage(Rocket::Core::Log::Type type, const Rocket::Core::String& message);
 

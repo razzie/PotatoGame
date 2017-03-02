@@ -6,15 +6,19 @@
 
 #include <ctime>
 #include <GL/Math/Util.hpp>
+#include "gfx/RenderThread.hpp"
 #include "gfx/scene/Scene.hpp"
 #include "gfx/scene/model/HubModel.hpp"
 
-gfx::scene::Scene::Scene(GL::Context& gl, gfx::core::ShaderTable& shader_table) :
-	m_gl(gl),
-	m_shader_table(shader_table),
-	m_cam(1024.f / 768.f),
+gfx::scene::Scene::Scene(RenderThread& render_thread) :
+	m_render_thread(render_thread),
+	m_gl(render_thread.getContext()),
+	m_shader_table(render_thread.getShaderTable()),
+	m_cam(render_thread.getAspectRatio()),
 	m_current_shader(nullptr)
 {
+	m_cam.setPosition({ -8, 8, -8 });
+
 	m_hubs.emplace_back(*this, 0, std::time(NULL), 6, 6);
 	m_creatures.emplace_back(*this, 0, std::time(NULL), GL::Color(255, 240, 240));
 }
@@ -51,6 +55,48 @@ const GL::Mat4& gfx::scene::Scene::getCameraMatrix() const
 GL::Program& gfx::scene::Scene::getCurrentShader()
 {
 	return *m_current_shader;
+}
+
+bool gfx::scene::Scene::feed(const GL::Event& ev)
+{
+	auto& helper = m_render_thread.getInputHelper();
+
+	if (ev.Type == GL::Event::KeyDown)
+	{
+		float speed = 5.0f;
+
+		switch (ev.Key.Code)
+		{
+		case GL::Key::W:
+			m_cam.move(speed, 0.f);
+			return true;
+		case GL::Key::S:
+			m_cam.move(-speed, 0.f);
+			return true;
+		case GL::Key::A:
+			m_cam.move(0.f, -speed);
+			return true;
+		case GL::Key::D:
+			m_cam.move(0.f, speed);
+			return true;
+		}
+	}
+	else if (ev.Type == GL::Event::MouseMove)
+	{
+		if (helper.isLeftMouseButtonDown() || helper.isRightMouseButtonDown())
+		{
+			auto delta = helper.getMouseDelta();
+			m_cam.rotate((float)-delta.x, (float)delta.y);
+			return true;
+		}
+	}
+	else if (ev.Type == GL::Event::MouseWheel)
+	{
+		m_cam.zoom(ev.Mouse.Delta > 0 ? 0.8f : -1.2f);
+		return true;
+	}
+
+	return false;
 }
 
 void gfx::scene::Scene::render()

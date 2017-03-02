@@ -18,9 +18,9 @@ namespace common
 		void feed(GL::Event& ev);
 		Point2D<int> getMousePosition() const;
 		Point2D<int> getMouseDelta() const;
-		bool isLeftMouseButtonDown();
-		bool isRightMouseButtonDown();
-		bool isMiddleMouseButtonDown();
+		bool isLeftMouseButtonDown() const;
+		bool isRightMouseButtonDown() const;
+		bool isMiddleMouseButtonDown() const;
 		bool isAltDown() const;
 		bool isControlDown() const;
 		bool isShiftDown() const;

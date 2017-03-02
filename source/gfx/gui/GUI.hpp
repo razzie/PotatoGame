@@ -6,33 +6,39 @@
 
 #pragma once
 
-#include <GL/Window/Window.hpp>
+#include <GL/Platform.hpp>
+#include <GL/GL/Program.hpp>
 #include <GL/Window/Event.hpp>
-#include <GL/GL/Context.hpp>
-#include "gfx/core/ShaderTable.hpp"
+#include <Rocket/Core/EventListener.h>
 #include "gfx/gui/RocketFileInterface.hpp"
 #include "gfx/gui/RocketSystemInterface.hpp"
 #include "gfx/gui/RocketRenderInterface.hpp"
 
 namespace gfx
 {
+class RenderThread;
+
 namespace gui
 {
-	class GUI
+	class GUI : public Rocket::Core::EventListener
 	{
 	public:
-		GUI(GL::Window& window, GL::Context& gl, gfx::core::ShaderTable& shader_table);
+		GUI(RenderThread& render_thread);
 		~GUI();
-		bool feed(GL::Event& ev);
+		bool feed(const GL::Event& ev);
 		void render();
+		virtual void ProcessEvent(Rocket::Core::Event& ev);
 
 	private:
-		GL::Window* m_window;
-		GL::Context* m_gl;
+		RenderThread& m_render_thread;
+		GL::Program& m_gui_shader;
 		Rocket::Core::Context* m_context;
 		RocketFileInterface m_file_if;
 		RocketSystemInterface m_system_if;
 		RocketRenderInterface m_render_if;
+		bool m_mouse_event_consumed;
+
+		int getKeyModifiers() const;
 	};
 }
 }

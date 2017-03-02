@@ -6,7 +6,7 @@
 
 #include "gfx/gui/RocketSystemInterface.hpp"
 
-Rocket::Core::Input::KeyIdentifier gfx::gui::RocketSystemInterface::translateKey(GL::Key::key_t key)
+Rocket::Core::Input::KeyIdentifier gfx::gui::RocketSystemInterface::translateKey(GL::Key::key_t key) const
 {
 	switch (key)
 	{
@@ -158,49 +158,49 @@ Rocket::Core::Input::KeyIdentifier gfx::gui::RocketSystemInterface::translateKey
 		return Rocket::Core::Input::KI_9;
 
 	case GL::Key::LeftBracket:
-		//return Rocket::Core::Input::
+		return Rocket::Core::Input::KI_OEM_4;
 
 	case GL::Key::RightBracket:
-		//return Rocket::Core::Input::
+		return Rocket::Core::Input::KI_OEM_6;
 
 	case GL::Key::Semicolon:
-		//return Rocket::Core::Input::
+		return Rocket::Core::Input::KI_OEM_1;
 
 	case GL::Key::Comma:
-		//return Rocket::Core::Input::
+		return Rocket::Core::Input::KI_OEM_COMMA;
 
 	case GL::Key::Period:
-		//return Rocket::Core::Input::
+		return Rocket::Core::Input::KI_OEM_PERIOD;
 
 	case GL::Key::Quote:
-		//return Rocket::Core::Input::
+		return Rocket::Core::Input::KI_OEM_7;
 
 	case GL::Key::Slash:
-		//return Rocket::Core::Input::
+		return Rocket::Core::Input::KI_OEM_2;
 
 	case GL::Key::Backslash:
-		//return Rocket::Core::Input::
+		return Rocket::Core::Input::KI_OEM_5;
 
 	case GL::Key::Tilde:
-		//return Rocket::Core::Input::
+		return Rocket::Core::Input::KI_OEM_3;
 
 	case GL::Key::Equals:
-		//return Rocket::Core::Input::
+		return Rocket::Core::Input::KI_OEM_PLUS;
 
 	case GL::Key::Hyphen:
-		//return Rocket::Core::Input::
+		return Rocket::Core::Input::KI_OEM_MINUS;
 
 	case GL::Key::Escape:
 		return Rocket::Core::Input::KI_ESCAPE;
 
 	case GL::Key::Control:
-		//return Rocket::Core::Input::
+		return Rocket::Core::Input::KI_LCONTROL; // or KI_RCONTROL
 
 	case GL::Key::Shift:
-		//return Rocket::Core::Input::
+		return Rocket::Core::Input::KI_LSHIFT; // or RSHIFT
 
 	case GL::Key::Alt:
-		//return Rocket::Core::Input::
+		return Rocket::Core::Input::KI_LMENU; // or RMENU
 
 	case GL::Key::Space:
 		return Rocket::Core::Input::KI_SPACE;
@@ -294,7 +294,7 @@ Rocket::Core::Input::KeyIdentifier gfx::gui::RocketSystemInterface::translateKey
 	}
 }
 
-int gfx::gui::RocketSystemInterface::translateModifiers(bool alt, bool control, bool shift)
+int gfx::gui::RocketSystemInterface::translateModifiers(bool alt, bool control, bool shift) const
 {
 	int modifiers = 0;
 	if (alt) modifiers |= Rocket::Core::Input::KM_ALT;

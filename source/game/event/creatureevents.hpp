@@ -11,7 +11,6 @@
 #include <GL/Util/Color.hpp>
 #include <raz/event.hpp>
 #include "common/GLhelper.hpp"
-#include "common/VectorSerializer.hpp"
 
 namespace game
 {
@@ -30,7 +29,7 @@ namespace event
 		template<class Serializer>
 		void operator()(Serializer& serializer)
 		{
-			serializer(creature_id)(hub_id)(platform_id)(common::VectorSerializer<size_t>(dimensions))(common::GLColorSerializer(color));
+			serializer(creature_id)(hub_id)(platform_id)(dimensions)(common::GLColorSerializer(color));
 		}
 	};
 

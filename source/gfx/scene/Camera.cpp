@@ -14,19 +14,25 @@ gfx::scene::Camera::Camera(float aspect_ratio) :
 	m_target(0, 0, 0),
 	m_dirty(true)
 {
-	m_proj = GL::Mat4::Perspective(GL::Rad(90), aspect_ratio, 0.1f, 1000.0f);
+	setAspectRatio(aspect_ratio);
 }
 
 gfx::scene::Camera::Camera(float aspect_ratio, GL::Vec3 position, GL::Vec3 target) :
 	m_position(position),
 	m_target(target),
-	m_dirty(false)
+	m_dirty(true)
 {
-	m_proj = GL::Mat4::Perspective(GL::Rad(90), aspect_ratio, 0.1f, 1000.0f);
+	setAspectRatio(aspect_ratio);
 }
 
 gfx::scene::Camera::~Camera()
 {
+}
+
+void gfx::scene::Camera::setAspectRatio(float aspect_ratio)
+{
+	m_proj = GL::Mat4::Perspective(GL::Rad(90), aspect_ratio, 0.1f, 1000.0f);
+	m_dirty = true;
 }
 
 GL::Vec3 gfx::scene::Camera::getPosition() const

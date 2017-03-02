@@ -69,7 +69,7 @@ static void createPlatforms(gfx::shape::PlatformRingShape::PlatformVector& platf
 		angle_rad = 0.5f * angle_step;
 		platform_count *= 2;
 		starting_radius += current_radius;
-		current_radius *= 0.5f;
+		current_radius *= 0.75f;
 	}
 }
 
