@@ -8,13 +8,14 @@
 #include <Rocket/Core.h>
 #include <Rocket/Controls.h>
 #include <Rocket/Debugger.h>
+#include "gfx/RenderThread.hpp"
 #include "gfx/gui/GUI.hpp"
 
-gfx::gui::GUI::GUI(GL::Window& window, GL::Context& gl, gfx::core::ShaderTable& shader_table) :
-	m_window(&window),
-	m_gl(&gl),
-	m_file_if(nullptr),
-	m_render_if(window, gl, shader_table.getGUIShader())
+gfx::gui::GUI::GUI(gfx::RenderThread& render_thread) :
+	m_render_thread(render_thread),
+	m_gui_shader(render_thread.getShaderTable().getGUIShader()),
+	m_file_if(render_thread.getMemoryPool()),
+	m_render_if(render_thread.getWindow(), render_thread.getContext(), m_gui_shader, render_thread.getMemoryPool())
 {
 	Rocket::Core::SetFileInterface(&m_file_if);
 	Rocket::Core::SetRenderInterface(&m_render_if);
@@ -27,12 +28,17 @@ gfx::gui::GUI::GUI(GL::Window& window, GL::Context& gl, gfx::core::ShaderTable& 
 
 	Rocket::Core::FontDatabase::LoadFontFace("arial.ttf");
 
-	m_context = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(m_window->GetWidth(), m_window->GetHeight()));
+	auto& window = m_render_thread.getWindow();
+	m_context = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(window.GetWidth(), window.GetHeight()));
 	if (m_context == NULL)
 	{
 		Rocket::Core::Shutdown();
 		throw std::runtime_error("librocket initialization error");
 	}
+
+	m_context->AddEventListener("mousedown", this);
+	m_context->AddEventListener("mouseup", this);
+	m_context->AddEventListener("mousemove", this);
 
 	//Rocket::Debugger::Initialise(m_context);
 	//Rocket::Debugger::SetVisible(true);
@@ -51,19 +57,61 @@ gfx::gui::GUI::~GUI()
 	Rocket::Core::Shutdown();
 }
 
-bool gfx::gui::GUI::feed(GL::Event& ev)
+bool gfx::gui::GUI::feed(const GL::Event& ev)
 {
-	return false;
+	const int modifiers = getKeyModifiers();
+	m_mouse_event_consumed = false;
+
+	switch (ev.Type)
+	{
+	case GL::Event::KeyDown:
+		return !m_context->ProcessKeyDown(m_system_if.translateKey(ev.Key.Code), modifiers);
+
+	case GL::Event::KeyUp:
+		return !m_context->ProcessKeyUp(m_system_if.translateKey(ev.Key.Code), modifiers);
+
+	case GL::Event::MouseDown:
+		m_context->ProcessMouseButtonDown(ev.Mouse.Button, modifiers);
+		break;
+
+	case GL::Event::MouseUp:
+		m_context->ProcessMouseButtonUp(ev.Mouse.Button, modifiers);
+		break;
+
+	case GL::Event::MouseWheel:
+		return !m_context->ProcessMouseWheel(-ev.Mouse.Delta, modifiers);
+
+	case GL::Event::MouseMove:
+		m_context->ProcessMouseMove(ev.Mouse.X, ev.Mouse.Y, modifiers);
+		break;
+	}
+
+	return m_mouse_event_consumed;
 }
 
 void gfx::gui::GUI::render()
 {
-	m_gl->Disable(GL::Capability::DepthTest);
-	m_gl->Disable(GL::Capability::CullFace);
+	auto& gl = m_render_thread.getContext();
+
+	gl.Disable(GL::Capability::DepthTest);
+	gl.Disable(GL::Capability::CullFace);
+
+	gl.UseProgram(m_gui_shader);
 
 	m_context->Update();
 	m_context->Render();
 
-	m_gl->Enable(GL::Capability::DepthTest);
-	m_gl->Enable(GL::Capability::CullFace);
+	gl.Enable(GL::Capability::DepthTest);
+	gl.Enable(GL::Capability::CullFace);
+}
+
+void gfx::gui::GUI::ProcessEvent(Rocket::Core::Event& ev)
+{
+	m_mouse_event_consumed = (ev.GetTargetElement() != m_context->GetRootElement());
+}
+
+int gfx::gui::GUI::getKeyModifiers() const
+{
+	auto& helper = m_render_thread.getInputHelper();
+	return m_system_if.translateModifiers(helper.isAltDown(), helper.isControlDown(), helper.isShiftDown());
 }

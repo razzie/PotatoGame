@@ -10,6 +10,7 @@
 #include <GL/Math/Mat4.hpp>
 #include <GL/GL/Context.hpp>
 #include <GL/GL/Program.hpp>
+#include <GL/Window/Event.hpp>
 #include <raz/memory.hpp>
 #include <raz/timer.hpp>
 #include "gfx/core/ShaderTable.hpp"
@@ -19,21 +20,22 @@
 
 namespace gfx
 {
+class RenderThread;
+
 namespace scene
 {
 	class Scene
 	{
 	public:
-		Scene(GL::Context& gl, gfx::core::ShaderTable& shader_table);
-		Scene(const Scene&) = delete;
+		Scene(RenderThread& render_thread);
 		~Scene();
-		Scene& operator=(const Scene&) = delete;
 		GL::Context& getContext();
 		raz::IMemoryPool* getMemoryPool();
 		Camera& getCamera();
 		const Camera& getCamera() const;
 		const GL::Mat4& getCameraMatrix() const;
 		GL::Program& getCurrentShader();
+		bool feed(const GL::Event& ev);
 		void render();
 
 		// hub functions
@@ -48,6 +50,7 @@ namespace scene
 		template<class T>
 		using Vector = std::vector<T, raz::Allocator<T>>;
 
+		RenderThread& m_render_thread;
 		GL::Context& m_gl;
 		gfx::core::ShaderTable& m_shader_table;
 		GL::Program* m_current_shader;

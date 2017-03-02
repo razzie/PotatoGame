@@ -10,6 +10,7 @@
 #include <GL/Window/Window.hpp>
 #include <GL/GL/Context.hpp>
 #include <GL/GL/Program.hpp>
+#include <GL/Math/Mat4.hpp>
 #include <raz/memory.hpp>
 
 namespace gfx
@@ -20,6 +21,8 @@ namespace gui
 	{
 	public:
 		RocketRenderInterface(GL::Window& window, GL::Context& gl, GL::Program& gui_shader, raz::IMemoryPool* memory = nullptr);
+		void resize();
+		const GL::Mat4 getProjectionMatrix() const;
 		virtual void RenderGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture, const Rocket::Core::Vector2f& translation);
 		virtual Rocket::Core::CompiledGeometryHandle CompileGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture);
 		virtual void RenderCompiledGeometry(Rocket::Core::CompiledGeometryHandle geometry, const Rocket::Core::Vector2f& translation);
@@ -34,7 +37,8 @@ namespace gui
 		GL::Window* m_window;
 		GL::Context* m_gl;
 		raz::IMemoryPool* m_memory;
-		GL::Program& m_shader;
+		GL::Mat4 m_proj;
+		GL::Program& m_gui_shader;
 	};
 }
 }

@@ -18,9 +18,8 @@ namespace scene
 	public:
 		Camera(float aspect_ratio);
 		Camera(float aspect_ratio, GL::Vec3 position, GL::Vec3 target);
-		Camera(const Camera&) = delete;
 		~Camera();
-		Camera& operator=(const Camera&) = delete;
+		void setAspectRatio(float aspect_ratio);
 		GL::Vec3 getPosition() const;
 		void setPosition(GL::Vec3 position);
 		GL::Vec3 getTarget() const;

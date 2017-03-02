@@ -10,7 +10,6 @@
 #include <GL/GL/VertexBuffer.hpp>
 #include <GL/GL/VertexArray.hpp>
 #include <GL/GL/Texture.hpp>
-#include <GL/Math/Mat4.hpp>
 #include "gfx/gui/RocketFileInterface.hpp"
 #include "gfx/gui/RocketRenderInterface.hpp"
 
@@ -39,13 +38,12 @@ public:
 		m_vertex_array.BindAttribute(m_shader.GetAttribute("tcoords"),  m_vertices, GL::Type::Float,        2, sizeof(Rocket::Core::Vertex), sizeof(float) * 2 + sizeof(unsigned char) * 4);
 	}
 
-	void render(GL::Window& window, GL::Context& gl, const Rocket::Core::Vector2f& translation)
+	void render(GL::Window& window, GL::Context& gl, const GL::Mat4& proj, const Rocket::Core::Vector2f& translation)
 	{
-		GL::Mat4 proj = GL::Mat4::Ortho(0.f, (float)window.GetWidth(), (float)window.GetHeight(), 0.f, 0.f, 1000.f);
 		GL::Mat4 world;
 		world.Translate({ translation.x, translation.y, 0.f });
 
-		gl.UseProgram(m_shader);
+		//gl.UseProgram(m_shader);
 
 		if (m_use_texture)
 		{
@@ -68,32 +66,50 @@ private:
 	bool m_use_texture;
 };
 
+
 gfx::gui::RocketRenderInterface::RocketRenderInterface(GL::Window& window, GL::Context& gl, GL::Program& gui_shader, raz::IMemoryPool* memory) :
 	m_window(&window),
 	m_gl(&gl),
 	m_memory(memory),
-	m_shader(gui_shader)
+	m_proj(GL::Mat4::Ortho(0.f, (float)window.GetWidth(), (float)window.GetHeight(), 0.f, 0.f, 1000.f)),
+	m_gui_shader(gui_shader)
 {
+}
+
+void gfx::gui::RocketRenderInterface::resize()
+{
+	auto width = m_window->GetWidth();
+	auto height = m_window->GetHeight();
+
+	Rocket::Core::Context* context = Rocket::Core::GetContext(0);
+	context->SetDimensions(Rocket::Core::Vector2i(width, height));
+
+	m_proj = GL::Mat4::Ortho(0.f, (float)width, (float)height, 0.f, 0.f, 1000.f);
+}
+
+const GL::Mat4 gfx::gui::RocketRenderInterface::getProjectionMatrix() const
+{
+	return m_proj;
 }
 
 void gfx::gui::RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture, const Rocket::Core::Vector2f& translation)
 {
-	CompiledGeometry geom(m_shader, vertices, num_vertices, indices, num_indices, texture);
-	geom.render(*m_window, *m_gl, translation);
+	CompiledGeometry geom(m_gui_shader, vertices, num_vertices, indices, num_indices, texture);
+	geom.render(*m_window, *m_gl, m_proj, translation);
 }
 
 Rocket::Core::CompiledGeometryHandle gfx::gui::RocketRenderInterface::CompileGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture)
 {
 	raz::Allocator<CompiledGeometry> alloc(m_memory);
 	CompiledGeometry* geom = std::allocator_traits<raz::Allocator<CompiledGeometry>>::allocate(alloc, 1);
-	std::allocator_traits<raz::Allocator<CompiledGeometry>>::construct(alloc, geom, m_shader, vertices, num_vertices, indices, num_indices, texture);
+	std::allocator_traits<raz::Allocator<CompiledGeometry>>::construct(alloc, geom, m_gui_shader, vertices, num_vertices, indices, num_indices, texture);
 
 	return Rocket::Core::CompiledGeometryHandle(geom);
 }
 
 void gfx::gui::RocketRenderInterface::RenderCompiledGeometry(Rocket::Core::CompiledGeometryHandle geometry, const Rocket::Core::Vector2f& translation)
 {
-	reinterpret_cast<CompiledGeometry*>(geometry)->render(*m_window, *m_gl, translation);
+	reinterpret_cast<CompiledGeometry*>(geometry)->render(*m_window, *m_gl, m_proj, translation);
 }
 
 void gfx::gui::RocketRenderInterface::ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHandle geometry)

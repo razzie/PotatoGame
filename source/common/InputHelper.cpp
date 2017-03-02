@@ -78,17 +78,17 @@ common::Point2D<int> common::InputHelper::getMouseDelta() const
 	return m_mouse_delta;
 }
 
-bool common::InputHelper::isLeftMouseButtonDown()
+bool common::InputHelper::isLeftMouseButtonDown() const
 {
 	return m_left_mouse_btn_down;
 }
 
-bool common::InputHelper::isRightMouseButtonDown()
+bool common::InputHelper::isRightMouseButtonDown() const
 {
 	return m_right_mouse_btn_down;
 }
 
-bool common::InputHelper::isMiddleMouseButtonDown()
+bool common::InputHelper::isMiddleMouseButtonDown() const
 {
 	return m_middle_mouse_btn_down;
 }

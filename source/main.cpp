@@ -7,14 +7,13 @@
 #include <iostream>
 #include <exception>
 #include <Windows.h>
-#include "Application.hpp"
+#include "Potato.hpp"
 
 int main(int argc, char** argv)
 {
 	try
 	{
-		Application app(argc, argv);
-		return app.run();
+		return Potato(argc, argv).run();
 	}
 	catch (std::exception& e)
 	{

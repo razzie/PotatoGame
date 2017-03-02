@@ -137,12 +137,12 @@
     <ClInclude Include="source\common\lerp.hpp" />
     <ClInclude Include="source\common\PI.hpp" />
     <ClInclude Include="source\common\stringhash.hpp" />
-    <ClInclude Include="source\common\VectorSerializer.hpp" />
     <ClInclude Include="source\game\event\creatureevents.hpp" />
     <ClInclude Include="source\game\creature\action\Action.hpp" />
     <ClInclude Include="source\game\creature\Creature.hpp" />
     <ClInclude Include="source\game\creature\trait\Trait.hpp" />
     <ClInclude Include="source\game\creature\trait\TraitMemory.hpp" />
+    <ClInclude Include="source\game\GameThread.hpp" />
     <ClInclude Include="source\game\level\entity\ChargeEntity.hpp" />
     <ClInclude Include="source\game\level\entity\Entity.hpp" />
     <ClInclude Include="source\game\level\entity\HubEntity.hpp" />
@@ -160,6 +160,8 @@
     <ClInclude Include="source\game\player\NetworkPlayer.hpp" />
     <ClInclude Include="source\game\player\Player.hpp" />
     <ClInclude Include="source\gfx\core\ShaderTable.hpp" />
+    <ClInclude Include="source\gfx\RenderThread.hpp" />
+    <ClInclude Include="source\Potato.hpp" />
     <ClInclude Include="source\resource\ArchiveReader.hpp" />
     <ClInclude Include="source\resource\ArchiveWriter.hpp" />
     <ClInclude Include="source\common\Encoder.hpp" />
@@ -301,7 +303,6 @@
     <ClInclude Include="source\thirdparty\Rocket\Debugger.h" />
     <ClInclude Include="source\thirdparty\Rocket\Debugger\Debugger.h" />
     <ClInclude Include="source\thirdparty\Rocket\Debugger\Header.h" />
-    <ClInclude Include="source\Application.hpp" />
     <ClInclude Include="source\common\BoundingBox2D.hpp" />
     <ClInclude Include="source\common\Circle2D.hpp" />
     <ClInclude Include="source\common\equals.hpp" />
@@ -388,10 +389,13 @@
     <None Include="source\thirdparty\Rocket\Core\Vector2.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\Application.cpp" />
     <ClCompile Include="source\common\InputHelper.cpp" />
+    <ClCompile Include="source\game\GameThread.cpp" />
     <ClCompile Include="source\game\level\entity\Entity.cpp" />
+    <ClCompile Include="source\game\player\HumanPlayer.cpp" />
     <ClCompile Include="source\gfx\core\ShaderTable.cpp" />
+    <ClCompile Include="source\gfx\RenderThread.cpp" />
+    <ClCompile Include="source\Potato.cpp" />
     <ClCompile Include="source\resource\ArchiveReader.cpp" />
     <ClCompile Include="source\resource\ArchiveWriter.cpp" />
     <ClCompile Include="source\common\Encoder.cpp" />

@@ -6,7 +6,14 @@
 
 #pragma once
 
+#include <GL/Platform.hpp>
+#include <GL/Window/Event.hpp>
 #include "game/player/Player.hpp"
+
+namespace gfx
+{
+	class RenderThread;
+}
 
 namespace game
 {
@@ -14,7 +21,13 @@ namespace player
 {
 	class HumanPlayer : public Player
 	{
+	public:
+		HumanPlayer(gfx::RenderThread& render_thread);
+		~HumanPlayer();
+		bool feed(const GL::Event& ev);
 
+	private:
+		gfx::RenderThread& m_render_thread;
 	};
 }
 }
