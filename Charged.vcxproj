@@ -161,6 +161,13 @@
     <ClInclude Include="source\game\player\Player.hpp" />
     <ClInclude Include="source\gfx\core\ShaderTable.hpp" />
     <ClInclude Include="source\gfx\RenderThread.hpp" />
+    <ClInclude Include="source\gfx\scene\model\ChargeModel.hpp" />
+    <ClInclude Include="source\gfx\scene\model\PortalModel.hpp" />
+    <ClInclude Include="source\gfx\scene\model\ResourceModel.hpp" />
+    <ClInclude Include="source\gfx\scene\model\SpawnModel.hpp" />
+    <ClInclude Include="source\gfx\scene\model\TraceModel.hpp" />
+    <ClInclude Include="source\gfx\scene\model\TransportModel.hpp" />
+    <ClInclude Include="source\gfx\scene\model\TrapModel.hpp" />
     <ClInclude Include="source\Potato.hpp" />
     <ClInclude Include="source\resource\ArchiveReader.hpp" />
     <ClInclude Include="source\resource\ArchiveWriter.hpp" />
@@ -395,6 +402,13 @@
     <ClCompile Include="source\game\player\HumanPlayer.cpp" />
     <ClCompile Include="source\gfx\core\ShaderTable.cpp" />
     <ClCompile Include="source\gfx\RenderThread.cpp" />
+    <ClCompile Include="source\gfx\scene\model\ChargeModel.cpp" />
+    <ClCompile Include="source\gfx\scene\model\PortalModel.cpp" />
+    <ClCompile Include="source\gfx\scene\model\ResourceModel.cpp" />
+    <ClCompile Include="source\gfx\scene\model\SpawnModel.cpp" />
+    <ClCompile Include="source\gfx\scene\model\TraceModel.cpp" />
+    <ClCompile Include="source\gfx\scene\model\TransportModel.cpp" />
+    <ClCompile Include="source\gfx\scene\model\TrapModel.cpp" />
     <ClCompile Include="source\Potato.cpp" />
     <ClCompile Include="source\resource\ArchiveReader.cpp" />
     <ClCompile Include="source\resource\ArchiveWriter.cpp" />

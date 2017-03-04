@@ -8,11 +8,13 @@
 #include "gfx/scene/model/HubModel.hpp"
 #include "gfx/shape/VoronoiPillarShape.hpp"
 
-gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, unsigned size, unsigned complexity) :
+gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, uint32_t size, GL::Vec3 position) :
 	Model(id)
 {
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 	raz::Random random(seed);
+
+	const unsigned complexity = size + random(-1, 2);
 
 	gfx::shape::VoronoiPillarShape pillar((float)size, complexity);
 	pillar.generate(random, meshbuffer);
@@ -25,6 +27,8 @@ gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t
 	auto& mesh = getMesh();
 	mesh = meshbuffer.createMesh();
 	mesh.bindShader(scene.getHubShader());
+
+	setPosition(position);
 }
 
 void gfx::scene::model::HubModel::render(scene::Scene& scene)
@@ -43,7 +47,10 @@ void gfx::scene::model::HubModel::render(scene::Scene& scene)
 	getMesh().render(gl);
 }
 
-const gfx::shape::PlatformRingShape::Platform& gfx::scene::model::HubModel::getPlatform(size_t id)
+const gfx::shape::PlatformRingShape::Platform* gfx::scene::model::HubModel::getPlatform(size_t id)
 {
-	return m_platforms[id];
+	if (id < m_platforms.size())
+		return &m_platforms[id];
+	else
+		return nullptr;
 }

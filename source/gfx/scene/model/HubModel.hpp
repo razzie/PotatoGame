@@ -6,8 +6,6 @@
 
 #pragma once
 
-#include <vector>
-#include <raz/memory.hpp>
 #include "gfx/scene/model/Model.hpp"
 #include "gfx/shape/PlatformRingShape.hpp"
 
@@ -20,9 +18,9 @@ namespace model
 	class HubModel : public Model
 	{
 	public:
-		HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, unsigned size, unsigned complexity);
+		HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, uint32_t size, GL::Vec3 position);
 		virtual void render(scene::Scene& scene);
-		const gfx::shape::PlatformRingShape::Platform& getPlatform(size_t id);
+		const gfx::shape::PlatformRingShape::Platform* getPlatform(size_t id);
 
 	private:
 		gfx::shape::PlatformRingShape::PlatformVector m_platforms;
