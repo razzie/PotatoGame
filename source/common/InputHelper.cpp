@@ -8,8 +8,8 @@
 #include "common/InputHelper.hpp"
 
 common::InputHelper::InputHelper() :
-	m_mouse_pos{0,0},
-	m_mouse_delta{ 0,0 },
+	m_mouse_pos{ 0, 0 },
+	m_mouse_delta{ 0, 0 },
 	m_left_mouse_btn_down(false),
 	m_right_mouse_btn_down(false),
 	m_middle_mouse_btn_down(false),
@@ -19,7 +19,7 @@ common::InputHelper::InputHelper() :
 {
 }
 
-void common::InputHelper::feed(GL::Event& ev)
+void common::InputHelper::feed(const GL::Event& ev)
 {
 	switch (ev.Type)
 	{

@@ -25,6 +25,7 @@ namespace player
 		HumanPlayer(gfx::RenderThread& render_thread);
 		~HumanPlayer();
 		bool feed(const GL::Event& ev);
+		void update();
 
 	private:
 		gfx::RenderThread& m_render_thread;

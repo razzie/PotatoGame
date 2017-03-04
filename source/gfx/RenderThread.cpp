@@ -99,6 +99,9 @@ int gfx::RenderThread::run()
 				continue;
 		}
 
+		m_gui.update();
+		m_player.update();
+
 		m_gl.Clear(GL::Buffer::Depth | GL::Buffer::Color);
 		m_gl.ClearColor(GL::Color(255, 255, 255));
 

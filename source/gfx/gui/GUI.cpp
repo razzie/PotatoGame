@@ -91,6 +91,11 @@ bool gfx::gui::GUI::feed(const GL::Event& ev)
 	return m_mouse_event_consumed;
 }
 
+void gfx::gui::GUI::update()
+{
+	m_context->Update();
+}
+
 void gfx::gui::GUI::render()
 {
 	auto& gl = m_render_thread.getContext();
@@ -98,7 +103,6 @@ void gfx::gui::GUI::render()
 	gl.Disable(GL::Capability::DepthTest);
 	gl.UseProgram(m_gui_shader);
 
-	m_context->Update();
 	m_context->Render();
 
 	gl.Enable(GL::Capability::DepthTest);
