@@ -14,11 +14,11 @@ namespace scene
 {
 namespace model
 {
-	class CreatureModel : public Model
+	class PortalModel : public Model
 	{
 	public:
-		CreatureModel(scene::Scene& scene, uint32_t id, uint64_t seed, GL::Color color, uint32_t hub_id, uint32_t platform_id);
-		virtual void render(scene::Scene& scene);
+		PortalModel(Scene& scene, uint32_t id, uint32_t hub_id, uint32_t platform_id);
+		virtual void render(Scene& scene);
 	};
 }
 }
