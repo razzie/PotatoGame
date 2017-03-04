@@ -20,3 +20,7 @@ bool game::player::HumanPlayer::feed(const GL::Event& ev)
 {
 	return false;
 }
+
+void game::player::HumanPlayer::update()
+{
+}

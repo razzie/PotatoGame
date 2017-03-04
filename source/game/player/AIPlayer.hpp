@@ -14,6 +14,10 @@ namespace player
 {
 	class AIPlayer : public Player
 	{
+	public:
+		AIPlayer();
+		~AIPlayer();
+		void update();
 
 	};
 }

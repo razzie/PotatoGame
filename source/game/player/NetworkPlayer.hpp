@@ -14,6 +14,10 @@ namespace player
 {
 	class NetworkPlayer : public Player
 	{
+	public:
+		NetworkPlayer();
+		~NetworkPlayer();
+		void update();
 
 	};
 }

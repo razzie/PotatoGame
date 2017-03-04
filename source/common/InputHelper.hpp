@@ -15,7 +15,7 @@ namespace common
 	{
 	public:
 		InputHelper();
-		void feed(GL::Event& ev);
+		void feed(const GL::Event& ev);
 		Point2D<int> getMousePosition() const;
 		Point2D<int> getMouseDelta() const;
 		bool isLeftMouseButtonDown() const;

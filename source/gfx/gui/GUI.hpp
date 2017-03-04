@@ -26,6 +26,7 @@ namespace gui
 		GUI(RenderThread& render_thread);
 		~GUI();
 		bool feed(const GL::Event& ev);
+		void update();
 		void render();
 		virtual void ProcessEvent(Rocket::Core::Event& ev);
 
