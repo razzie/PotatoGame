@@ -408,6 +408,9 @@
     <ClCompile Include="source\gfx\scene\model\TrapModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\player\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\common\IDPool.hpp">
@@ -1022,12 +1025,6 @@
     <ClInclude Include="source\game\player\NetworkPlayer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\event\creatureevents.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\event\hubevents.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\level\RemoteLevel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1164,6 +1161,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\gfx\scene\model\TrapModel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\event\entityevents.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

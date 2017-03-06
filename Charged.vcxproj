@@ -137,7 +137,7 @@
     <ClInclude Include="source\common\lerp.hpp" />
     <ClInclude Include="source\common\PI.hpp" />
     <ClInclude Include="source\common\stringhash.hpp" />
-    <ClInclude Include="source\game\event\creatureevents.hpp" />
+    <ClInclude Include="source\game\event\entityevents.hpp" />
     <ClInclude Include="source\game\creature\action\Action.hpp" />
     <ClInclude Include="source\game\creature\Creature.hpp" />
     <ClInclude Include="source\game\creature\trait\Trait.hpp" />
@@ -319,7 +319,6 @@
     <ClInclude Include="source\common\Polygon2D.hpp" />
     <ClInclude Include="source\common\Quaternion.hpp" />
     <ClInclude Include="source\common\Triangle2D.hpp" />
-    <ClInclude Include="source\game\event\hubevents.hpp" />
     <ClInclude Include="source\gfx\gui\GUI.hpp" />
     <ClInclude Include="source\gfx\gui\RocketFileInterface.hpp" />
     <ClInclude Include="source\gfx\gui\RocketRenderInterface.hpp" />
@@ -400,6 +399,7 @@
     <ClCompile Include="source\game\GameThread.cpp" />
     <ClCompile Include="source\game\level\entity\Entity.cpp" />
     <ClCompile Include="source\game\player\HumanPlayer.cpp" />
+    <ClCompile Include="source\game\player\Player.cpp" />
     <ClCompile Include="source\gfx\core\ShaderTable.cpp" />
     <ClCompile Include="source\gfx\RenderThread.cpp" />
     <ClCompile Include="source\gfx\scene\model\ChargeModel.cpp" />
