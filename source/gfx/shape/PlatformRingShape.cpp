@@ -97,7 +97,7 @@ static void insertPlatforms(const gfx::shape::PlatformRingShape::PlatformVector&
 		inner2.position.Y -= 0.25f;
 		outer1.position.Y -= 0.25f;
 		outer2.position.Y -= 0.25f;
-		gfx::core::Vertex center{ platform.center, GL::Vec3(0.f, -1.f, 0.f), GL::Color() };
+		gfx::core::Vertex center{ platform.center, GL::Vec3(0.f, -1.f, 0.f), GL::Color(color, color, color) };
 		center.position.Y -= 1.f;
 
 		// insert bottom vertices
