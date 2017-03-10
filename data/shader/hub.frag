@@ -8,6 +8,6 @@ uniform vec3 light_source;
 void main()
 {
 	float light_dot = dot(normalize(frag_normal), normalize(light_source - frag_position));
-	float light = clamp(light_dot, 0.0, 1.0) * 0.2 + 0.8;
+	float light = clamp(light_dot, 0.0, 1.0) * 0.5 + 0.5;
 	out_color = vec4(frag_color.rgb * light, 1.0);
 }
