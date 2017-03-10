@@ -36,6 +36,7 @@ void gfx::scene::model::TrapModel::render(Scene& scene)
 	program.SetUniform("normal_mat", normal);
 	program.SetUniform("screen_mat", scene.getCameraMatrix() * world);
 	program.SetUniform("light_source", scene.getCamera().getPosition());
+	program.SetUniform("diffuse_color", GL::Vec4(255.f, 255.f, 255.f, 255.f));
 
 	GL::Context& gl = scene.getContext();
 	getMesh().render(gl);
