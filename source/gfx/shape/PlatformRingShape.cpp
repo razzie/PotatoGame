@@ -10,6 +10,7 @@
 
 static void createPlatforms(gfx::shape::PlatformRingShape::PlatformVector& platforms, raz::Random& random, unsigned radius)
 {
+	const float global_height = 0.75f * radius;
 	const unsigned inner_platform_count = radius * 3;
 	unsigned platform_count = inner_platform_count;
 	float angle_step = static_cast<float>(common::PI * 2 / inner_platform_count);
@@ -50,7 +51,7 @@ static void createPlatforms(gfx::shape::PlatformRingShape::PlatformVector& platf
 			float z1 = -std::cos(angle_rad);
 			float x2 = std::sin(angle_rad + angle_step);
 			float z2 = -std::cos(angle_rad + angle_step);
-			float height = random(0.f, 0.25f);
+			float height = global_height + random(0.f, 0.25f);
 
 			gfx::shape::PlatformRingShape::Platform platform;
 			platform.inner1 = randomize(GL::Vec3(x1 * starting_radius, -0.25f * i + height, z1 * starting_radius));
@@ -165,7 +166,7 @@ static void insertPlatforms(const gfx::shape::PlatformRingShape::PlatformVector&
 
 static void insertWires(const gfx::shape::PlatformRingShape::PlatformVector& platforms, raz::Random& random, unsigned radius, unsigned complexity, gfx::core::MeshBuffer<>& meshbuffer)
 {
-	const unsigned wires = complexity * 2;
+	const unsigned wires = complexity;
 	const unsigned max_platform = platforms.size() - 1;
 
 	const float min_distance = 0.5f * radius;
@@ -192,6 +193,18 @@ static void insertWires(const gfx::shape::PlatformRingShape::PlatformVector& pla
 		p2.Y -= 0.75f;
 
 		gfx::shape::WireShape wire(p1, p2, 8, 0.25f * distance);
+		wire.generate(meshbuffer);
+	}
+
+	for (unsigned i = 0; i < wires; ++i)
+	{
+		auto& platform = platforms[random(0u, max_platform)];
+		GL::Vec3 p1 = platform.center;
+		GL::Vec3 p2 { 0.f, random(0.25f * radius, 1.f * radius), 0.f };
+
+		p1.Y -= 0.75f;
+
+		gfx::shape::WireShape wire(p1, p2, 8, 0.25f * radius);
 		wire.generate(meshbuffer);
 	}
 }
