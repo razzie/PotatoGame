@@ -178,5 +178,11 @@ namespace GL
 		glUniformMatrix4fv( uniform, 1, GL_FALSE, value.m );
 	}
 
+	void Program::SetUniform( const Uniform& uniform, const Color& value)
+	{
+		const float m = 1.f / 255.f;
+		glUniform4f( uniform, m * value.R, m * value.G, m * value.B, m * value.A );
+	}
+
 	GC Program::gc;
 }
