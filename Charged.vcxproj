@@ -142,6 +142,7 @@
     <ClInclude Include="source\game\creature\Creature.hpp" />
     <ClInclude Include="source\game\creature\trait\Trait.hpp" />
     <ClInclude Include="source\game\creature\trait\TraitMemory.hpp" />
+    <ClInclude Include="source\game\event\gameevents.hpp" />
     <ClInclude Include="source\game\GameThread.hpp" />
     <ClInclude Include="source\game\level\entity\ChargeEntity.hpp" />
     <ClInclude Include="source\game\level\entity\Entity.hpp" />

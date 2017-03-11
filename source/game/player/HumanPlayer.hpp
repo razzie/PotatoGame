@@ -27,6 +27,25 @@ namespace player
 		bool feed(const GL::Event& ev);
 		void update();
 
+		void handle(event::TickEvent& ev);
+
+		void handle(event::AddHubEvent& ev);
+		void handle(event::AddTransportEvent& ev);
+		void handle(event::AddChargeEvent& ev);
+		void handle(event::AddResourceEvent& ev);
+		void handle(event::AddTraceEvent& ev);
+		void handle(event::AddSpawnEvent& ev);
+		void handle(event::AddPortalEvent& ev);
+		void handle(event::AddTrapEvent& ev);
+		void handle(event::AddCreatureEvent& ev);
+		void handle(event::RemoveChargeEvent& ev);
+		void handle(event::RemoveResourceEvent& ev);
+		void handle(event::RemoveTraceEvent& ev);
+		void handle(event::RemoveTrapEvent& ev);
+		void handle(event::RemoveCreatureEvent& ev);
+		void handle(event::ResetSpawnColorEvent& ev);
+		void handle(event::MoveCreatureEvent& ev);
+
 	private:
 		gfx::RenderThread& m_render_thread;
 	};
