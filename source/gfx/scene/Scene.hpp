@@ -15,6 +15,7 @@
 #include <raz/timer.hpp>
 #include "gfx/core/ShaderTable.hpp"
 #include "gfx/scene/Camera.hpp"
+#include "gfx/scene/Horizon.hpp"
 #include "gfx/scene/model/HubModel.hpp"
 #include "gfx/scene/model/TransportModel.hpp"
 #include "gfx/scene/model/ChargeModel.hpp"
@@ -42,6 +43,7 @@ namespace scene
 		const Camera& getCamera() const;
 		const GL::Mat4& getCameraMatrix() const;
 		GL::Program& getCurrentShader();
+		float getElapsedTime() const;
 		bool getHubPlatformPosition(uint32_t hub_id, uint32_t platform_id, GL::Vec3& position);
 		bool feed(const GL::Event& ev);
 		void render();
@@ -108,7 +110,10 @@ namespace scene
 		raz::IMemoryPool* m_memory;
 		gfx::core::ShaderTable& m_shader_table;
 		GL::Program* m_current_shader;
+		raz::Timer m_timer;
+		float m_time;
 		Camera m_cam;
+		Horizon m_horizon;
 		Vector<model::HubModel> m_hubs;
 		Vector<model::TransportModel> m_transports;
 		Vector<model::ChargeModel> m_charges;

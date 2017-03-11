@@ -17,6 +17,7 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	m_shader_table(render_thread.getShaderTable()),
 	m_current_shader(nullptr),
 	m_cam(render_thread.getAspectRatio()),
+	m_horizon(render_thread.getShaderTable().getHorizonShader()),
 	m_hubs(m_memory),
 	m_transports(m_memory),
 	m_charges(m_memory),
@@ -65,6 +66,11 @@ const GL::Mat4& gfx::scene::Scene::getCameraMatrix() const
 GL::Program& gfx::scene::Scene::getCurrentShader()
 {
 	return *m_current_shader;
+}
+
+float gfx::scene::Scene::getElapsedTime() const
+{
+	return m_time;
 }
 
 bool gfx::scene::Scene::getHubPlatformPosition(uint32_t hub_id, uint32_t platform_id, GL::Vec3& position)
@@ -162,6 +168,10 @@ void renderModels(std::vector<Model, raz::Allocator<Model>>& models, gfx::scene:
 
 void gfx::scene::Scene::render()
 {
+	m_time = 0.001f * m_timer.peekElapsed();
+
+	m_horizon.render(*this);
+
 	m_current_shader = &getHubShader();
 	renderModels(m_hubs, *this);
 

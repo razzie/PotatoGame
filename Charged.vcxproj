@@ -162,6 +162,7 @@
     <ClInclude Include="source\game\player\Player.hpp" />
     <ClInclude Include="source\gfx\core\ShaderTable.hpp" />
     <ClInclude Include="source\gfx\RenderThread.hpp" />
+    <ClInclude Include="source\gfx\scene\Horizon.hpp" />
     <ClInclude Include="source\gfx\scene\model\ChargeModel.hpp" />
     <ClInclude Include="source\gfx\scene\model\PortalModel.hpp" />
     <ClInclude Include="source\gfx\scene\model\ResourceModel.hpp" />
@@ -403,6 +404,7 @@
     <ClCompile Include="source\game\player\Player.cpp" />
     <ClCompile Include="source\gfx\core\ShaderTable.cpp" />
     <ClCompile Include="source\gfx\RenderThread.cpp" />
+    <ClCompile Include="source\gfx\scene\Horizon.cpp" />
     <ClCompile Include="source\gfx\scene\model\ChargeModel.cpp" />
     <ClCompile Include="source\gfx\scene\model\PortalModel.cpp" />
     <ClCompile Include="source\gfx\scene\model\ResourceModel.cpp" />

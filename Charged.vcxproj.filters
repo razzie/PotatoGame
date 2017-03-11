@@ -411,6 +411,9 @@
     <ClCompile Include="source\game\player\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\gfx\scene\Horizon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\common\IDPool.hpp">
@@ -1167,6 +1170,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\common\GLlerp.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gfx\scene\Horizon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
