@@ -7,7 +7,7 @@
 #include <cmath>
 #include <GL/Math/Mat4.hpp>
 #include "common/PI.hpp"
-#include "common/GLhelper.hpp"
+#include "common/GLlerp.hpp"
 #include "gfx/shape/WireShape.hpp"
 
 gfx::shape::WireShape::WireShape(GL::Vec3 start, GL::Vec3 end, size_t segments, float drop, float thickness, GL::Color color) :

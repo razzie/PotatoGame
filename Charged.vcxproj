@@ -314,7 +314,7 @@
     <ClInclude Include="source\common\BoundingBox2D.hpp" />
     <ClInclude Include="source\common\Circle2D.hpp" />
     <ClInclude Include="source\common\equals.hpp" />
-    <ClInclude Include="source\common\GLhelper.hpp" />
+    <ClInclude Include="source\common\GLlerp.hpp" />
     <ClInclude Include="source\common\Line2D.hpp" />
     <ClInclude Include="source\common\Point2D.hpp" />
     <ClInclude Include="source\common\Polygon2D.hpp" />

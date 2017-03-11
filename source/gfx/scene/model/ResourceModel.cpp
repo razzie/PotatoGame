@@ -36,7 +36,7 @@ void gfx::scene::model::ResourceModel::render(Scene& scene)
 	program.SetUniform("normal_mat", normal);
 	program.SetUniform("screen_mat", scene.getCameraMatrix() * world);
 	program.SetUniform("light_source", scene.getCamera().getPosition());
-	program.SetUniform("diffuse_color", GL::Vec4(255.f, 255.f, 255.f, 255.f));
+	program.SetUniform("diffuse_color", GL::Color(255, 255, 255));
 
 	GL::Context& gl = scene.getContext();
 	getMesh().render(gl);

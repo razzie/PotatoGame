@@ -30,6 +30,7 @@
 #include <GL/GL/Shader.hpp>
 #include <GL/Math/Mat3.hpp>
 #include <GL/Math/Mat4.hpp>
+#include <GL/Util/Color.hpp>
 #include <exception>
 #include <string>
 
@@ -102,6 +103,7 @@ namespace GL
 		void SetUniform( const Uniform& uniform, const Vec4* values, uint count );
 		void SetUniform( const Uniform& uniform, const Mat3& value );
 		void SetUniform( const Uniform& uniform, const Mat4& value );
+		void SetUniform( const Uniform& uniform, const Color& value );
 
 	private:
 		static GC gc;

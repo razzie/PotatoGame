@@ -1013,9 +1013,6 @@
     <ClInclude Include="source\common\lerp.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\common\GLhelper.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\common\bezier.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1167,6 +1164,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\game\event\gameevents.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\common\GLlerp.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
