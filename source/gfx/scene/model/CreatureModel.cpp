@@ -38,8 +38,9 @@ void gfx::scene::model::CreatureModel::render(scene::Scene& scene)
 	program.SetUniform("world_mat", world);
 	program.SetUniform("normal_mat", normal);
 	program.SetUniform("screen_mat", scene.getCameraMatrix() * world);
-	program.SetUniform("light_source", scene.getCamera().getPosition());
 	program.SetUniform("diffuse_color", GL::Color(255, 255, 255));
+	program.SetUniform("light_source", scene.getCamera().getPosition());
+	program.SetUniform("time", scene.getElapsedTime());
 
 	GL::Context& gl = scene.getContext();
 	getMesh().render(gl);

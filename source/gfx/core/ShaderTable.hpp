@@ -18,10 +18,12 @@ namespace core
 	public:
 		ShaderTable(raz::IMemoryPool* memory = nullptr);
 		GL::Program& getGUIShader();
+		GL::Program& getHorizonShader();
 		GL::Program& getHubShader();
 
 	private:
 		GL::Program m_gui;
+		GL::Program m_horizon;
 		GL::Program m_hub;
 	};
 }
