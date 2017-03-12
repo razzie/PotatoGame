@@ -72,30 +72,30 @@ float Cubist3D(vec3 P, vec2 range_clamp)
 
 vec4 getHorizonTexture()
 {
-	vec3 position = frag_position;
-	float dist = distance(position, light_source);
-	
+	float v = Cubist3D(0.25 * frag_position + vec3(0.0, 0.1 * time, 0.0), vec2(-2.0, 1.0 / 3.0)) * 0.1 + 0.9;
+	return vec4(v, v, v, 1.0);
+}
+
+void main()
+{
+	float dist = distance(frag_position, light_source);
+
 	if (dist > 100.0)
 	{
 		out_color = vec4(1.0, 1.0, 1.0, 0.0);
 	}
 	else
 	{
-		float v = Cubist3D(0.25 * position + vec3(0.0, 0.1 * time, 0.0), vec2(-2.0, 1.0 / 3.0)) * 0.1 + 0.9;
+		float light_dot = dot(normalize(frag_normal), normalize(light_source - frag_position));
+		float light = (light_dot + 1.0) * 0.25 + 0.5;
+		vec4 color = vec4(frag_color.rgb * light, 1.0);
+		
+		if (frag_position.y < 1.0)
+			color = mix(getHorizonTexture(), color, frag_position.y);
+		
 		if (dist > 50.0)
-			v = mix(v, 1.0, (dist - 50.f) * 0.02);
-		return vec4(v, v, v, 1.0);
-	}
-}
-
-void main()
-{
-	float light_dot = dot(normalize(frag_normal), normalize(light_source - frag_position));
-	float light = (light_dot + 1.0) * 0.25 + 0.5;
-	vec4 color = vec4(frag_color.rgb * light, 1.0);
-	
-	if (frag_position.y > 1.0)
+			color = mix(color, vec4(1.0, 1.0, 1.0, 1.0), (dist - 50.f) * 0.02);
+		
 		out_color = color;
-	else
-		out_color = mix(getHorizonTexture(), color, frag_position.y);
+	}
 }
