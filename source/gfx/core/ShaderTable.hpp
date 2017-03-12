@@ -20,11 +20,13 @@ namespace core
 		GL::Program& getGUIShader();
 		GL::Program& getHorizonShader();
 		GL::Program& getHubShader();
+		GL::Program& getEntityShader();
 
 	private:
 		GL::Program m_gui;
 		GL::Program m_horizon;
 		GL::Program m_hub;
+		GL::Program m_entity;
 	};
 }
 }
