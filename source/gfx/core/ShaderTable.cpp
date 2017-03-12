@@ -13,6 +13,7 @@ gfx::core::ShaderTable::ShaderTable(raz::IMemoryPool* memory)
 	loader.loadShader("gui", m_gui);
 	loader.loadShader("horizon", m_horizon);
 	loader.loadShader("hub", m_hub);
+	loader.loadShader("entity", m_entity);
 }
 
 GL::Program& gfx::core::ShaderTable::getGUIShader()
@@ -28,4 +29,9 @@ GL::Program& gfx::core::ShaderTable::getHorizonShader()
 GL::Program& gfx::core::ShaderTable::getHubShader()
 {
 	return m_hub;
+}
+
+GL::Program& gfx::core::ShaderTable::getEntityShader()
+{
+	return m_entity;
 }

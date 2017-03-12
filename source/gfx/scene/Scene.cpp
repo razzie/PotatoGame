@@ -31,7 +31,7 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	m_cam.setPosition({ -8, 8, -8 });
 
 	addHub(0, std::time(NULL), 6, GL::Vec3());
-	addCreature(0, std::time(NULL), GL::Color(255, 128, 128), 0, 0);
+	addCreature(0, std::time(NULL), GL::Color(255, 0, 0), 0, 0);
 }
 
 gfx::scene::Scene::~Scene()
@@ -235,7 +235,7 @@ gfx::scene::model::HubModel* gfx::scene::Scene::getHub(uint32_t id)
 
 GL::Program& gfx::scene::Scene::getTransportShader()
 {
-	return m_shader_table.getHubShader();
+	return m_shader_table.getEntityShader();
 }
 
 gfx::scene::model::TransportModel* gfx::scene::Scene::addTransport(uint32_t id, uint32_t hub1_id, uint32_t hub1_platform_id, uint32_t hub2_id, uint32_t hub2_platform_id)
@@ -252,7 +252,7 @@ gfx::scene::model::TransportModel* gfx::scene::Scene::getTransport(uint32_t id)
 
 GL::Program& gfx::scene::Scene::getChargeShader()
 {
-	return m_shader_table.getHubShader();
+	return m_shader_table.getEntityShader();
 }
 
 gfx::scene::model::ChargeModel* gfx::scene::Scene::addCharge(uint32_t id, uint32_t hub_id, uint32_t platform_id)
@@ -274,7 +274,7 @@ void gfx::scene::Scene::removeCharge(uint32_t id)
 
 GL::Program& gfx::scene::Scene::getResourceShader()
 {
-	return m_shader_table.getHubShader();
+	return m_shader_table.getEntityShader();
 }
 
 gfx::scene::model::ResourceModel* gfx::scene::Scene::addResource(uint32_t id, uint32_t value, uint32_t hub_id, uint32_t platform_id)
@@ -296,7 +296,7 @@ void gfx::scene::Scene::removeResource(uint32_t id)
 
 GL::Program& gfx::scene::Scene::getTraceShader()
 {
-	return m_shader_table.getHubShader();
+	return m_shader_table.getEntityShader();
 }
 
 gfx::scene::model::TraceModel* gfx::scene::Scene::addTrace(uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id)
@@ -318,7 +318,7 @@ void gfx::scene::Scene::removeTrace(uint32_t id)
 
 GL::Program& gfx::scene::Scene::getSpawnShader()
 {
-	return m_shader_table.getHubShader();
+	return m_shader_table.getEntityShader();
 }
 
 gfx::scene::model::SpawnModel* gfx::scene::Scene::addSpawn(uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id)
@@ -342,7 +342,7 @@ void gfx::scene::Scene::resetSpawnColor(uint32_t id, GL::Color color)
 
 GL::Program& gfx::scene::Scene::getPortalShader()
 {
-	return m_shader_table.getHubShader();
+	return m_shader_table.getEntityShader();
 }
 
 gfx::scene::model::PortalModel* gfx::scene::Scene::addPortal(uint32_t id, uint32_t hub_id, uint32_t platform_id)
@@ -359,7 +359,7 @@ gfx::scene::model::PortalModel* gfx::scene::Scene::getPortal(uint32_t id)
 
 GL::Program& gfx::scene::Scene::getTrapShader()
 {
-	return m_shader_table.getHubShader();
+	return m_shader_table.getEntityShader();
 }
 
 gfx::scene::model::TrapModel* gfx::scene::Scene::addTrap(uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id)
@@ -381,7 +381,7 @@ void gfx::scene::Scene::removeTrap(uint32_t id)
 
 GL::Program& gfx::scene::Scene::getCreatureShader()
 {
-	return m_shader_table.getHubShader();
+	return m_shader_table.getEntityShader();
 }
 
 gfx::scene::model::CreatureModel* gfx::scene::Scene::addCreature(uint32_t id, uint64_t seed, GL::Color color, uint32_t hub_id, uint32_t platform_id)
