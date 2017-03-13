@@ -107,10 +107,10 @@ static void insertLastRing(size_t edges, bool sharp_edges, float height, float r
 #pragma warning(pop)
 
 
-gfx::shape::CreatureShape::CreatureShape(raz::Random& random, GL::Color color, raz::IMemoryPool* memory) :
+gfx::shape::CreatureShape::CreatureShape(raz::Random& random, raz::IMemoryPool* memory) :
 	m_control_points(memory),
-	m_edge_mode(random(0, 2)),
-	m_color(color)
+	m_shade((unsigned char)random(192u, 255u)),
+	m_edge_mode(random(0, 2))
 {
 	const size_t parts = random(3, 8);
 
@@ -124,10 +124,10 @@ gfx::shape::CreatureShape::CreatureShape(raz::Random& random, GL::Color color, r
 	m_control_points.push_back({ 0.0625f, 0.25f * (parts - 1) });
 }
 
-gfx::shape::CreatureShape::CreatureShape(const Dimensions& dimensions, unsigned edge_mode, GL::Color color) :
+gfx::shape::CreatureShape::CreatureShape(const Dimensions& dimensions, unsigned char shade, unsigned edge_mode) :
 	m_control_points(dimensions.get_allocator()),
-	m_edge_mode(edge_mode),
-	m_color(color)
+	m_shade(shade),
+	m_edge_mode(edge_mode)
 {
 	m_control_points.push_back({ 0.0625f, 0.f });
 	for (size_t i = 0; i < dimensions.size(); ++i)
@@ -141,6 +141,7 @@ gfx::shape::CreatureShape::CreatureShape(const Dimensions& dimensions, unsigned 
 
 void gfx::shape::CreatureShape::generate(gfx::core::MeshBuffer<>& meshbuffer) const
 {
+	const GL::Color color(m_shade, m_shade, m_shade);
 	const size_t detail = m_control_points.size() * 2;
 	unsigned edges;
 	bool sharp_edges;
@@ -162,15 +163,15 @@ void gfx::shape::CreatureShape::generate(gfx::core::MeshBuffer<>& meshbuffer) co
 	}
 
 	auto pfirst = common::bezier(m_control_points, 0.f);
-	insertFirstRing(edges, false, pfirst.y, pfirst.x, m_color, meshbuffer);
+	insertFirstRing(edges, false, pfirst.y, pfirst.x, color, meshbuffer);
 
 	for (size_t i = 1; i < detail; ++i)
 	{
 		float t = (float)i / detail;
 		auto p = common::bezier(m_control_points, t);
-		insertRing(edges, sharp_edges, p.y, p.x, m_color, meshbuffer);
+		insertRing(edges, sharp_edges, p.y, p.x, color, meshbuffer);
 	}
 
 	auto plast = common::bezier(m_control_points, 1.f);
-	insertLastRing(edges, false, plast.y, plast.x, m_color, meshbuffer);
+	insertLastRing(edges, false, plast.y, plast.x, color, meshbuffer);
 }

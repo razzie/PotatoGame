@@ -38,12 +38,17 @@ namespace player
 		void handle(event::AddPortalEvent& ev);
 		void handle(event::AddTrapEvent& ev);
 		void handle(event::AddCreatureEvent& ev);
+
 		void handle(event::RemoveChargeEvent& ev);
 		void handle(event::RemoveResourceEvent& ev);
 		void handle(event::RemoveTraceEvent& ev);
 		void handle(event::RemoveTrapEvent& ev);
 		void handle(event::RemoveCreatureEvent& ev);
-		void handle(event::ResetSpawnColorEvent& ev);
+
+		void handle(event::ChangeHubColorEvent& ev);
+		void handle(event::ChangeSpawnColorEvent& ev);
+		void handle(event::ChangeCreatureColorEvent& ev);
+
 		void handle(event::MoveCreatureEvent& ev);
 
 	private:

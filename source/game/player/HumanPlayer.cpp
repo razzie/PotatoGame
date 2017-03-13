@@ -144,12 +144,28 @@ void game::player::HumanPlayer::handle(event::RemoveCreatureEvent& ev)
 	scene.removeCreature(data.id);
 }
 
-void game::player::HumanPlayer::handle(event::ResetSpawnColorEvent& ev)
+void game::player::HumanPlayer::handle(event::ChangeHubColorEvent& ev)
 {
 	auto& data = ev.get<0>();
 	auto& scene = m_render_thread.getScene();
 
-	scene.resetSpawnColor(data.id, data.color);
+	scene.changeHubColor(data.id, data.color);
+}
+
+void game::player::HumanPlayer::handle(event::ChangeSpawnColorEvent& ev)
+{
+	auto& data = ev.get<0>();
+	auto& scene = m_render_thread.getScene();
+
+	scene.changeSpawnColor(data.id, data.color);
+}
+
+void game::player::HumanPlayer::handle(event::ChangeCreatureColorEvent& ev)
+{
+	auto& data = ev.get<0>();
+	auto& scene = m_render_thread.getScene();
+
+	scene.changeCreatureColor(data.id, data.color);
 }
 
 void game::player::HumanPlayer::handle(event::MoveCreatureEvent& ev)

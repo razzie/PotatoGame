@@ -24,14 +24,14 @@ namespace shape
 		typedef std::vector<uint8_t, raz::Allocator<uint8_t>> Dimensions;
 		typedef std::vector<common::Point2D<float>, raz::Allocator<common::Point2D<float>>> ControlPoints;
 
-		CreatureShape(raz::Random& random, GL::Color color, raz::IMemoryPool* memory = nullptr);
-		CreatureShape(const Dimensions& dimensions, unsigned edge_mode, GL::Color color);
+		CreatureShape(raz::Random& random, raz::IMemoryPool* memory = nullptr);
+		CreatureShape(const Dimensions& dimensions, unsigned char shade, unsigned edge_mode);
 		void generate(gfx::core::MeshBuffer<>& meshbuffer) const;
 
 	private:
 		ControlPoints m_control_points;
+		unsigned char m_shade;
 		unsigned m_edge_mode;
-		GL::Color m_color;
 	};
 }
 }

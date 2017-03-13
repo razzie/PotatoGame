@@ -9,7 +9,6 @@
 #include <boost/polygon/voronoi_diagram.hpp>
 #include "common/Point2D.hpp"
 #include "common/PI.hpp"
-//#include "gfx/shape/WireShape.hpp"
 #include "gfx/shape/VoronoiPillarShape.hpp"
 
 static constexpr size_t VORONOI_SCALE = 64;
@@ -110,7 +109,22 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 	float height = getVoronoiCellPosition(cell, radius).Y;
 	auto* edge = cell.incident_edge();
 
-	GL::uchar color = random(0, 1) ? 224 : 64;
+	GL::Color color;
+
+	switch (random(0, 2))
+	{
+	case 0: // white
+		color = GL::Color(224, 224, 224);
+		break;
+
+	case 1: // black
+		color = GL::Color(32, 32, 32);
+		break;
+
+	case 2: // transparent, will be replaced by diffuse color in shader
+		color = GL::Color(192, 192, 192, 0);
+		break;
+	}
 
 	do
 	{
@@ -121,7 +135,7 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 
 			if (distance < radius)
 			{
-				gfx::core::Vertex v{ GL::Vec3(point.x, 0.f, point.y), GL::Vec3(0.f, 1.f, 0.f), GL::Color(255, 255, 255) };
+				gfx::core::Vertex v{ GL::Vec3(point.x, 0.f, point.y), GL::Vec3(0.f, 1.f, 0.f), GL::Color(255, 255, 255, color.A) };
 				meshbuffer.vertices.push_back(v);
 				++points_inserted;
 			}
@@ -152,7 +166,7 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 
 			v.position.Y = 3.f * height + 0.25f * (radius - distance);
 
-			v.color = GL::Color(color, color, color);
+			v.color = color;
 
 			meshbuffer.vertices.push_back(v);
 		}
@@ -192,45 +206,6 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 	}
 }
 
-//static void insertWires(const boost::polygon::voronoi_diagram<double>& diagram, raz::Random& random, float radius, unsigned complexity, gfx::core::MeshBuffer<>& meshbuffer)
-//{
-//	const size_t wires = complexity * 2;
-//	const boost::polygon::voronoi_cell<double> *cell1, *cell2;
-//
-//	for (size_t i = 0; i < wires; ++i)
-//	{
-//		do
-//		{
-//			cell1 = &diagram.cells()[random(0u, diagram.cells().size() - 1)];
-//		} while (getVoronoiCellPointCount(*cell1, radius) <= 4);
-//
-//		for (auto* edge = cell1->incident_edge(); ; edge = edge->next())
-//		{
-//			if (edge->is_primary() && edge->twin())
-//			{
-//				cell2 = edge->twin()->cell();
-//				if (cell2 && getVoronoiCellPointCount(*cell2, radius) > 4)
-//					break;
-//			}
-//		}
-//
-//		auto p1 = getVoronoiCellPosition(*cell1, radius);
-//		auto p2 = getVoronoiCellPosition(*cell2, radius);
-//		float drop = -0.25f * radius + random(-0.5f, 0.5f);
-//
-//		p1.X += random(-0.35f, 0.35f);
-//		p1.Y *= 1.125f;
-//		p1.Z += random(-0.35f, 0.35f);
-//
-//		p2.X += random(-0.35f, 0.35f);
-//		p2.Y *= 1.125f;
-//		p2.Z += random(-0.35f, 0.35f);
-//
-//		gfx::shape::WireShape wire(p1, p2, 8, drop);
-//		wire.generate(meshbuffer);
-//	}
-//}
-
 gfx::shape::VoronoiPillarShape::VoronoiPillarShape(float radius, unsigned complexity) :
 	m_radius(radius),
 	m_complexity(complexity)
@@ -244,6 +219,4 @@ void gfx::shape::VoronoiPillarShape::generate(raz::Random& random, gfx::core::Me
 	createVoronoiDiagram(diagram, random, m_radius, m_complexity);
 	for (auto& cell : diagram.cells())
 		insertVoronoiCell(cell, random, m_radius, meshbuffer);
-
-	//insertWires(diagram, random, m_radius, m_complexity, meshbuffer);
 }

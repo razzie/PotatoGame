@@ -19,11 +19,13 @@ namespace model
 	{
 	public:
 		HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, uint32_t size, GL::Vec3 position);
-		virtual void render(scene::Scene& scene);
 		const gfx::shape::PlatformRingShape::Platform* getPlatform(size_t id);
+		void changeColor(GL::Color color);
+		virtual void render(scene::Scene& scene);
 
 	private:
 		gfx::shape::PlatformRingShape::PlatformVector m_platforms;
+		GL::Color m_color;
 	};
 }
 }

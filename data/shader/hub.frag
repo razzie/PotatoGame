@@ -3,6 +3,7 @@ in vec3 frag_position;
 in vec3 frag_normal;
 in vec4 frag_color;
 out vec4 out_color;
+uniform vec4 diffuse_color;
 uniform vec3 light_source;
 uniform float time;
 
@@ -86,9 +87,17 @@ void main()
 	}
 	else
 	{
-		float light_dot = dot(normalize(frag_normal), normalize(light_source - frag_position));
-		float light = (light_dot + 1.0) * 0.25 + 0.5;
-		vec4 color = vec4(frag_color.rgb * light, 1.0);
+		float light_dot = clamp(dot(normalize(frag_normal), normalize(light_source - frag_position)), 0.0, 1.0);
+		float light_step1 = light_dot * 0.25 + 0.75;
+		float light_step2 = light_dot * 2.0 - 1.0;
+		
+		vec4 color = (frag_color.a > 0.5) ? frag_color : mix(diffuse_color, frag_color, 0.5);
+		color = vec4(color.rgb * light_step1, 1.0);
+		
+		if (light_step2 > 0.0)
+			color = mix(color, vec4(1.0, 1.0, 1.0, 1.0), light_step2 * 0.125);
+		else
+			color = mix(color, vec4(0.0, 0.0, 0.0, 1.0), -light_step2 * 0.125);
 		
 		if (frag_position.y < 1.0)
 			color = mix(getHorizonTexture(), color, frag_position.y);

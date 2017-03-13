@@ -120,7 +120,7 @@ namespace event
 		}
 	};
 
-	struct ResetColorParameters
+	struct ChangeColorParameters
 	{
 		uint32_t id;
 		GL::Color color;
@@ -160,7 +160,9 @@ namespace event
 	typedef raz::Event<"RemoveTrap"_event, RemoveEntityParameters> RemoveTrapEvent;
 	typedef raz::Event<"RemoveCreature"_event, RemoveEntityParameters> RemoveCreatureEvent;
 
-	typedef raz::Event<"ResetSpawnColor"_event, ResetColorParameters> ResetSpawnColorEvent;
+	typedef raz::Event<"ChangeHubColor"_event, ChangeColorParameters> ChangeHubColorEvent;
+	typedef raz::Event<"ChangeSpawnColor"_event, ChangeColorParameters> ChangeSpawnColorEvent;
+	typedef raz::Event<"ChangeCreatureColor"_event, ChangeColorParameters> ChangeCreatureColorEvent;
 
 	typedef raz::Event<"MoveCreature"_event, MoveCreatureParameters> MoveCreatureEvent;
 
@@ -181,7 +183,9 @@ namespace event
 		RemoveTrapEvent,
 		RemoveCreatureEvent,
 
-		ResetSpawnColorEvent,
+		ChangeHubColorEvent,
+		ChangeSpawnColorEvent,
+		ChangeCreatureColorEvent,
 
 		MoveCreatureEvent
 	> EntityEventQueue;
