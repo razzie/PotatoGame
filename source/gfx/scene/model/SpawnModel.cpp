@@ -8,7 +8,8 @@
 #include "gfx/scene/model/SpawnModel.hpp"
 
 gfx::scene::model::SpawnModel::SpawnModel(Scene& scene, uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id) :
-	Model(id)
+	Model(id),
+	m_color(color)
 {
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 
@@ -25,8 +26,9 @@ gfx::scene::model::SpawnModel::SpawnModel(Scene& scene, uint32_t id, GL::Color c
 	setPosition(position);
 }
 
-void gfx::scene::model::SpawnModel::resetColor(GL::Color color)
+void gfx::scene::model::SpawnModel::changeColor(GL::Color color)
 {
+	m_color = color;
 }
 
 void gfx::scene::model::SpawnModel::render(Scene& scene)
@@ -39,7 +41,7 @@ void gfx::scene::model::SpawnModel::render(Scene& scene)
 	program.SetUniform("world_mat", world);
 	program.SetUniform("normal_mat", normal);
 	program.SetUniform("screen_mat", scene.getCameraMatrix() * world);
-	program.SetUniform("diffuse_color", GL::Color(255, 255, 255));
+	program.SetUniform("diffuse_color", m_color);
 	program.SetUniform("light_source", scene.getCamera().getPosition());
 	program.SetUniform("time", scene.getElapsedTime());
 

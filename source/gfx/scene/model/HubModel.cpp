@@ -9,7 +9,9 @@
 #include "gfx/shape/VoronoiPillarShape.hpp"
 
 gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, uint32_t size, GL::Vec3 position) :
-	Model(id)
+	Model(id),
+	m_platforms(scene.getMemoryPool()),
+	m_color(192, 192, 192)
 {
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 	raz::Random random(seed);
@@ -31,6 +33,19 @@ gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t
 	setPosition(position);
 }
 
+const gfx::shape::PlatformRingShape::Platform* gfx::scene::model::HubModel::getPlatform(size_t id)
+{
+	if (id < m_platforms.size())
+		return &m_platforms[id];
+	else
+		return nullptr;
+}
+
+void gfx::scene::model::HubModel::changeColor(GL::Color color)
+{
+	m_color = color;
+}
+
 void gfx::scene::model::HubModel::render(scene::Scene& scene)
 {
 	GL::Mat4 world;
@@ -41,18 +56,10 @@ void gfx::scene::model::HubModel::render(scene::Scene& scene)
 	program.SetUniform("world_mat", world);
 	program.SetUniform("normal_mat", normal);
 	program.SetUniform("screen_mat", scene.getCameraMatrix() * world);
-	program.SetUniform("diffuse_color", GL::Color(255, 255, 255));
+	program.SetUniform("diffuse_color", m_color);
 	program.SetUniform("light_source", scene.getCamera().getPosition());
 	program.SetUniform("time", scene.getElapsedTime());
 
 	GL::Context& gl = scene.getContext();
 	getMesh().render(gl);
-}
-
-const gfx::shape::PlatformRingShape::Platform* gfx::scene::model::HubModel::getPlatform(size_t id)
-{
-	if (id < m_platforms.size())
-		return &m_platforms[id];
-	else
-		return nullptr;
 }

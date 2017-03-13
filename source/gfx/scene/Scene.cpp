@@ -32,6 +32,8 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 
 	addHub(0, std::time(NULL), 6, GL::Vec3());
 	addCreature(0, std::time(NULL), GL::Color(255, 0, 0), 0, 0);
+
+	//changeHubColor(0, GL::Color(255, 0, 0));
 }
 
 gfx::scene::Scene::~Scene()
@@ -232,6 +234,13 @@ gfx::scene::model::HubModel* gfx::scene::Scene::getHub(uint32_t id)
 	return getModel(m_hubs, id);
 }
 
+void gfx::scene::Scene::changeHubColor(uint32_t id, GL::Color color)
+{
+	auto* hub = getHub(id);
+	if (hub)
+		hub->changeColor(color);
+}
+
 
 GL::Program& gfx::scene::Scene::getTransportShader()
 {
@@ -332,11 +341,11 @@ gfx::scene::model::SpawnModel* gfx::scene::Scene::getSpawn(uint32_t id)
 	return getModel(m_spawns, id);
 }
 
-void gfx::scene::Scene::resetSpawnColor(uint32_t id, GL::Color color)
+void gfx::scene::Scene::changeSpawnColor(uint32_t id, GL::Color color)
 {
 	auto* spawn = getSpawn(id);
 	if (spawn)
-		spawn->resetColor(color);
+		spawn->changeColor(color);
 }
 
 
@@ -395,12 +404,19 @@ gfx::scene::model::CreatureModel* gfx::scene::Scene::getCreature(uint32_t id)
 	return getModel(m_creatures, id);
 }
 
-void gfx::scene::Scene::removeCreature(uint32_t id)
-{
-	removeModel(m_creatures, id);
-}
-
 void gfx::scene::Scene::moveCreature(uint32_t id, uint32_t target_hub_id, uint32_t target_platform_id)
 {
 	// TODO: ADD EITHER JUMP OR TRANSPORT ANIMATION
+}
+
+void gfx::scene::Scene::changeCreatureColor(uint32_t id, GL::Color color)
+{
+	auto* creature = getCreature(id);
+	if (creature)
+		creature->changeColor(color);
+}
+
+void gfx::scene::Scene::removeCreature(uint32_t id)
+{
+	removeModel(m_creatures, id);
 }

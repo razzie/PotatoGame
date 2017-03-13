@@ -53,6 +53,7 @@ namespace scene
 		GL::Program& getHubShader();
 		model::HubModel* addHub(uint32_t id, uint64_t seed, uint32_t size, GL::Vec3 position);
 		model::HubModel* getHub(uint32_t id);
+		void changeHubColor(uint32_t id, GL::Color color);
 
 		// transport
 		GL::Program& getTransportShader();
@@ -81,7 +82,7 @@ namespace scene
 		GL::Program& getSpawnShader();
 		model::SpawnModel* addSpawn(uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id);
 		model::SpawnModel* getSpawn(uint32_t id);
-		void resetSpawnColor(uint32_t id, GL::Color color);
+		void changeSpawnColor(uint32_t id, GL::Color color);
 
 		// portal
 		GL::Program& getPortalShader();
@@ -98,8 +99,9 @@ namespace scene
 		GL::Program& getCreatureShader();
 		model::CreatureModel* addCreature(uint32_t id, uint64_t seed, GL::Color color, uint32_t hub_id, uint32_t platform_id);
 		model::CreatureModel* getCreature(uint32_t id);
-		void removeCreature(uint32_t id);
 		void moveCreature(uint32_t id, uint32_t target_hub_id, uint32_t target_platform_id);
+		void changeCreatureColor(uint32_t id, GL::Color color);
+		void removeCreature(uint32_t id);
 
 	private:
 		template<class T>
