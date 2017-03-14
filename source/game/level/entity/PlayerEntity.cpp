@@ -4,20 +4,15 @@
  * Proprietary and confidential
  */
 
-#pragma once
-
 #include "game/level/entity/PlayerEntity.hpp"
 
-namespace game
+game::level::entity::PlayerEntity::PlayerEntity(Entity::Type type, uint32_t id, player::Player* player) :
+	Entity(type, id),
+	m_player(player)
 {
-namespace level
-{
-namespace entity
-{
-	class TraceEntity : public PlayerEntity
-	{
-		// lifespan
-	};
 }
-}
+
+game::player::Player* game::level::entity::PlayerEntity::getPlayer() const
+{
+	return m_player;
 }

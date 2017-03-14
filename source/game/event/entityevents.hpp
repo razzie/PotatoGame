@@ -8,7 +8,7 @@
 
 #include <cstdint>
 #include <vector>
-#include <GL/Math/Vec3.hpp>
+#include <GL/Math/Vec2.hpp>
 #include <GL/Util/Color.hpp>
 #include <raz/event.hpp>
 
@@ -35,12 +35,12 @@ namespace event
 		uint32_t id;
 		uint64_t seed;
 		uint32_t size;
-		GL::Vec3 position;
+		GL::Vec2 position;
 
 		template<class Serializer>
 		void operator()(Serializer& serializer)
 		{
-			serializer(id)(seed)(size)(position.X)(position.Y)(position.Z);
+			serializer(id)(seed)(size)(position.X)(position.Y);
 		}
 	};
 
@@ -100,12 +100,13 @@ namespace event
 	{
 		uint32_t id;
 		GL::Color color;
+		uint32_t diplomacy;
 		HubPlatform position;
 
 		template<class Serializer>
 		void operator()(Serializer& serializer)
 		{
-			serializer(id)(color.R)(color.G)(color.B)(color.A)(position);
+			serializer(id)(color.R)(color.G)(color.B)(color.A)(diplomacy)(position);
 		}
 	};
 
@@ -124,11 +125,12 @@ namespace event
 	{
 		uint32_t id;
 		GL::Color color;
+		uint32_t diplomacy;
 
 		template<class Serializer>
 		void operator()(Serializer& serializer)
 		{
-			serializer(id)(color.R)(color.G)(color.B)(color.A);
+			serializer(id)(color.R)(color.G)(color.B)(color.A)(diplomacy);
 		}
 	};
 

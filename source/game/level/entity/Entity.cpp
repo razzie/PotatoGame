@@ -6,10 +6,9 @@
 
 #include "game/level/entity/Entity.hpp"
 
-game::level::entity::Entity::Entity(Type type, uint32_t id, uint32_t parent_id) :
+game::level::entity::Entity::Entity(Type type, uint32_t id) :
 	m_type(type),
-	m_id(id),
-	m_parent_id(parent_id)
+	m_id(id)
 {
 }
 
@@ -21,9 +20,4 @@ game::level::entity::Entity::Type game::level::entity::Entity::getType() const
 uint32_t game::level::entity::Entity::getID() const
 {
 	return m_id;
-}
-
-uint32_t game::level::entity::Entity::getParentID() const
-{
-	return m_parent_id;
 }

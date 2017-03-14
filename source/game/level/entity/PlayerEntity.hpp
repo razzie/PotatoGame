@@ -6,37 +6,26 @@
 
 #pragma once
 
-#include <cstdint>
+#include "game/level/entity/Entity.hpp"
 
 namespace game
 {
+namespace player
+{
+	class Player;
+}
 namespace level
 {
 namespace entity
 {
-	class Entity
+	class PlayerEntity : public Entity
 	{
 	public:
-		enum Type
-		{
-			HUB,
-			TRANSPORT,
-			CHARGE,
-			RESOURCE,
-			TRACE,
-			SPAWN,
-			PORTAL,
-			TRAP,
-			CREATURE
-		};
-
-		Entity(Type type, uint32_t id);
-		Type getType() const;
-		uint32_t getID() const;
+		PlayerEntity(Entity::Type type, uint32_t id, player::Player* player);
+		player::Player* getPlayer() const;
 
 	private:
-		Type m_type;
-		uint32_t m_id;
+		player::Player* m_player;
 	};
 }
 }

@@ -4,15 +4,5 @@
  * Proprietary and confidential
  */
 
-#pragma once
+#include "game/level/entity/PlatformEntity.hpp"
 
-namespace game
-{
-namespace creature
-{
-	class Creature
-	{
-
-	};
-}
-}

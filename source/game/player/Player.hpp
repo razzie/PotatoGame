@@ -8,7 +8,7 @@
 
 #pragma warning(disable: 4307) // integral constant overflow
 
-#include "game/event/gameevents.hpp"
+#include "game/event/serverevents.hpp"
 #include "game/event/entityevents.hpp"
 
 namespace game
@@ -28,12 +28,12 @@ namespace player
 		Player(Type type, raz::IMemoryPool* memory = nullptr);
 		virtual ~Player();
 		Type getType() const;
-		event::GameEventQueue& getGameEventQueue();
+		event::ServerEventQueue& getServerEventQueue();
 		event::EntityEventQueue& getEntityEventQueue();
 
 	private:
 		Type m_type;
-		event::GameEventQueue m_game_event_queue;
+		event::ServerEventQueue m_server_event_queue;
 		event::EntityEventQueue m_entity_event_queue;
 	};
 }

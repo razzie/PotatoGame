@@ -14,7 +14,7 @@ namespace level
 {
 namespace entity
 {
-	class ChargeEntityEntity : public Entity
+	class ChargeEntity : public Entity
 	{
 
 	};

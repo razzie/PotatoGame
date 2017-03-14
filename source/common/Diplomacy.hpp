@@ -6,16 +6,15 @@
 
 #pragma once
 
-#include <raz/event.hpp>
+#include <cstdint>
 
-namespace game
+namespace common
 {
-namespace event
-{
-	using namespace raz::literal;
-
-	typedef raz::Event<"Tick"_event> TickEvent;
-
-	typedef raz::EventQueueSystem<TickEvent> GameEventQueue;
-}
+	enum Diplomacy : uint32_t
+	{
+		NEUTRAL = 1 << 0,
+		OWN     = 1 << 1,
+		ALLY    = 1 << 2,
+		ENEMY   = 1 << 3
+	};
 }

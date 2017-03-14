@@ -4,15 +4,9 @@
  * Proprietary and confidential
  */
 
-#pragma once
+#include "game/level/LevelBuilder.hpp"
+#include "game/level/entity/EntityManager.hpp"
 
-namespace game
+void game::level::LevelBuilder::build(entity::EntityManager& entities)
 {
-namespace creature
-{
-	class Creature
-	{
-
-	};
-}
 }

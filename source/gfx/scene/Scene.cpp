@@ -30,7 +30,7 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 {
 	m_cam.setPosition({ -8, 8, -8 });
 
-	addHub(0, std::time(NULL), 6, GL::Vec3());
+	addHub(0, std::time(NULL), 6, GL::Vec2());
 	addCreature(0, std::time(NULL), GL::Color(255, 0, 0), 0, 0);
 
 	//changeHubColor(0, GL::Color(255, 0, 0));
@@ -223,7 +223,7 @@ GL::Program& gfx::scene::Scene::getHubShader()
 	return m_shader_table.getHubShader();
 }
 
-gfx::scene::model::HubModel* gfx::scene::Scene::addHub(uint32_t id, uint64_t seed, uint32_t size, GL::Vec3 position)
+gfx::scene::model::HubModel* gfx::scene::Scene::addHub(uint32_t id, uint64_t seed, uint32_t size, GL::Vec2 position)
 {
 	m_hubs.emplace_back(*this, id, seed, size, position);
 	return &m_hubs.back();
