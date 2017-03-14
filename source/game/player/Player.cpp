@@ -8,7 +8,7 @@
 
 game::player::Player::Player(Type type, raz::IMemoryPool* memory) :
 	m_type(type),
-	m_game_event_queue(memory),
+	m_server_event_queue(memory),
 	m_entity_event_queue(memory)
 {
 }
@@ -22,9 +22,9 @@ game::player::Player::Type game::player::Player::getType() const
 	return m_type;
 }
 
-game::event::GameEventQueue& game::player::Player::getGameEventQueue()
+game::event::ServerEventQueue& game::player::Player::getServerEventQueue()
 {
-	return m_game_event_queue;
+	return m_server_event_queue;
 }
 
 game::event::EntityEventQueue& game::player::Player::getEntityEventQueue()

@@ -6,13 +6,20 @@
 
 #pragma once
 
+#include <array>
+#include "game/level/entity/PlayerEntity.hpp"
+
 namespace game
 {
-namespace creature
+namespace level
 {
-	class Creature
+namespace entity
+{
+	class CreatureEntity : public PlayerEntity
 	{
+	public:
 
 	};
+}
 }
 }

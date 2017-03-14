@@ -51,7 +51,7 @@ namespace scene
 
 		// hub
 		GL::Program& getHubShader();
-		model::HubModel* addHub(uint32_t id, uint64_t seed, uint32_t size, GL::Vec3 position);
+		model::HubModel* addHub(uint32_t id, uint64_t seed, uint32_t size, GL::Vec2 position);
 		model::HubModel* getHub(uint32_t id);
 		void changeHubColor(uint32_t id, GL::Color color);
 

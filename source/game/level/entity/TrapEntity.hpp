@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "game/level/entity/Entity.hpp"
+#include "game/level/entity/PlayerEntity.hpp"
 
 namespace game
 {
@@ -14,7 +14,7 @@ namespace level
 {
 namespace entity
 {
-	class TrapEntity : public Entity
+	class TrapEntity : public PlayerEntity
 	{
 
 	};

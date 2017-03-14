@@ -8,7 +8,7 @@
 #include "gfx/scene/model/HubModel.hpp"
 #include "gfx/shape/VoronoiPillarShape.hpp"
 
-gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, uint32_t size, GL::Vec3 position) :
+gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, uint32_t size, GL::Vec2 position) :
 	Model(id),
 	m_platforms(scene.getMemoryPool()),
 	m_color(192, 192, 192)
@@ -30,7 +30,7 @@ gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t
 	mesh = meshbuffer.createMesh();
 	mesh.bindShader(scene.getHubShader());
 
-	setPosition(position);
+	setPosition(GL::Vec3(position.X, 0.f, position.Y));
 }
 
 const gfx::shape::PlatformRingShape::Platform* gfx::scene::model::HubModel::getPlatform(size_t id)

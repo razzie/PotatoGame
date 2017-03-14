@@ -8,11 +8,17 @@
 
 namespace game
 {
-namespace creature
+namespace level
 {
-	class Creature
+	namespace entity
 	{
+		class EntityManager;
+	}
 
+	class LevelBuilder
+	{
+	public:
+		void build(entity::EntityManager& entities);
 	};
 }
 }

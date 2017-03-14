@@ -27,6 +27,9 @@ namespace player
 		bool feed(const GL::Event& ev);
 		void update();
 
+		void handle(event::PlayerAcceptedEvent& ev);
+		void handle(event::PlayerRejectedEvent& ev);
+		void handle(event::PlayerUpdateEvent& ev);
 		void handle(event::TickEvent& ev);
 
 		void handle(event::AddHubEvent& ev);

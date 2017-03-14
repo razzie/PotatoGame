@@ -24,7 +24,19 @@ bool game::player::HumanPlayer::feed(const GL::Event& ev)
 
 void game::player::HumanPlayer::update()
 {
-	getGameEventQueue().dequeue(*this);
+	getServerEventQueue().dequeue(*this);
+}
+
+void game::player::HumanPlayer::handle(event::PlayerAcceptedEvent& ev)
+{
+}
+
+void game::player::HumanPlayer::handle(event::PlayerRejectedEvent& ev)
+{
+}
+
+void game::player::HumanPlayer::handle(event::PlayerUpdateEvent& ev)
+{
 }
 
 void game::player::HumanPlayer::handle(event::TickEvent& ev)

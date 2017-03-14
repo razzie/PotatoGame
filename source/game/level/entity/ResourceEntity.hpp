@@ -16,7 +16,11 @@ namespace entity
 {
 	class ResourceEntity : public Entity
 	{
-		// type A, B or C
+	public:
+		struct Value
+		{
+			uint32_t a, b, c;
+		};
 	};
 }
 }
