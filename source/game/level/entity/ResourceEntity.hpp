@@ -21,6 +21,14 @@ namespace entity
 		{
 			uint32_t a, b, c;
 		};
+
+		ResourceEntity(uint32_t id, Entity::Platform platform, Value value);
+		Platform getPlatform() const;
+		Value getValue() const;
+
+	private:
+		Platform m_platform;
+		Value m_value;
 	};
 }
 }

@@ -7,7 +7,7 @@
 #pragma once
 
 #include <array>
-#include "game/level/entity/PlayerEntity.hpp"
+#include "game/level/entity/Entity.hpp"
 
 namespace game
 {
@@ -15,10 +15,19 @@ namespace level
 {
 namespace entity
 {
-	class CreatureEntity : public PlayerEntity
+	class CreatureEntity : public Entity
 	{
 	public:
+		CreatureEntity(uint32_t id, uint64_t seed, Entity::Platform platform, player::Player* player);
+		uint64_t getSeed() const;
+		Platform getPlatform() const;
+		player::Player* getPlayer() const;
+		void setPlayer(player::Player* player);
 
+	private:
+		uint64_t m_seed;
+		Platform m_platform;
+		player::Player* m_player;
 	};
 }
 }

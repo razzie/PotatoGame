@@ -16,7 +16,12 @@ namespace entity
 {
 	class PortalEntity : public Entity
 	{
+	public:
+		PortalEntity(uint32_t id, Entity::Platform platform);
+		Platform getPlatform() const;
 
+	private:
+		Platform m_platform;
 	};
 }
 }

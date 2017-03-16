@@ -7,6 +7,7 @@
 #pragma once
 
 #include <cstdint>
+#include "common/Diplomacy.hpp"
 #include "game/level/entity/EntityManager.hpp"
 
 namespace game
@@ -34,13 +35,18 @@ namespace level
 		State getState() const;
 		bool build(LevelBuilder& builder);
 		void reset();
-		bool connectPlayer(game::player::Player* player);
-		bool disconnectPlayer(game::player::Player* player);
+		bool connectPlayer(player::Player* player);
+		bool disconnectPlayer(player::Player* player);
+		common::Diplomacy getDiplomacy(game::player::Player* player1, player::Player* player2);
 
 	private:
+		template<class T>
+		using Vector = std::vector<T, raz::Allocator<T>>;
+
 		raz::IMemoryPool* m_memory;
 		State m_state;
 		entity::EntityManager m_entities;
+		Vector<player::Player*> m_players;
 	};
 }
 }

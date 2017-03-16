@@ -9,7 +9,7 @@
 
 gfx::RenderThread::RenderThread(Potato& potato, unsigned width, unsigned height, bool fullscreen, raz::IMemoryPool* memory) :
 	m_potato(potato),
-	m_window(width, height, "OpenGL Window", fullscreen ? GL::WindowStyle::Fullscreen : GL::WindowStyle::Base | GL::WindowStyle::Close),
+	m_window(width, height, "Potato", fullscreen ? GL::WindowStyle::Fullscreen : GL::WindowStyle::Base | GL::WindowStyle::Close),
 	m_gl(m_window.GetContext(32, 24, 8, 4)),
 	m_memory(memory),
 	m_shader_table(memory),
