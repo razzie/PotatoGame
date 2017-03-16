@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include <array>
 #include "game/level/entity/Entity.hpp"
 
 namespace game
@@ -23,19 +22,25 @@ namespace entity
 		bool isInner() const;
 		bool isOuter() const;
 		float getAngle() const;
-		Entity* getEntity(Entity::Type type) const;
-		bool putEntity(Entity* entity, Entity** conflict = nullptr);
+		void getNeighbors(uint32_t* id_array, size_t& count);
+		bool getEntity(Entity::Type type, uint32_t& id) const;
+		bool putEntity(Entity::Type type, uint32_t id, Entity::Type& conflict_type, uint32_t& conflict_id);
 		bool removeEntity(Entity::Type type);
 
 	private:
-		std::array<PlatformEntity*, 6> m_neighbors;
-		Entity* m_transport_spawn_portal_trap;
-		Entity* m_charge_resource;
-		Entity* m_trace_creature;
+		struct Container
+		{
+			Entity::Type type = Entity::Type::NONE;
+			uint32_t id = 0;
+		};
+
+		Container m_transport_spawn_portal_trap;
+		Container m_charge_resource;
+		Container m_trace_creature;
 		float m_angle;
 		bool m_inner;
 
-		Entity*& getContainer(Entity::Type type);
+		Container& getContainer(Entity::Type type);
 	};
 }
 }

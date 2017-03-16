@@ -16,7 +16,14 @@ namespace entity
 {
 	class TransportEntity : public Entity
 	{
+	public:
+		TransportEntity(uint32_t id, Entity::Platform platform1, Entity::Platform platform2);
+		Platform getPlatform1() const;
+		Platform getPlatform2() const;
 
+	private:
+		Platform m_platform1;
+		Platform m_platform2;
 	};
 }
 }

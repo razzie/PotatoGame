@@ -414,9 +414,6 @@
     <ClCompile Include="source\gfx\scene\Horizon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\level\entity\PlayerEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\level\Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -430,6 +427,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\game\level\LevelBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\level\entity\TransportEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\level\entity\ChargeEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\level\entity\ResourceEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\level\entity\TraceEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\level\entity\SpawnEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\level\entity\PortalEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\level\entity\TrapEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\level\entity\CreatureEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1188,9 +1209,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\gfx\scene\Horizon.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\level\entity\PlayerEntity.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\game\level\entity\CreatureEntity.hpp">

@@ -9,6 +9,7 @@
 #include <vector>
 #include <raz/memory.hpp>
 #include "game/level/entity/HubEntity.hpp"
+#include "game/level/entity/PlatformEntity.hpp"
 #include "game/level/entity/TransportEntity.hpp"
 #include "game/level/entity/ChargeEntity.hpp"
 #include "game/level/entity/ResourceEntity.hpp"
@@ -42,15 +43,33 @@ namespace entity
 		};
 
 		EntityManager(raz::IMemoryPool* memory = nullptr);
-		Result addHub(uint64_t seed, uint32_t size, float x, float z);
-		Result addTransport(uint32_t hub1_id, uint32_t hub1_platform_id, uint32_t hub2_id, uint32_t hub2_platform_id);
-		Result addCharge(uint32_t hub_id, uint32_t platform_id);
-		Result addResource(uint32_t hub_id, uint32_t platform_id, ResourceEntity::Value value);
-		Result addTrace(uint32_t hub_id, uint32_t platform_id, player::Player* player);
-		Result addSpawn(uint32_t hub_id, uint32_t platform_id, player::Player* player);
-		Result addPortal(uint32_t hub_id, uint32_t platform_id);
-		Result addTrap(uint32_t hub_id, uint32_t platform_id, player::Player* player);
-		Result addCreature(uint64_t seed, uint32_t hub_id, uint32_t platform_id, player::Player* player);
+		bool addPlayer(player::Player* player);
+		bool removePlayer(player::Player* player);
+		void reset();
+		Result addHub(uint64_t seed, uint32_t size, HubEntity::Platform platform, bool player_start = false);
+		Result addTransport(Entity::Platform platform1, Entity::Platform platform2);
+		Result addCharge(Entity::Platform platform);
+		Result addResource(Entity::Platform platform, ResourceEntity::Value value);
+		Result addTrace(Entity::Platform platform, player::Player* player);
+		Result addSpawn(Entity::Platform platform, player::Player* player);
+		Result addPortal(Entity::Platform platform);
+		Result addTrap(Entity::Platform platform, player::Player* player);
+		Result addCreature(uint64_t seed, Entity::Platform platform, player::Player* player);
+		Entity* getEntity(Entity::Type type, uint32_t id);
+		HubEntity* getHub(uint32_t id);
+		PlatformEntity* getPlatform(Entity::Platform platform);
+		ChargeEntity* getCharge(uint32_t id);
+		ResourceEntity* getResource(uint32_t id);
+		TraceEntity* getTrace(uint32_t id);
+		SpawnEntity* getSpawn(uint32_t id);
+		PortalEntity* getPortal(uint32_t id);
+		TrapEntity* getTrap(uint32_t id);
+		CreatureEntity* getCreature(uint32_t id);
+		bool removeCharge(uint32_t id);
+		bool removeResource(uint32_t id);
+		bool removeTrace(uint32_t id);
+		bool removeTrap(uint32_t id);
+		bool removeCreature(uint32_t id);
 
 	private:
 		template<class T>
@@ -92,6 +111,12 @@ namespace entity
 			}
 		};
 
+		struct PlayerHubContainer
+		{
+			uint32_t hub_id = 0;
+			bool used = false;
+		};
+
 		EntityContainer<HubEntity> m_hubs;
 		EntityContainer<TransportEntity> m_transports;
 		EntityContainer<ChargeEntity> m_charges;
@@ -101,8 +126,7 @@ namespace entity
 		EntityContainer<PortalEntity> m_portals;
 		EntityContainer<TrapEntity> m_traps;
 		EntityContainer<CreatureEntity> m_creatures;
-
-		Vector<HubEntity*> m_player_hubs;
+		Vector<PlayerHubContainer> m_player_hubs;
 	};
 }
 }

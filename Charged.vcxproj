@@ -150,7 +150,6 @@
     <ClInclude Include="source\game\level\entity\Entity.hpp" />
     <ClInclude Include="source\game\level\entity\EntityManager.hpp" />
     <ClInclude Include="source\game\level\entity\HubEntity.hpp" />
-    <ClInclude Include="source\game\level\entity\PlayerEntity.hpp" />
     <ClInclude Include="source\game\level\Level.hpp" />
     <ClInclude Include="source\game\level\entity\PlatformEntity.hpp" />
     <ClInclude Include="source\game\level\entity\PortalEntity.hpp" />
@@ -405,11 +404,18 @@
   <ItemGroup>
     <ClCompile Include="source\common\InputHelper.cpp" />
     <ClCompile Include="source\game\GameThread.cpp" />
+    <ClCompile Include="source\game\level\entity\ChargeEntity.cpp" />
+    <ClCompile Include="source\game\level\entity\CreatureEntity.cpp" />
     <ClCompile Include="source\game\level\entity\Entity.cpp" />
     <ClCompile Include="source\game\level\entity\EntityManager.cpp" />
     <ClCompile Include="source\game\level\entity\HubEntity.cpp" />
     <ClCompile Include="source\game\level\entity\PlatformEntity.cpp" />
-    <ClCompile Include="source\game\level\entity\PlayerEntity.cpp" />
+    <ClCompile Include="source\game\level\entity\PortalEntity.cpp" />
+    <ClCompile Include="source\game\level\entity\ResourceEntity.cpp" />
+    <ClCompile Include="source\game\level\entity\SpawnEntity.cpp" />
+    <ClCompile Include="source\game\level\entity\TraceEntity.cpp" />
+    <ClCompile Include="source\game\level\entity\TransportEntity.cpp" />
+    <ClCompile Include="source\game\level\entity\TrapEntity.cpp" />
     <ClCompile Include="source\game\level\Level.cpp" />
     <ClCompile Include="source\game\level\LevelBuilder.cpp" />
     <ClCompile Include="source\game\player\HumanPlayer.cpp" />

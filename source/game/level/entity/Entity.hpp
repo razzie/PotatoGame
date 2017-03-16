@@ -10,6 +10,7 @@
 
 namespace game
 {
+namespace player { class Player; }
 namespace level
 {
 namespace entity
@@ -19,6 +20,7 @@ namespace entity
 	public:
 		enum Type
 		{
+			NONE,
 			HUB,
 			TRANSPORT,
 			CHARGE,
@@ -28,6 +30,12 @@ namespace entity
 			PORTAL,
 			TRAP,
 			CREATURE
+		};
+
+		struct Platform
+		{
+			uint32_t hub_id;
+			uint32_t platform_id;
 		};
 
 		Entity(Type type, uint32_t id);

@@ -10,7 +10,9 @@
 
 game::level::Level::Level(raz::IMemoryPool* memory) :
 	m_memory(memory),
-	m_state(State::BUILD)
+	m_state(State::BUILD),
+	m_entities(memory),
+	m_players(memory)
 {
 }
 
@@ -46,4 +48,9 @@ bool game::level::Level::connectPlayer(game::player::Player * player)
 bool game::level::Level::disconnectPlayer(game::player::Player * player)
 {
 	return false;
+}
+
+common::Diplomacy game::level::Level::getDiplomacy(game::player::Player* player1, player::Player* player2)
+{
+	return common::Diplomacy();
 }

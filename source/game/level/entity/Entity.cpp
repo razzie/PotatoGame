@@ -4,12 +4,14 @@
  * Proprietary and confidential
  */
 
+#include <cassert>
 #include "game/level/entity/Entity.hpp"
 
 game::level::entity::Entity::Entity(Type type, uint32_t id) :
 	m_type(type),
 	m_id(id)
 {
+	assert(type != Type::NONE);
 }
 
 game::level::entity::Entity::Type game::level::entity::Entity::getType() const
