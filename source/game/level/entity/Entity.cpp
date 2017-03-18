@@ -23,3 +23,8 @@ uint32_t game::level::entity::Entity::getID() const
 {
 	return m_id;
 }
+
+game::level::entity::Entity::Data game::level::entity::Entity::getData() const
+{
+	return { m_type, m_id };
+}

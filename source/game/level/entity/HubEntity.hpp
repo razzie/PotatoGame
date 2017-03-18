@@ -29,12 +29,6 @@ namespace entity
 			float z;
 		};
 
-		struct CollectResult
-		{
-			Entity* entity;
-			PlatformEntity* platform;
-		};
-
 		HubEntity(uint32_t id, uint64_t seed, uint32_t size, Position position);
 		uint64_t getSeed() const;
 		uint32_t getSize() const;
@@ -43,7 +37,7 @@ namespace entity
 		PlatformEntity* getPlatform(uint32_t id);
 		const PlatformEntity* getPlatform(uint32_t id) const;
 		bool isPlayerPresent(player::Player* player) const;
-		void collect(Entity::Type type, Vector<CollectResult>& results);
+		void collect(Entity::Type type, Vector<Entity::Data>& results);
 
 	private:
 		uint64_t m_seed;

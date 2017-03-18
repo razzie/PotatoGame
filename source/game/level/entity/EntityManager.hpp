@@ -25,28 +25,61 @@ namespace level
 {
 namespace entity
 {
+	class EntityHandler
+	{
+	public:
+		virtual ~EntityHandler() = default;
+		virtual void onEntityAdd(const Entity* entity) = 0;
+		virtual void onEntityRemove(Entity::Data entity_data) = 0;
+		virtual void onEntityPlayerChange(const Entity* entity, player::Player* old_player, player::Player* new_player) = 0;
+		virtual void onEntityMove(const Entity* entity, Entity::Platform src_platform, Entity::Platform dest_platform) = 0;
+	};
+
 	class EntityManager
 	{
 	public:
+		template<class T>
+		using Vector = std::vector<T, raz::Allocator<T>>;
+
 		struct Result
 		{
-			enum Type
+			enum Status
 			{
-				OK,
+				SUCCESS,
 				FAIL,
 				CONFLICT
 			};
 
-			Type type;
-			Entity* entity = nullptr;
-			Entity* conflicting_entity = nullptr;
+			Status status = Status::FAIL;
+			Entity::Data entity;
+
+			Result& success(Entity::Data data)
+			{
+				status = Status::SUCCESS;
+				entity = data;
+				return *this;
+			}
+
+			Result& fail()
+			{
+				status = Status::FAIL;
+				return *this;
+			}
+
+			Result& conflict(Entity::Data data)
+			{
+				status = Status::CONFLICT;
+				entity = data;
+				return *this;
+			}
 		};
 
-		EntityManager(raz::IMemoryPool* memory = nullptr);
-		bool addPlayer(player::Player* player);
+		EntityManager(EntityHandler* handler, raz::IMemoryPool* memory = nullptr);
+		bool addPlayer(player::Player* player, uint32_t& hub_id);
 		bool removePlayer(player::Player* player);
 		void reset();
-		Result addHub(uint64_t seed, uint32_t size, HubEntity::Platform platform, bool player_start = false);
+		Result addHub(uint64_t seed, uint32_t size, HubEntity::Position position, bool player_hub = false);
+		Result addTransport(uint32_t hub1_id, uint32_t hub2_id);
 		Result addTransport(Entity::Platform platform1, Entity::Platform platform2);
 		Result addCharge(Entity::Platform platform);
 		Result addResource(Entity::Platform platform, ResourceEntity::Value value);
@@ -55,26 +88,33 @@ namespace entity
 		Result addPortal(Entity::Platform platform);
 		Result addTrap(Entity::Platform platform, player::Player* player);
 		Result addCreature(uint64_t seed, Entity::Platform platform, player::Player* player);
-		Entity* getEntity(Entity::Type type, uint32_t id);
-		HubEntity* getHub(uint32_t id);
-		PlatformEntity* getPlatform(Entity::Platform platform);
-		ChargeEntity* getCharge(uint32_t id);
-		ResourceEntity* getResource(uint32_t id);
-		TraceEntity* getTrace(uint32_t id);
-		SpawnEntity* getSpawn(uint32_t id);
-		PortalEntity* getPortal(uint32_t id);
-		TrapEntity* getTrap(uint32_t id);
-		CreatureEntity* getCreature(uint32_t id);
+		bool removeEntity(Entity::Data entity_data);
 		bool removeCharge(uint32_t id);
 		bool removeResource(uint32_t id);
 		bool removeTrace(uint32_t id);
 		bool removeTrap(uint32_t id);
 		bool removeCreature(uint32_t id);
+		Result moveEntity(Entity::Data entity_data, Entity::Platform src_platform, Entity::Platform dest_platform);
+		bool changeEntityPlayer(Entity::Data entity_data, player::Player* new_player);
+
+		int collect(Entity::Type type, Vector<Entity::Data>& results) const;
+		int collect(Entity::Type type, Vector<const Entity*>& results) const;
+		int collect(player::Player* player, Vector<Entity::Data>& results) const;
+		int collect(player::Player* player, Vector<const Entity*>& results) const;
+		const Entity* getEntity(Entity::Type type, uint32_t id) const;
+		const Entity* getEntity(Entity::Type type, Entity::Platform platform) const;
+		const HubEntity* getHub(uint32_t id) const;
+		const HubEntity* getHub(player::Player* player) const;
+		const PlatformEntity* getPlatform(Entity::Platform platform) const;
+		const ChargeEntity* getCharge(uint32_t id) const;
+		const ResourceEntity* getResource(uint32_t id) const;
+		const TraceEntity* getTrace(uint32_t id) const;
+		const SpawnEntity* getSpawn(uint32_t id) const;
+		const PortalEntity* getPortal(uint32_t id) const;
+		const TrapEntity* getTrap(uint32_t id) const;
+		const CreatureEntity* getCreature(uint32_t id) const;
 
 	private:
-		template<class T>
-		using Vector = std::vector<T, raz::Allocator<T>>;
-
 		template<class T>
 		struct EntityContainer
 		{
@@ -87,6 +127,13 @@ namespace entity
 			{
 			}
 
+			template<class... Args>
+			T* add(Args... args)
+			{
+				entities.emplace_back(++last_id, std::forward<Args>(args)...);
+				return &entities.back();
+			}
+
 			T* find(uint32_t id)
 			{
 				for (auto& entity : entities)
@@ -97,26 +144,50 @@ namespace entity
 				return nullptr;
 			}
 
-			bool remove(uint32_t id)
+			const T* find(uint32_t id) const
+			{
+				for (auto& entity : entities)
+				{
+					if (entity.getID() == id)
+						return &entity;
+				}
+				return nullptr;
+			}
+
+			template<class F>
+			bool remove(uint32_t id, F callback)
 			{
 				for (auto it = entities.begin(), end = entities.end(); it != end; ++it)
 				{
 					if (it->getID() == id)
 					{
+						callback(*it);
 						entities.erase(it);
 						return true;
 					}
 				}
 				return false;
 			}
+
+			void clear()
+			{
+				last_id = 0;
+				entities.clear();
+			}
 		};
 
-		struct PlayerHubContainer
+		struct PlayerHub
 		{
-			uint32_t hub_id = 0;
-			bool used = false;
+			PlayerHub(uint32_t hub_id) :
+				id(hub_id), player(nullptr)
+			{
+			}
+
+			uint32_t id;
+			player::Player* player;
 		};
 
+		EntityHandler* m_handler;
 		EntityContainer<HubEntity> m_hubs;
 		EntityContainer<TransportEntity> m_transports;
 		EntityContainer<ChargeEntity> m_charges;
@@ -126,7 +197,9 @@ namespace entity
 		EntityContainer<PortalEntity> m_portals;
 		EntityContainer<TrapEntity> m_traps;
 		EntityContainer<CreatureEntity> m_creatures;
-		Vector<PlayerHubContainer> m_player_hubs;
+		Vector<PlayerHub> m_player_hubs;
+
+		PlatformEntity* getPlatformInternal(Entity::Platform platform);
 	};
 }
 }

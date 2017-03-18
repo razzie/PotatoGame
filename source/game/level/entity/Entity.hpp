@@ -22,6 +22,7 @@ namespace entity
 		{
 			NONE,
 			HUB,
+			PLATFORM,
 			TRANSPORT,
 			CHARGE,
 			RESOURCE,
@@ -30,6 +31,19 @@ namespace entity
 			PORTAL,
 			TRAP,
 			CREATURE
+		};
+
+		struct Data
+		{
+			Type type = Type::NONE;
+			uint32_t id = 0;
+
+			Data() = default;
+
+			Data(Type t, uint32_t i) :
+				type(t), id(i)
+			{
+			}
 		};
 
 		struct Platform
@@ -41,6 +55,7 @@ namespace entity
 		Entity(Type type, uint32_t id);
 		Type getType() const;
 		uint32_t getID() const;
+		Data getData() const;
 
 	private:
 		Type m_type;
