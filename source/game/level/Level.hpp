@@ -20,7 +20,7 @@ namespace level
 {
 	class LevelBuilder;
 
-	class Level
+	class Level : public entity::EntityHandler
 	{
 	public:
 		enum State
@@ -38,6 +38,11 @@ namespace level
 		bool connectPlayer(player::Player* player);
 		bool disconnectPlayer(player::Player* player);
 		common::Diplomacy getDiplomacy(game::player::Player* player1, player::Player* player2);
+
+		virtual void onEntityAdd(const entity::Entity* entity);
+		virtual void onEntityRemove(entity::Entity::Data entity_data);
+		virtual void onEntityPlayerChange(const entity::Entity* entity, player::Player* old_player, player::Player* new_player);
+		virtual void onEntityMove(const entity::Entity* entity, entity::Entity::Platform src_platform, entity::Entity::Platform dest_platform);
 
 	private:
 		template<class T>

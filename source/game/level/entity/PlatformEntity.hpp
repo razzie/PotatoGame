@@ -18,13 +18,17 @@ namespace entity
 	{
 	public:
 		PlatformEntity(uint32_t id, uint32_t platform_count);
-		PlatformEntity(PlatformEntity& other);
+		float getAngle() const;
 		bool isInner() const;
 		bool isOuter() const;
-		float getAngle() const;
 		void getNeighbors(uint32_t* id_array, size_t& count);
 		bool getEntity(Entity::Type type, uint32_t& id) const;
-		bool putEntity(Entity::Type type, uint32_t id, Entity::Type& conflict_type, uint32_t& conflict_id);
+		int getEntities(Entity::Data* entity_array) const;
+
+	protected:
+		friend class EntityManager;
+
+		bool putEntity(Entity::Data entity, Entity::Data& conflicting_entity);
 		bool removeEntity(Entity::Type type);
 
 	private:
@@ -32,6 +36,10 @@ namespace entity
 		{
 			Entity::Type type = Entity::Type::NONE;
 			uint32_t id = 0;
+
+			bool getEntity(Entity::Type type, uint32_t& id) const;
+			bool putEntity(Entity::Data entity, Entity::Data& conflicting_entity);
+			bool removeEntity(Entity::Type type);
 		};
 
 		Container m_transport_spawn_portal_trap;

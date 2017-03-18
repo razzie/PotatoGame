@@ -17,6 +17,8 @@ namespace entity
 	class TraceEntity : public Entity
 	{
 	public:
+		constexpr static int DEFAULT_LIFESPAN = 5;
+
 		TraceEntity(uint32_t id, Entity::Platform platform, player::Player* player);
 		Platform getPlatform() const;
 		player::Player* getPlayer() const;
