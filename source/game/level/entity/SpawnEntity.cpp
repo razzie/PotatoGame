@@ -6,10 +6,9 @@
 
 #include "game/level/entity/SpawnEntity.hpp"
 
-game::level::entity::SpawnEntity::SpawnEntity(uint32_t id, Entity::Platform platform, player::Player* player) :
-	Entity(Type::SPAWN, id),
-	m_platform(platform),
-	m_player(player)
+game::level::entity::SpawnEntity::SpawnEntity(uint32_t id, Entity::Platform platform, int player_id) :
+	Entity(Type::SPAWN, id, player_id),
+	m_platform(platform)
 {
 }
 
@@ -18,12 +17,7 @@ game::level::entity::Entity::Platform game::level::entity::SpawnEntity::getPlatf
 	return m_platform;
 }
 
-game::player::Player* game::level::entity::SpawnEntity::getPlayer() const
+void game::level::entity::SpawnEntity::setPlayerID(int player_id)
 {
-	return m_player;
-}
-
-void game::level::entity::SpawnEntity::setPlayer(player::Player* player)
-{
-	m_player = player;
+	m_player_id = player_id;
 }

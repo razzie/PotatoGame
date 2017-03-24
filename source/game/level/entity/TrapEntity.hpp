@@ -17,13 +17,11 @@ namespace entity
 	class TrapEntity : public Entity
 	{
 	public:
-		TrapEntity(uint32_t id, Entity::Platform platform, player::Player* player);
+		TrapEntity(uint32_t id, Entity::Platform platform, int player_id);
 		Platform getPlatform() const;
-		player::Player* getPlayer() const;
 
 	private:
 		Platform m_platform;
-		player::Player* m_player;
 	};
 }
 }

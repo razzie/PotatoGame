@@ -21,12 +21,11 @@ namespace entity
 		constexpr static int DEFAULT_CHARGES = 15;
 		constexpr static int DEFAULT_MAX_CHARGES = 30;
 
-		CreatureEntity(uint32_t id, uint64_t seed, Entity::Platform platform, player::Player* player);
+		CreatureEntity(uint32_t id, uint64_t seed, Entity::Platform platform, int player_id);
 		uint64_t getSeed() const;
 		Platform getPlatform() const;
 		void setPlatform(Platform platform);
-		player::Player* getPlayer() const;
-		void setPlayer(player::Player* player);
+		void setPlayerID(int player_id);
 		int getCharges() const;
 		void addCharges(int amount);
 		void lowerCharges();
@@ -36,7 +35,6 @@ namespace entity
 	private:
 		uint64_t m_seed;
 		Platform m_platform;
-		player::Player* m_player;
 		int m_charges;
 		int m_max_charges;
 	};

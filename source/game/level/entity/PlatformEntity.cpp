@@ -30,7 +30,7 @@ void game::level::entity::PlatformEntity::getNeighbors(uint32_t* id_array, size_
 {
 }
 
-bool game::level::entity::PlatformEntity::getEntity(Entity::Type type, uint32_t& id) const
+bool game::level::entity::PlatformEntity::getEntity(Entity::Type type, Entity::Data& entity_data) const
 {
 	return false;
 }
