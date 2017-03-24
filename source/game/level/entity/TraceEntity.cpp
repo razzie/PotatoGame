@@ -6,10 +6,9 @@
 
 #include "game/level/entity/TraceEntity.hpp"
 
-game::level::entity::TraceEntity::TraceEntity(uint32_t id, Entity::Platform platform, player::Player* player) :
-	Entity(Type::TRACE, id),
+game::level::entity::TraceEntity::TraceEntity(uint32_t id, Entity::Platform platform, int player_id) :
+	Entity(Type::TRACE, id, player_id),
 	m_platform(platform),
-	m_player(player),
 	m_lifespan(DEFAULT_LIFESPAN)
 {
 }
@@ -17,11 +16,6 @@ game::level::entity::TraceEntity::TraceEntity(uint32_t id, Entity::Platform plat
 game::level::entity::Entity::Platform game::level::entity::TraceEntity::getPlatform() const
 {
 	return m_platform;
-}
-
-game::player::Player* game::level::entity::TraceEntity::getPlayer() const
-{
-	return m_player;
 }
 
 int game::level::entity::TraceEntity::getLifespan() const

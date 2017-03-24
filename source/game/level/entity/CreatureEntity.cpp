@@ -6,11 +6,10 @@
 
 #include "game/level/entity/CreatureEntity.hpp"
 
-game::level::entity::CreatureEntity::CreatureEntity(uint32_t id, uint64_t seed, Entity::Platform platform, player::Player* player) :
-	Entity(Type::CREATURE, id),
+game::level::entity::CreatureEntity::CreatureEntity(uint32_t id, uint64_t seed, Entity::Platform platform, int player_id) :
+	Entity(Type::CREATURE, id, player_id),
 	m_seed(seed),
 	m_platform(platform),
-	m_player(player),
 	m_charges(DEFAULT_CHARGES),
 	m_max_charges(DEFAULT_MAX_CHARGES)
 {
@@ -31,14 +30,9 @@ void game::level::entity::CreatureEntity::setPlatform(Platform platform)
 	m_platform = platform;
 }
 
-game::player::Player* game::level::entity::CreatureEntity::getPlayer() const
+void game::level::entity::CreatureEntity::setPlayerID(int player_id)
 {
-	return m_player;
-}
-
-void game::level::entity::CreatureEntity::setPlayer(player::Player* player)
-{
-	m_player = player;
+	m_player_id = player_id;
 }
 
 int game::level::entity::CreatureEntity::getCharges() const

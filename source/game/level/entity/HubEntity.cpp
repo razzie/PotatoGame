@@ -41,11 +41,17 @@ const game::level::entity::PlatformEntity* game::level::entity::HubEntity::getPl
 	return nullptr;
 }
 
-bool game::level::entity::HubEntity::isPlayerPresent(player::Player * player) const
+game::level::entity::PlatformEntity* game::level::entity::HubEntity::getPlatformByAngle(float angle)
 {
-	return false;
+	return nullptr;
 }
 
-void game::level::entity::HubEntity::collect(Entity::Type type, Vector<Entity::Data>& results)
+const game::level::entity::PlatformEntity* game::level::entity::HubEntity::getPlatformByAngle(float angle) const
 {
+	return nullptr;
+}
+
+int game::level::entity::HubEntity::countPlayerEntities(int player_id) const
+{
+	return 0;
 }

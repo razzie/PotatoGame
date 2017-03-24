@@ -20,9 +20,6 @@ namespace entity
 	class HubEntity : public Entity
 	{
 	public:
-		template<class T>
-		using Vector = std::vector<T, raz::Allocator<T>>;
-
 		struct Position
 		{
 			float x;
@@ -36,10 +33,14 @@ namespace entity
 		uint32_t getPlatformCount() const;
 		PlatformEntity* getPlatform(uint32_t id);
 		const PlatformEntity* getPlatform(uint32_t id) const;
-		bool isPlayerPresent(player::Player* player) const;
-		void collect(Entity::Type type, Vector<Entity::Data>& results);
+		PlatformEntity* getPlatformByAngle(float angle);
+		const PlatformEntity* getPlatformByAngle(float angle) const;
+		int countPlayerEntities(int player_id) const;
 
 	private:
+		template<class T>
+		using Vector = std::vector<T, raz::Allocator<T>>;
+
 		uint64_t m_seed;
 		uint32_t m_size;
 		Position m_position;

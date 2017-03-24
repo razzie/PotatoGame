@@ -17,14 +17,12 @@ namespace entity
 	class SpawnEntity : public Entity
 	{
 	public:
-		SpawnEntity(uint32_t id, Entity::Platform platform, player::Player* player);
+		SpawnEntity(uint32_t id, Entity::Platform platform, int player_id);
 		Platform getPlatform() const;
-		player::Player* getPlayer() const;
-		void setPlayer(player::Player* player);
+		void setPlayerID(int player_id);
 
 	private:
 		Platform m_platform;
-		player::Player* m_player;
 	};
 }
 }

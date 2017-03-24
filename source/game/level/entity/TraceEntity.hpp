@@ -19,15 +19,13 @@ namespace entity
 	public:
 		constexpr static int DEFAULT_LIFESPAN = 5;
 
-		TraceEntity(uint32_t id, Entity::Platform platform, player::Player* player);
+		TraceEntity(uint32_t id, Entity::Platform platform, int player_id);
 		Platform getPlatform() const;
-		player::Player* getPlayer() const;
 		int getLifespan() const;
 		void lowerLifespan();
 
 	private:
 		Platform m_platform;
-		player::Player* m_player;
 		int m_lifespan;
 	};
 }

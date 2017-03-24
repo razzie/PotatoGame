@@ -11,8 +11,7 @@
 game::level::Level::Level(raz::IMemoryPool* memory) :
 	m_memory(memory),
 	m_state(State::BUILD),
-	m_entities(this, memory),
-	m_players(memory)
+	m_entities(this, memory)
 {
 }
 
@@ -38,16 +37,35 @@ bool game::level::Level::build(LevelBuilder& builder)
 
 void game::level::Level::reset()
 {
+	m_entities.reset();
+	initPlayers();
+
+	m_state = State::BUILD;
 }
 
-bool game::level::Level::connectPlayer(game::player::Player * player)
+void game::level::Level::update()
+{
+	m_entities.tick();
+}
+
+bool game::level::Level::connectPlayer(game::player::Player* player)
 {
 	return false;
 }
 
-bool game::level::Level::disconnectPlayer(game::player::Player * player)
+bool game::level::Level::disconnectPlayer(game::player::Player* player)
 {
 	return false;
+}
+
+const game::level::Level::PlayerData* game::level::Level::getPlayerData(player::Player* player) const
+{
+	return nullptr;
+}
+
+const game::level::Level::PlayerData* game::level::Level::getPlayerData(int player_id) const
+{
+	return nullptr;
 }
 
 common::Diplomacy game::level::Level::getDiplomacy(game::player::Player* player1, player::Player* player2)
@@ -63,10 +81,28 @@ void game::level::Level::onEntityRemove(entity::Entity::Data entity_data)
 {
 }
 
-void game::level::Level::onEntityPlayerChange(const entity::Entity* entity, player::Player* old_player, player::Player* new_player)
+void game::level::Level::onEntityPlayerChange(const entity::Entity* entity, int old_player, int new_player)
+{
+}
+
+void game::level::Level::onEntityVisibilityChange(const entity::Entity* entity, int player, bool new_visibility)
 {
 }
 
 void game::level::Level::onEntityMove(const entity::Entity* entity, entity::Entity::Platform src_platform, entity::Entity::Platform dest_platform)
 {
+}
+
+void game::level::Level::initPlayers()
+{
+	for (size_t i = 0; i < entity::Entity::MAX_PLAYERS; ++i)
+	{
+		PlayerData& data = m_players[i];
+		data.player = nullptr;
+		data.player_id = i;
+		data.team_id = -1;
+		//data.color = 
+	}
+
+	m_player_slots.reset();
 }
