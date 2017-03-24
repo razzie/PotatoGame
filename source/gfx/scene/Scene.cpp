@@ -31,9 +31,14 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	m_cam.setPosition({ -8, 8, -8 });
 
 	addHub(0, std::time(NULL), 6, GL::Vec2());
-	addCreature(0, std::time(NULL), GL::Color(255, 0, 0), 0, 0);
+	addHub(1, std::time(NULL), 8, GL::Vec2(30.f, 0.f));
+	//changeHubColor(1, GL::Color(255, 0, 0));
 
-	//changeHubColor(0, GL::Color(255, 0, 0));
+	addCreature(0, std::time(NULL), GL::Color(255, 0, 0), 0, 0);
+	addCreature(1, std::time(NULL) + 123, GL::Color(0, 255, 0), 0, 2);
+	addCreature(2, std::time(NULL) + 256, GL::Color(0, 0, 255), 0, 4);
+
+	addTransport(0, 0, 10, 1, 10);
 }
 
 gfx::scene::Scene::~Scene()

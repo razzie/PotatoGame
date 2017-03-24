@@ -13,7 +13,13 @@ gfx::scene::model::TransportModel::TransportModel(Scene& scene, uint32_t id, uin
 {
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 
+	GL::Vec3 p1;
+	GL::Vec3 p2;
+	scene.getHubPlatformPosition(hub1_id, hub1_platform_id, p1);
+	scene.getHubPlatformPosition(hub2_id, hub2_platform_id, p2);
 
+	shape::WireShape wire(p1, p2, 8, 5.f);
+	wire.generate(meshbuffer);
 
 	meshbuffer.recalculateNormals();
 
