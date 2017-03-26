@@ -31,7 +31,7 @@ gfx::scene::Camera::~Camera()
 
 void gfx::scene::Camera::setAspectRatio(float aspect_ratio)
 {
-	m_proj = GL::Mat4::Perspective(GL::Rad(90), aspect_ratio, 0.1f, 1000.0f);
+	m_proj = GL::Mat4::Perspective(GL::Rad(90), aspect_ratio, 0.1f, 100.0f);
 	m_dirty = true;
 }
 
