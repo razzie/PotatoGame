@@ -303,9 +303,6 @@
     <ClCompile Include="source\thirdparty\micropather\micropather.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\level\entity\Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\common\InputHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -417,40 +414,43 @@
     <ClCompile Include="source\game\level\Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\level\entity\HubEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\level\entity\PlatformEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\level\entity\EntityManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\level\LevelBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\level\entity\TransportEntity.cpp">
+    <ClCompile Include="source\game\entity\ChargeEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\level\entity\ChargeEntity.cpp">
+    <ClCompile Include="source\game\entity\CreatureEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\level\entity\ResourceEntity.cpp">
+    <ClCompile Include="source\game\entity\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\level\entity\TraceEntity.cpp">
+    <ClCompile Include="source\game\entity\EntityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\level\entity\SpawnEntity.cpp">
+    <ClCompile Include="source\game\entity\HubEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\level\entity\PortalEntity.cpp">
+    <ClCompile Include="source\game\entity\PlatformEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\level\entity\TrapEntity.cpp">
+    <ClCompile Include="source\game\entity\PortalEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\level\entity\CreatureEntity.cpp">
+    <ClCompile Include="source\game\entity\ResourceEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\entity\SpawnEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\entity\TraceEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\entity\TransportEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\entity\TrapEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1067,36 +1067,6 @@
     <ClInclude Include="source\game\level\RemoteLevel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\level\entity\Entity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\level\entity\ChargeEntity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\level\entity\HubEntity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\level\entity\PlatformEntity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\level\entity\PortalEntity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\level\entity\ResourceEntity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\level\entity\SpawnEntity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\level\entity\TraceEntity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\level\entity\TransportEntity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\level\entity\TrapEntity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\common\InputHelper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1211,9 +1181,6 @@
     <ClInclude Include="source\gfx\scene\Horizon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\level\entity\CreatureEntity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\event\serverevents.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1223,10 +1190,43 @@
     <ClInclude Include="source\common\Diplomacy.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\level\entity\EntityManager.hpp">
+    <ClInclude Include="source\game\level\LevelBuilder.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\level\LevelBuilder.hpp">
+    <ClInclude Include="source\game\entity\ChargeEntity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\entity\CreatureEntity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\entity\Entity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\entity\EntityManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\entity\HubEntity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\entity\PlatformEntity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\entity\PortalEntity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\entity\ResourceEntity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\entity\SpawnEntity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\entity\TraceEntity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\entity\TransportEntity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\entity\TrapEntity.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

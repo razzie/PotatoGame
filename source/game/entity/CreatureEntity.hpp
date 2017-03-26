@@ -7,11 +7,9 @@
 #pragma once
 
 #include <array>
-#include "game/level/entity/Entity.hpp"
+#include "game/entity/Entity.hpp"
 
 namespace game
-{
-namespace level
 {
 namespace entity
 {
@@ -38,6 +36,5 @@ namespace entity
 		int m_charges;
 		int m_max_charges;
 	};
-}
 }
 }

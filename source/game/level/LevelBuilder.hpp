@@ -8,13 +8,9 @@
 
 namespace game
 {
+namespace entity { class EntityManager; }
 namespace level
 {
-	namespace entity
-	{
-		class EntityManager;
-	}
-
 	class LevelBuilder
 	{
 	public:

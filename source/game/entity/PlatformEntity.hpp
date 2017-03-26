@@ -6,11 +6,9 @@
 
 #pragma once
 
-#include "game/level/entity/Entity.hpp"
+#include "game/entity/Entity.hpp"
 
 namespace game
-{
-namespace level
 {
 namespace entity
 {
@@ -54,6 +52,5 @@ namespace entity
 		Container* getContainer(Entity::Type type);
 		const Container* getContainer(Entity::Type type) const;
 	};
-}
 }
 }

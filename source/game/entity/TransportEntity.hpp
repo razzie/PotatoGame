@@ -6,11 +6,9 @@
 
 #pragma once
 
-#include "game/level/entity/Entity.hpp"
+#include "game/entity/Entity.hpp"
 
 namespace game
-{
-namespace level
 {
 namespace entity
 {
@@ -25,6 +23,5 @@ namespace entity
 		Platform m_platform1;
 		Platform m_platform2;
 	};
-}
 }
 }
