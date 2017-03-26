@@ -6,6 +6,7 @@
 
 
 #include <cmath>
+#include <GL/Math/Vec2.hpp>
 #include "common/PI.hpp"
 #include "game/level/entity/EntityManager.hpp"
 
@@ -120,7 +121,7 @@ game::level::entity::EntityManager::Result game::level::entity::EntityManager::a
 		m_player_hub_slots.set(*it);
 	}
 
-	HubEntity* hub = m_hubs.add(seed, size, position);
+	HubEntity* hub = m_hubs.add(seed, size, position, m_memory);
 	m_handler->onEntityAdd(hub);
 	return Result().success(hub->getData());
 }
@@ -135,13 +136,15 @@ game::level::entity::EntityManager::Result game::level::entity::EntityManager::a
 	if (!hub2)
 		return Result().fail();
 
-	float angle = 0.f;
+	GL::Vec2 dir(hub2->getPosition().x - hub1->getPosition().x, hub2->getPosition().z - hub1->getPosition().z);
+	dir = dir.Normal();
+	float angle = (float)std::atan2(dir.Y, dir.X);
 
 	PlatformEntity* p1 = hub1->getPlatformByAngle(angle);
 	if (!p1)
 		return Result().fail();
 
-	PlatformEntity* p2 = hub2->getPlatformByAngle(-angle);
+	PlatformEntity* p2 = hub2->getPlatformByAngle(angle + (float)common::PI);
 	if (!p2)
 		return Result().fail();
 
