@@ -6,23 +6,25 @@
 
 #pragma once
 
-#include "game/level/entity/Entity.hpp"
+#include "game/entity/Entity.hpp"
 
 namespace game
 {
-namespace level
-{
 namespace entity
 {
-	class PortalEntity : public Entity
+	class TraceEntity : public Entity
 	{
 	public:
-		PortalEntity(uint32_t id, Entity::Platform platform);
+		constexpr static int DEFAULT_LIFESPAN = 5;
+
+		TraceEntity(uint32_t id, Entity::Platform platform, int player_id);
 		Platform getPlatform() const;
+		int getLifespan() const;
+		void lowerLifespan();
 
 	private:
 		Platform m_platform;
+		int m_lifespan;
 	};
-}
 }
 }

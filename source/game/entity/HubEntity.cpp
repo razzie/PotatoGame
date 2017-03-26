@@ -5,9 +5,9 @@
  */
 
 #include "common/PI.hpp"
-#include "game/level/entity/HubEntity.hpp"
+#include "game/entity/HubEntity.hpp"
 
-game::level::entity::HubEntity::HubEntity(uint32_t id, uint64_t seed, uint32_t size, Position position, raz::IMemoryPool* memory) :
+game::entity::HubEntity::HubEntity(uint32_t id, uint64_t seed, uint32_t size, Position position, raz::IMemoryPool* memory) :
 	Entity(Type::HUB, id),
 	m_seed(seed),
 	m_size(size),
@@ -25,27 +25,27 @@ game::level::entity::HubEntity::HubEntity(uint32_t id, uint64_t seed, uint32_t s
 	}
 }
 
-uint64_t game::level::entity::HubEntity::getSeed() const
+uint64_t game::entity::HubEntity::getSeed() const
 {
 	return m_seed;
 }
 
-uint32_t game::level::entity::HubEntity::getSize() const
+uint32_t game::entity::HubEntity::getSize() const
 {
 	return m_size;
 }
 
-game::level::entity::HubEntity::Position game::level::entity::HubEntity::getPosition() const
+game::entity::HubEntity::Position game::entity::HubEntity::getPosition() const
 {
 	return m_position;
 }
 
-uint32_t game::level::entity::HubEntity::getPlatformCount() const
+uint32_t game::entity::HubEntity::getPlatformCount() const
 {
 	return m_platforms.size();
 }
 
-game::level::entity::PlatformEntity* game::level::entity::HubEntity::getPlatform(uint32_t id)
+game::entity::PlatformEntity* game::entity::HubEntity::getPlatform(uint32_t id)
 {
 	if (id < getPlatformCount())
 		return &m_platforms[id];
@@ -53,7 +53,7 @@ game::level::entity::PlatformEntity* game::level::entity::HubEntity::getPlatform
 		return nullptr;
 }
 
-const game::level::entity::PlatformEntity* game::level::entity::HubEntity::getPlatform(uint32_t id) const
+const game::entity::PlatformEntity* game::entity::HubEntity::getPlatform(uint32_t id) const
 {
 	if (id < getPlatformCount())
 		return &m_platforms[id];
@@ -61,17 +61,17 @@ const game::level::entity::PlatformEntity* game::level::entity::HubEntity::getPl
 		return nullptr;
 }
 
-game::level::entity::PlatformEntity* game::level::entity::HubEntity::getPlatformByAngle(float angle)
+game::entity::PlatformEntity* game::entity::HubEntity::getPlatformByAngle(float angle)
 {
 	return getPlatform(getPlatformIDByAngle(angle));
 }
 
-const game::level::entity::PlatformEntity* game::level::entity::HubEntity::getPlatformByAngle(float angle) const
+const game::entity::PlatformEntity* game::entity::HubEntity::getPlatformByAngle(float angle) const
 {
 	return getPlatform(getPlatformIDByAngle(angle));
 }
 
-int game::level::entity::HubEntity::getPlatformNeighbors(uint32_t platform_id, uint32_t* neighbor_ids) const
+int game::entity::HubEntity::getPlatformNeighbors(uint32_t platform_id, uint32_t* neighbor_ids) const
 {
 	const PlatformEntity* platform = getPlatform(platform_id);
 	if (!platform)
@@ -111,7 +111,7 @@ int game::level::entity::HubEntity::getPlatformNeighbors(uint32_t platform_id, u
 	}
 }
 
-int game::level::entity::HubEntity::countPlayerEntities(int player_id) const
+int game::entity::HubEntity::countPlayerEntities(int player_id) const
 {
 	int count = 0;
 
@@ -130,7 +130,7 @@ int game::level::entity::HubEntity::countPlayerEntities(int player_id) const
 	return count;
 }
 
-uint32_t game::level::entity::HubEntity::getPlatformIDByAngle(float angle) const
+uint32_t game::entity::HubEntity::getPlatformIDByAngle(float angle) const
 {
 	float angle_step = (2.f * (float)common::PI) / m_outer_platform_count;
 	return uint32_t(angle / angle_step) + m_inner_platform_count;

@@ -11,8 +11,6 @@
 
 namespace game
 {
-namespace level
-{
 namespace entity
 {
 	class Entity
@@ -71,6 +69,5 @@ namespace entity
 	protected:
 		int m_player_id;
 	};
-}
 }
 }

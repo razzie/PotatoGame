@@ -6,23 +6,21 @@
 
 #pragma once
 
-#include "game/level/entity/Entity.hpp"
+#include "game/entity/Entity.hpp"
 
 namespace game
 {
-namespace level
-{
 namespace entity
 {
-	class TrapEntity : public Entity
+	class SpawnEntity : public Entity
 	{
 	public:
-		TrapEntity(uint32_t id, Entity::Platform platform, int player_id);
+		SpawnEntity(uint32_t id, Entity::Platform platform, int player_id);
 		Platform getPlatform() const;
+		void setPlayerID(int player_id);
 
 	private:
 		Platform m_platform;
 	};
-}
 }
 }

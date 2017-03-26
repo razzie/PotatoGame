@@ -6,23 +6,27 @@
 
 #pragma once
 
-#include "game/level/entity/Entity.hpp"
+#include "game/entity/Entity.hpp"
 
 namespace game
 {
-namespace level
-{
 namespace entity
 {
-	class ChargeEntity : public Entity
+	class ResourceEntity : public Entity
 	{
 	public:
-		ChargeEntity(uint32_t id, Entity::Platform platform);
+		struct Value
+		{
+			uint32_t a, b, c;
+		};
+
+		ResourceEntity(uint32_t id, Entity::Platform platform, Value value);
 		Platform getPlatform() const;
+		Value getValue() const;
 
 	private:
 		Platform m_platform;
+		Value m_value;
 	};
-}
 }
 }

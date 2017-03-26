@@ -8,9 +8,9 @@
 #include <cmath>
 #include <GL/Math/Vec2.hpp>
 #include "common/PI.hpp"
-#include "game/level/entity/EntityManager.hpp"
+#include "game/entity/EntityManager.hpp"
 
-game::level::entity::EntityManager::EntityManager(EntityHandler* handler, raz::IMemoryPool* memory) :
+game::entity::EntityManager::EntityManager(EntityHandler* handler, raz::IMemoryPool* memory) :
 	m_handler(handler),
 	m_memory(memory),
 	m_hubs(memory),
@@ -25,7 +25,7 @@ game::level::entity::EntityManager::EntityManager(EntityHandler* handler, raz::I
 {
 }
 
-bool game::level::entity::EntityManager::addPlayer(int player, uint32_t& hub_id)
+bool game::entity::EntityManager::addPlayer(int player, uint32_t& hub_id)
 {
 	if (player < 0 || player >= Entity::MAX_PLAYERS)
 		return false;
@@ -44,7 +44,7 @@ bool game::level::entity::EntityManager::addPlayer(int player, uint32_t& hub_id)
 	return false;
 }
 
-bool game::level::entity::EntityManager::removePlayer(int player)
+bool game::entity::EntityManager::removePlayer(int player)
 {
 	if (player < 0 || player >= Entity::MAX_PLAYERS)
 		return false;
@@ -71,12 +71,12 @@ bool game::level::entity::EntityManager::removePlayer(int player)
 	return true;
 }
 
-size_t game::level::entity::EntityManager::getMaxPlayers() const
+size_t game::entity::EntityManager::getMaxPlayers() const
 {
 	return m_player_hubs.size();
 }
 
-void game::level::entity::EntityManager::tick()
+void game::entity::EntityManager::tick()
 {
 	auto& traces = m_traces.getEntities();
 
@@ -91,7 +91,7 @@ void game::level::entity::EntityManager::tick()
 	}
 }
 
-void game::level::entity::EntityManager::reset()
+void game::entity::EntityManager::reset()
 {
 	m_hubs.clear();
 	m_transports.clear();
@@ -105,7 +105,7 @@ void game::level::entity::EntityManager::reset()
 	initPlayerHubs();
 }
 
-game::level::entity::EntityManager::Result game::level::entity::EntityManager::addHub(uint64_t seed, uint32_t size, HubEntity::Position position, bool player_hub)
+game::entity::EntityManager::Result game::entity::EntityManager::addHub(uint64_t seed, uint32_t size, HubEntity::Position position, bool player_hub)
 {
 	if (player_hub)
 	{
@@ -126,7 +126,7 @@ game::level::entity::EntityManager::Result game::level::entity::EntityManager::a
 	return Result().success(hub->getData());
 }
 
-game::level::entity::EntityManager::Result game::level::entity::EntityManager::addTransport(uint32_t hub1_id, uint32_t hub2_id)
+game::entity::EntityManager::Result game::entity::EntityManager::addTransport(uint32_t hub1_id, uint32_t hub2_id)
 {
 	HubEntity* hub1 = m_hubs.find(hub1_id);
 	if (!hub1)
@@ -151,42 +151,42 @@ game::level::entity::EntityManager::Result game::level::entity::EntityManager::a
 	return addTransport(hub1_id, p1, hub2_id, p2);
 }
 
-game::level::entity::EntityManager::Result game::level::entity::EntityManager::addTransport(Entity::Platform platform1, Entity::Platform platform2)
+game::entity::EntityManager::Result game::entity::EntityManager::addTransport(Entity::Platform platform1, Entity::Platform platform2)
 {
 	return addTransport(platform1.hub_id, getPlatform(platform1), platform2.hub_id, getPlatform(platform2));
 }
 
-game::level::entity::EntityManager::Result game::level::entity::EntityManager::addCharge(Entity::Platform platform)
+game::entity::EntityManager::Result game::entity::EntityManager::addCharge(Entity::Platform platform)
 {
 	return addEntity(platform, m_charges, platform);
 }
 
-game::level::entity::EntityManager::Result game::level::entity::EntityManager::addResource(Entity::Platform platform, ResourceEntity::Value value)
+game::entity::EntityManager::Result game::entity::EntityManager::addResource(Entity::Platform platform, ResourceEntity::Value value)
 {
 	return addEntity(platform, m_resources, platform, value);
 }
 
-game::level::entity::EntityManager::Result game::level::entity::EntityManager::addTrace(Entity::Platform platform, int player)
+game::entity::EntityManager::Result game::entity::EntityManager::addTrace(Entity::Platform platform, int player)
 {
 	return addEntity(platform, m_traces, platform, player);
 }
 
-game::level::entity::EntityManager::Result game::level::entity::EntityManager::addSpawn(Entity::Platform platform, int player)
+game::entity::EntityManager::Result game::entity::EntityManager::addSpawn(Entity::Platform platform, int player)
 {
 	return addEntity(platform, m_spawns, platform, player);
 }
 
-game::level::entity::EntityManager::Result game::level::entity::EntityManager::addPortal(Entity::Platform platform)
+game::entity::EntityManager::Result game::entity::EntityManager::addPortal(Entity::Platform platform)
 {
 	return addEntity(platform, m_portals, platform);
 }
 
-game::level::entity::EntityManager::Result game::level::entity::EntityManager::addTrap(Entity::Platform platform, int player)
+game::entity::EntityManager::Result game::entity::EntityManager::addTrap(Entity::Platform platform, int player)
 {
 	return addEntity(platform, m_traps, platform, player);
 }
 
-game::level::entity::EntityManager::Result game::level::entity::EntityManager::addCreature(uint64_t seed, Entity::Platform platform, int player)
+game::entity::EntityManager::Result game::entity::EntityManager::addCreature(uint64_t seed, Entity::Platform platform, int player)
 {
 	Result result = addEntity(platform, m_creatures, seed, platform, player);
 
@@ -196,7 +196,7 @@ game::level::entity::EntityManager::Result game::level::entity::EntityManager::a
 	return result;
 }
 
-bool game::level::entity::EntityManager::removeEntity(Entity::Data entity_data)
+bool game::entity::EntityManager::removeEntity(Entity::Data entity_data)
 {
 	switch (entity_data.type)
 	{
@@ -220,32 +220,32 @@ bool game::level::entity::EntityManager::removeEntity(Entity::Data entity_data)
 	}
 }
 
-bool game::level::entity::EntityManager::removeCharge(uint32_t id)
+bool game::entity::EntityManager::removeCharge(uint32_t id)
 {
 	return removeEntity(id, m_charges);
 }
 
-bool game::level::entity::EntityManager::removeResource(uint32_t id)
+bool game::entity::EntityManager::removeResource(uint32_t id)
 {
 	return removeEntity(id, m_resources);
 }
 
-bool game::level::entity::EntityManager::removeTrace(uint32_t id)
+bool game::entity::EntityManager::removeTrace(uint32_t id)
 {
 	return removeEntity(id, m_traces);
 }
 
-bool game::level::entity::EntityManager::removeTrap(uint32_t id)
+bool game::entity::EntityManager::removeTrap(uint32_t id)
 {
 	return removeEntity(id, m_traps);
 }
 
-bool game::level::entity::EntityManager::removeCreature(uint32_t id)
+bool game::entity::EntityManager::removeCreature(uint32_t id)
 {
 	return removeEntity(id, m_creatures);
 }
 
-bool game::level::entity::EntityManager::changeEntityPlayer(Entity::Data entity_data, int new_player)
+bool game::entity::EntityManager::changeEntityPlayer(Entity::Data entity_data, int new_player)
 {
 	switch (entity_data.type)
 	{
@@ -260,7 +260,7 @@ bool game::level::entity::EntityManager::changeEntityPlayer(Entity::Data entity_
 	}
 }
 
-game::level::entity::EntityManager::Result game::level::entity::EntityManager::moveCreature(uint32_t id, Entity::Platform dest_platform)
+game::entity::EntityManager::Result game::entity::EntityManager::moveCreature(uint32_t id, Entity::Platform dest_platform)
 {
 	CreatureEntity* creature = m_creatures.find(id);
 	if (!creature)
@@ -291,7 +291,7 @@ game::level::entity::EntityManager::Result game::level::entity::EntityManager::m
 	return Result().success(creature_data);
 }
 
-void game::level::entity::EntityManager::initPlayerHubs()
+void game::entity::EntityManager::initPlayerHubs()
 {
 	for (PlayerHub& hub : m_player_hubs)
 	{
@@ -301,7 +301,7 @@ void game::level::entity::EntityManager::initPlayerHubs()
 	m_player_hub_slots.reset();
 }
 
-game::level::entity::Entity* game::level::entity::EntityManager::getEntity(Entity::Data entity_data)
+game::entity::Entity* game::entity::EntityManager::getEntity(Entity::Data entity_data)
 {
 	switch (entity_data.type)
 	{
@@ -325,7 +325,7 @@ game::level::entity::Entity* game::level::entity::EntityManager::getEntity(Entit
 	}
 }
 
-game::level::entity::PlatformEntity* game::level::entity::EntityManager::getPlatform(Entity::Platform platform)
+game::entity::PlatformEntity* game::entity::EntityManager::getPlatform(Entity::Platform platform)
 {
 	HubEntity* hub = m_hubs.find(platform.hub_id);
 	if (hub)
@@ -334,7 +334,7 @@ game::level::entity::PlatformEntity* game::level::entity::EntityManager::getPlat
 		return nullptr;
 }
 
-game::level::entity::EntityManager::Result game::level::entity::EntityManager::addTransport(uint32_t hub1_id, PlatformEntity* p1, uint32_t hub2_id, PlatformEntity* p2)
+game::entity::EntityManager::Result game::entity::EntityManager::addTransport(uint32_t hub1_id, PlatformEntity* p1, uint32_t hub2_id, PlatformEntity* p2)
 {
 	if ((p1 == p2) || !p1 || !p2)
 		return Result().fail();
@@ -363,7 +363,7 @@ game::level::entity::EntityManager::Result game::level::entity::EntityManager::a
 	return Result().success(transport_data);
 }
 
-void game::level::entity::EntityManager::updateHubVisibility(uint32_t hub_id, int player)
+void game::entity::EntityManager::updateHubVisibility(uint32_t hub_id, int player)
 {
 	if (player < 0 || player >= Entity::MAX_PLAYERS)
 		return;

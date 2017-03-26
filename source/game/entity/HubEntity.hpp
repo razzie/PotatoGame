@@ -8,12 +8,10 @@
 
 #include <vector>
 #include <raz/memory.hpp>
-#include "game/level/entity/Entity.hpp"
-#include "game/level/entity/PlatformEntity.hpp"
+#include "game/entity/Entity.hpp"
+#include "game/entity/PlatformEntity.hpp"
 
 namespace game
-{
-namespace level
 {
 namespace entity
 {
@@ -53,6 +51,5 @@ namespace entity
 
 		uint32_t getPlatformIDByAngle(float angle) const;
 	};
-}
 }
 }

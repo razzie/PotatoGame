@@ -12,7 +12,7 @@
 #include <raz/bitset.hpp>
 #include <raz/timer.hpp>
 #include "common/Diplomacy.hpp"
-#include "game/level/entity/EntityManager.hpp"
+#include "game/entity/EntityManager.hpp"
 
 namespace game
 {

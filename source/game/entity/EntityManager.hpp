@@ -10,20 +10,18 @@
 #include <vector>
 #include <raz/memory.hpp>
 #include <raz/bitset.hpp>
-#include "game/level/entity/HubEntity.hpp"
-#include "game/level/entity/PlatformEntity.hpp"
-#include "game/level/entity/TransportEntity.hpp"
-#include "game/level/entity/ChargeEntity.hpp"
-#include "game/level/entity/ResourceEntity.hpp"
-#include "game/level/entity/TraceEntity.hpp"
-#include "game/level/entity/SpawnEntity.hpp"
-#include "game/level/entity/PortalEntity.hpp"
-#include "game/level/entity/TrapEntity.hpp"
-#include "game/level/entity/CreatureEntity.hpp"
+#include "game/entity/HubEntity.hpp"
+#include "game/entity/PlatformEntity.hpp"
+#include "game/entity/TransportEntity.hpp"
+#include "game/entity/ChargeEntity.hpp"
+#include "game/entity/ResourceEntity.hpp"
+#include "game/entity/TraceEntity.hpp"
+#include "game/entity/SpawnEntity.hpp"
+#include "game/entity/PortalEntity.hpp"
+#include "game/entity/TrapEntity.hpp"
+#include "game/entity/CreatureEntity.hpp"
 
 namespace game
-{
-namespace level
 {
 namespace entity
 {
@@ -304,6 +302,5 @@ namespace entity
 		Result addTransport(uint32_t hub1_id, PlatformEntity* platform1, uint32_t hub2_id, PlatformEntity* platform2);
 		void updateHubVisibility(uint32_t hub_id, int player);
 	};
-}
 }
 }

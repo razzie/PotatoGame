@@ -6,7 +6,7 @@
 
 #include "game/level/Level.hpp"
 #include "game/level/LevelBuilder.hpp"
-#include "game/level/entity/EntityManager.hpp"
+#include "game/entity/EntityManager.hpp"
 
 game::level::Level::Level(raz::IMemoryPool* memory) :
 	m_memory(memory),

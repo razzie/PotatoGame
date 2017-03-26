@@ -5,7 +5,7 @@
  */
 
 #include "game/level/LevelBuilder.hpp"
-#include "game/level/entity/EntityManager.hpp"
+#include "game/entity/EntityManager.hpp"
 
 void game::level::LevelBuilder::build(entity::EntityManager& entities)
 {

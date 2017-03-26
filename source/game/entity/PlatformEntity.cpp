@@ -6,9 +6,9 @@
 
 #include <cassert>
 #include "common/PI.hpp"
-#include "game/level/entity/PlatformEntity.hpp"
+#include "game/entity/PlatformEntity.hpp"
 
-game::level::entity::PlatformEntity::PlatformEntity(uint32_t id, uint32_t platform_count) :
+game::entity::PlatformEntity::PlatformEntity(uint32_t id, uint32_t platform_count) :
 	Entity(Type::PLATFORM, id)
 {
 	assert(platform_count % 3 == 0);
@@ -28,27 +28,27 @@ game::level::entity::PlatformEntity::PlatformEntity(uint32_t id, uint32_t platfo
 	}
 }
 
-uint32_t game::level::entity::PlatformEntity::getSubID() const
+uint32_t game::entity::PlatformEntity::getSubID() const
 {
 	return m_sub_id;
 }
 
-float game::level::entity::PlatformEntity::getAngle() const
+float game::entity::PlatformEntity::getAngle() const
 {
 	return m_angle;
 }
 
-bool game::level::entity::PlatformEntity::isInner() const
+bool game::entity::PlatformEntity::isInner() const
 {
 	return (getID() == m_sub_id);
 }
 
-bool game::level::entity::PlatformEntity::isOuter() const
+bool game::entity::PlatformEntity::isOuter() const
 {
 	return (getID() != m_sub_id);
 }
 
-bool game::level::entity::PlatformEntity::getEntity(Entity::Type type, Entity::Data& entity_data) const
+bool game::entity::PlatformEntity::getEntity(Entity::Type type, Entity::Data& entity_data) const
 {
 	const Container* container = getContainer(type);
 	if (!container)
@@ -57,7 +57,7 @@ bool game::level::entity::PlatformEntity::getEntity(Entity::Type type, Entity::D
 	return container->getEntity(type, entity_data);
 }
 
-int game::level::entity::PlatformEntity::getEntities(Entity::Data* entity_array) const
+int game::entity::PlatformEntity::getEntities(Entity::Data* entity_array) const
 {
 	int count = 0;
 
@@ -67,7 +67,7 @@ int game::level::entity::PlatformEntity::getEntities(Entity::Data* entity_array)
 	return count;
 }
 
-bool game::level::entity::PlatformEntity::putEntity(Entity::Data entity, Entity::Data& conflicting_entity)
+bool game::entity::PlatformEntity::putEntity(Entity::Data entity, Entity::Data& conflicting_entity)
 {
 	Container* container = getContainer(entity.type);
 	if (!container)
@@ -76,7 +76,7 @@ bool game::level::entity::PlatformEntity::putEntity(Entity::Data entity, Entity:
 	return container->putEntity(entity, conflicting_entity);
 }
 
-bool game::level::entity::PlatformEntity::removeEntity(Entity::Type type)
+bool game::entity::PlatformEntity::removeEntity(Entity::Type type)
 {
 	Container* container = getContainer(type);
 	if (!container)
@@ -85,7 +85,7 @@ bool game::level::entity::PlatformEntity::removeEntity(Entity::Type type)
 	return container->removeEntity(type);
 }
 
-int game::level::entity::PlatformEntity::getContainerID(Entity::Type type) const
+int game::entity::PlatformEntity::getContainerID(Entity::Type type) const
 {
 	switch (type)
 	{
@@ -108,7 +108,7 @@ int game::level::entity::PlatformEntity::getContainerID(Entity::Type type) const
 	}
 }
 
-game::level::entity::PlatformEntity::Container* game::level::entity::PlatformEntity::getContainer(Entity::Type type)
+game::entity::PlatformEntity::Container* game::entity::PlatformEntity::getContainer(Entity::Type type)
 {
 	int container_id = getContainerID(type);
 	if (container_id >= 0)
@@ -117,7 +117,7 @@ game::level::entity::PlatformEntity::Container* game::level::entity::PlatformEnt
 		return nullptr;
 }
 
-const game::level::entity::PlatformEntity::Container* game::level::entity::PlatformEntity::getContainer(Entity::Type type) const
+const game::entity::PlatformEntity::Container* game::entity::PlatformEntity::getContainer(Entity::Type type) const
 {
 	int container_id = getContainerID(type);
 	if (container_id >= 0)
@@ -127,7 +127,7 @@ const game::level::entity::PlatformEntity::Container* game::level::entity::Platf
 }
 
 
-bool game::level::entity::PlatformEntity::Container::getEntity(Entity::Type type, Entity::Data& entity_data) const
+bool game::entity::PlatformEntity::Container::getEntity(Entity::Type type, Entity::Data& entity_data) const
 {
 	if (m_entity_data.type == type)
 	{
@@ -138,7 +138,7 @@ bool game::level::entity::PlatformEntity::Container::getEntity(Entity::Type type
 	return false;
 }
 
-bool game::level::entity::PlatformEntity::Container::putEntity(Entity::Data entity_data, Entity::Data& conflicting_entity)
+bool game::entity::PlatformEntity::Container::putEntity(Entity::Data entity_data, Entity::Data& conflicting_entity)
 {
 	if (m_entity_data.type != Entity::Type::NONE)
 	{
@@ -150,12 +150,12 @@ bool game::level::entity::PlatformEntity::Container::putEntity(Entity::Data enti
 	return true;
 }
 
-bool game::level::entity::PlatformEntity::Container::removeEntity(Entity::Type type)
+bool game::entity::PlatformEntity::Container::removeEntity(Entity::Type type)
 {
 	return false;
 }
 
-void game::level::entity::PlatformEntity::Container::loadEntityToArray(Entity::Data*& entity_data_array, int& count) const
+void game::entity::PlatformEntity::Container::loadEntityToArray(Entity::Data*& entity_data_array, int& count) const
 {
 	if (m_entity_data.type != Entity::Type::NONE)
 	{
