@@ -111,18 +111,22 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 
 	GL::Color color;
 
-	switch (random(0, 2))
+	switch (random(0, 6))
 	{
-	case 0: // white
-		color = GL::Color(224, 224, 224);
+	case 0:
+	case 1:
+	case 2:
+		color = GL::Color(224, 224, 224); // white
 		break;
 
-	case 1: // black
-		color = GL::Color(32, 32, 32);
+	case 3:
+	case 4:
+	case 5:
+		color = GL::Color(32, 32, 32); // black
 		break;
 
-	case 2: // transparent, will be replaced by diffuse color in shader
-		color = GL::Color(192, 192, 192, 0);
+	case 6:
+		color = GL::Color(192, 192, 192, 0); // transparent, will be replaced by diffuse color in shader
 		break;
 	}
 
