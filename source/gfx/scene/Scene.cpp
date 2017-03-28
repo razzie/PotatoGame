@@ -38,7 +38,7 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	addCreature(1, std::time(NULL) + 123, GL::Color(0, 255, 0), 0, 2);
 	addCreature(2, std::time(NULL) + 256, GL::Color(0, 0, 255), 0, 4);
 
-	addTransport(0, 0, 10, 1, 10);
+	addTransport(0, 0, 25, 1, 60);
 }
 
 gfx::scene::Scene::~Scene()

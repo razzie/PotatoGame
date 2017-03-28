@@ -4,6 +4,8 @@
  * Proprietary and confidential
  */
 
+#include <raz/random.hpp>
+#include "common/GLlerp.hpp"
 #include "gfx/scene/Scene.hpp"
 #include "gfx/shape/WireShape.hpp"
 #include "gfx/scene/model/TransportModel.hpp"
@@ -11,15 +13,39 @@
 gfx::scene::model::TransportModel::TransportModel(Scene& scene, uint32_t id, uint32_t hub1_id, uint32_t hub1_platform_id, uint32_t hub2_id, uint32_t hub2_platform_id) :
 	Model(id)
 {
+	HubModel* hub1 = scene.getHub(hub1_id);
+	HubModel* hub2 = scene.getHub(hub2_id);
+
+	if (!hub1 || !hub2)
+		return;
+
+	const HubModel::Platform* platform1 = hub1->getPlatform(hub1_platform_id);
+	const HubModel::Platform* platform2 = hub2->getPlatform(hub2_platform_id);
+
+	if (!platform1 || !platform2)
+		return;
+
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
+	raz::Random random(hub1->getSeed() + hub2->getSeed());
 
-	GL::Vec3 p1;
-	GL::Vec3 p2;
-	scene.getHubPlatformPosition(hub1_id, hub1_platform_id, p1);
-	scene.getHubPlatformPosition(hub2_id, hub2_platform_id, p2);
+	//GL::Vec3 p1;
+	//GL::Vec3 p2;
+	//scene.getHubPlatformPosition(hub1_id, hub1_platform_id, p1);
+	//scene.getHubPlatformPosition(hub2_id, hub2_platform_id, p2);
 
-	shape::WireShape wire(p1, p2, 8, 5.f);
-	wire.generate(meshbuffer);
+	//shape::WireShape wire(p1, p2, 8, 5.f);
+	//wire.generate(meshbuffer);
+
+	for (unsigned i = 0, count = random(1u, 3u); i < count; ++i)
+	{
+		GL::Vec3 p1 = common::lerp(platform1->outer1, platform1->outer2, random(0.1f, 0.9f)) + hub1->getPosition();
+		GL::Vec3 p2 = common::lerp(platform2->outer1, platform2->outer2, random(0.1f, 0.9f)) + hub2->getPosition();
+		p1.Y -= 0.25f;
+		p2.Y -= 0.25f;
+
+		shape::WireShape wire(p1, p2, 8, random(0.5f, 3.f));
+		wire.generate(meshbuffer);
+	}
 
 	meshbuffer.recalculateNormals();
 
