@@ -10,6 +10,7 @@
 
 gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, uint32_t size, GL::Vec2 position) :
 	Model(id),
+	m_seed(seed),
 	m_platforms(scene.getMemoryPool()),
 	m_color(192, 192, 192)
 {
@@ -31,6 +32,11 @@ gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t
 	mesh.bindShader(scene.getHubShader());
 
 	setPosition(GL::Vec3(position.X, 0.f, position.Y));
+}
+
+uint64_t gfx::scene::model::HubModel::getSeed() const
+{
+	return m_seed;
 }
 
 const gfx::shape::PlatformRingShape::Platform* gfx::scene::model::HubModel::getPlatform(size_t id)
