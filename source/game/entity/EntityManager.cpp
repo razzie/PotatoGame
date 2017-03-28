@@ -76,10 +76,9 @@ size_t game::entity::EntityManager::getMaxPlayers() const
 	return m_player_hubs.size();
 }
 
-void game::entity::EntityManager::tick()
+void game::entity::EntityManager::tick(raz::Random& random)
 {
 	auto& traces = m_traces.getEntities();
-
 	for (auto it = traces.begin(); it != traces.end(); )
 	{
 		it->lowerLifespan();
@@ -88,6 +87,24 @@ void game::entity::EntityManager::tick()
 			it = traces.erase(it);
 		else
 			++it;
+	}
+
+	for (auto& hub : m_hubs.getEntities())
+	{
+		uint32_t size = hub.getSize();
+		unsigned charges = hub.countEntities(Entity::Type::CHARGE);
+
+		if (charges < size)
+		{
+			for (int i = 0, count = size - charges; i < count; ++i)
+			{
+				PlatformEntity* platform = hub.getRandomFreePlatformFor(random, Entity::Type::CHARGE);
+				if (!platform)
+					break;
+
+				addEntity(platform, m_charges, Entity::Platform{ hub.getID(), platform->getID() });
+			}
+		}
 	}
 }
 
@@ -372,7 +389,7 @@ void game::entity::EntityManager::updateHubVisibility(uint32_t hub_id, int playe
 	if (!hub)
 		return;
 
-	int entity_count = hub->countPlayerEntities(hub_id);
+	unsigned entity_count = hub->countPlayerEntities(hub_id);
 	bool visible = entity_count > 0;
 
 	for (uint32_t i = 0, platforms = hub->getPlatformCount(); i < platforms; ++i)

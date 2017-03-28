@@ -10,6 +10,7 @@
 #include <cstdint>
 #include <GL/Util/Color.hpp>
 #include <raz/bitset.hpp>
+#include <raz/random.hpp>
 #include <raz/timer.hpp>
 #include "common/Diplomacy.hpp"
 #include "game/entity/EntityManager.hpp"
@@ -66,6 +67,7 @@ namespace level
 		entity::EntityManager m_entities;
 		std::array<PlayerData, entity::Entity::MAX_PLAYERS> m_players;
 		raz::Bitset<entity::Entity::MAX_PLAYERS> m_player_slots;
+		raz::Random m_random;
 		raz::Timer m_timer;
 
 		void initPlayers();
