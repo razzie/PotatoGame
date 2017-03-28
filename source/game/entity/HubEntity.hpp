@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <raz/memory.hpp>
+#include <raz/random.hpp>
 #include "game/entity/Entity.hpp"
 #include "game/entity/PlatformEntity.hpp"
 
@@ -34,9 +35,12 @@ namespace entity
 		PlatformEntity* getPlatform(uint32_t id);
 		const PlatformEntity* getPlatform(uint32_t id) const;
 		PlatformEntity* getPlatformByAngle(float angle);
-		const PlatformEntity* getPlatformByAngle(float angle) const;
-		int getPlatformNeighbors(uint32_t platform_id, uint32_t* neighbor_ids) const;
-		int countPlayerEntities(int player_id) const;
+		PlatformEntity* getRandomFreePlatformFor(raz::Random& random, Entity::Type type);
+		PlatformEntity* getRandomEntity(raz::Random& random, Entity::Type type);
+		PlatformEntity* getRandomEntity(raz::Random& random, Entity::Type type, int player);
+		unsigned getPlatformNeighbors(uint32_t platform_id, uint32_t* neighbor_ids) const;
+		unsigned countEntities(Entity::Type type) const;
+		unsigned countPlayerEntities(int player_id) const;
 
 	private:
 		template<class T>
@@ -48,8 +52,6 @@ namespace entity
 		uint32_t m_inner_platform_count;
 		uint32_t m_outer_platform_count;
 		Vector<PlatformEntity> m_platforms;
-
-		uint32_t getPlatformIDByAngle(float angle) const;
 	};
 }
 }

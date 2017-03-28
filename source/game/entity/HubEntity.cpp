@@ -63,15 +63,61 @@ const game::entity::PlatformEntity* game::entity::HubEntity::getPlatform(uint32_
 
 game::entity::PlatformEntity* game::entity::HubEntity::getPlatformByAngle(float angle)
 {
-	return getPlatform(getPlatformIDByAngle(angle));
+	float angle_step = (2.f * (float)common::PI) / m_outer_platform_count;
+	uint32_t id = uint32_t(angle / angle_step) + m_inner_platform_count;
+
+	return getPlatform(id);
 }
 
-const game::entity::PlatformEntity* game::entity::HubEntity::getPlatformByAngle(float angle) const
+game::entity::PlatformEntity* game::entity::HubEntity::getRandomFreePlatformFor(raz::Random& random, Entity::Type type)
 {
-	return getPlatform(getPlatformIDByAngle(angle));
+	uint32_t starting_id = random(0u, m_platforms.size() - 1);
+
+	for (uint32_t id = 0, count = m_platforms.size(); id < count; ++id)
+	{
+		PlatformEntity* platform = getPlatform((starting_id + id) % count);
+		Entity::Data entity_data;
+
+		if (!platform->getEntity(type, entity_data))
+			return platform;
+	}
+
+	return nullptr;
 }
 
-int game::entity::HubEntity::getPlatformNeighbors(uint32_t platform_id, uint32_t* neighbor_ids) const
+game::entity::PlatformEntity* game::entity::HubEntity::getRandomEntity(raz::Random& random, Entity::Type type)
+{
+	uint32_t starting_id = random(0u, m_platforms.size() - 1);
+
+	for (uint32_t id = 0, count = m_platforms.size(); id < count; ++id)
+	{
+		PlatformEntity* platform = getPlatform((starting_id + id) % count);
+		Entity::Data entity_data;
+
+		if (platform->getEntity(type, entity_data))
+			return platform;
+	}
+
+	return nullptr;
+}
+
+game::entity::PlatformEntity* game::entity::HubEntity::getRandomEntity(raz::Random& random, Entity::Type type, int player)
+{
+	uint32_t starting_id = random(0u, m_platforms.size() - 1);
+
+	for (uint32_t id = 0, count = m_platforms.size(); id < count; ++id)
+	{
+		PlatformEntity* platform = getPlatform((starting_id + id) % count);
+		Entity::Data entity_data;
+
+		if (platform->getEntity(type, entity_data) && entity_data.player_id == player)
+			return platform;
+	}
+
+	return nullptr;
+}
+
+unsigned game::entity::HubEntity::getPlatformNeighbors(uint32_t platform_id, uint32_t* neighbor_ids) const
 {
 	const PlatformEntity* platform = getPlatform(platform_id);
 	if (!platform)
@@ -111,7 +157,26 @@ int game::entity::HubEntity::getPlatformNeighbors(uint32_t platform_id, uint32_t
 	}
 }
 
-int game::entity::HubEntity::countPlayerEntities(int player_id) const
+unsigned game::entity::HubEntity::countEntities(Entity::Type type) const
+{
+	int count = 0;
+
+	for (auto& platform : m_platforms)
+	{
+		Entity::Data data[PlatformEntity::MAX_ENTITIES];
+		int data_count = platform.getEntities(data);
+
+		for (int i = 0; i < data_count; ++i)
+		{
+			if (data[i].type == type)
+				++count;
+		}
+	}
+
+	return count;
+}
+
+unsigned game::entity::HubEntity::countPlayerEntities(int player_id) const
 {
 	int count = 0;
 
@@ -128,10 +193,4 @@ int game::entity::HubEntity::countPlayerEntities(int player_id) const
 	}
 
 	return count;
-}
-
-uint32_t game::entity::HubEntity::getPlatformIDByAngle(float angle) const
-{
-	float angle_step = (2.f * (float)common::PI) / m_outer_platform_count;
-	return uint32_t(angle / angle_step) + m_inner_platform_count;
 }

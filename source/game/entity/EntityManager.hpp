@@ -10,6 +10,7 @@
 #include <vector>
 #include <raz/memory.hpp>
 #include <raz/bitset.hpp>
+#include <raz/random.hpp>
 #include "game/entity/HubEntity.hpp"
 #include "game/entity/PlatformEntity.hpp"
 #include "game/entity/TransportEntity.hpp"
@@ -84,7 +85,7 @@ namespace entity
 		bool addPlayer(int player, uint32_t& hub_id);
 		bool removePlayer(int player);
 		size_t getMaxPlayers() const;
-		void tick();
+		void tick(raz::Random& random);
 		void reset();
 		Result addHub(uint64_t seed, uint32_t size, HubEntity::Position position, bool player_hub = false);
 		Result addTransport(uint32_t hub1_id, uint32_t hub2_id);
@@ -204,6 +205,12 @@ namespace entity
 			if (!p)
 				return Result().fail();
 
+			return addEntity(p, container, std::forward<Args>(args)...);
+		}
+
+		template<class Container, class... Args>
+		Result addEntity(PlatformEntity* p, Container& container, Args... args)
+		{
 			Entity::Data entity_data;
 			entity_data.type = Container::ENTITY_TYPE;
 			entity_data.id = container.peekNextID();
