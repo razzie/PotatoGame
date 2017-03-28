@@ -85,11 +85,11 @@ int gfx::RenderThread::run()
 		{
 			m_input.feed(ev);
 			
-			//if (ev.Type == GL::Event::KeyUp && ev.Key.Code == GL::Key::Escape)
-			//{
-			//	m_window.Close();
-			//	return 0;
-			//}
+			if (ev.Type == GL::Event::KeyUp && ev.Key.Code == GL::Key::Escape)
+			{
+				m_window.Close();
+				return 0;
+			}
 
 			if (m_gui.feed(ev))
 				continue;

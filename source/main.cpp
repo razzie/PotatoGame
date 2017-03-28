@@ -9,11 +9,15 @@
 #include <Windows.h>
 #include "Potato.hpp"
 
-int main(int argc, char** argv)
+int CALLBACK WinMain(
+	_In_ HINSTANCE hInstance,
+	_In_ HINSTANCE hPrevInstance,
+	_In_ LPSTR     lpCmdLine,
+	_In_ int       nCmdShow)
 {
 	try
 	{
-		return Potato(argc, argv).run();
+		return Potato(1, &lpCmdLine).run();
 	}
 	catch (std::exception& e)
 	{
