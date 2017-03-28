@@ -6,7 +6,10 @@
 
 #include "Potato.hpp"
 
-Potato::Settings::Settings(int argc, char** argv)
+Potato::Settings::Settings(int argc, char** argv) :
+	screen_width(1920),
+	screen_height(1080),
+	fullscreen(true)
 {
 }
 

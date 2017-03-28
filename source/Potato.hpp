@@ -16,9 +16,9 @@ public:
 	{
 		Settings(int argc, char** argv);
 
-		unsigned screen_width = 1366;
-		unsigned screen_height = 768;
-		bool fullscreen = false;
+		unsigned screen_width;
+		unsigned screen_height;
+		bool fullscreen;
 	};
 
 	Potato(int argc, char** argv);
