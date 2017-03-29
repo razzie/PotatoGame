@@ -6,6 +6,7 @@
 
 #include <ctime>
 #include <GL/Math/Util.hpp>
+#include "common/ColorGenerator.hpp"
 #include "gfx/RenderThread.hpp"
 #include "gfx/scene/Scene.hpp"
 #include "gfx/scene/model/HubModel.hpp"
@@ -30,18 +31,22 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 {
 	m_cam.setPosition({ -8, 8, -8 });
 
-	addHub(0, std::time(NULL), 6, GL::Vec2());
-	addHub(1, std::time(NULL), 8, GL::Vec2(30.f, 0.f));
-	//changeHubColor(0, GL::Color(255, 0, 0));
+	raz::Random random((uint64_t)std::time(NULL));
+	common::ColorGenerator color_gen;
+	GL::Color color = color_gen[random(0u, 23u)];
 
-	addCreature(0, std::time(NULL), GL::Color(255, 0, 0), 0, 0);
-	addCreature(1, std::time(NULL) + 123, GL::Color(255, 0, 0), 0, 1);
-	addCreature(2, std::time(NULL) + 256, GL::Color(255, 0, 0), 0, 2);
+	addHub(0, random(), 6, GL::Vec2());
+	addHub(1, random(), 8, GL::Vec2(30.f, 0.f));
+	//changeHubColor(0, color);
+
+	addCreature(0, random(), color, 0, 0);
+	addCreature(1, random(), color, 0, 1);
+	addCreature(2, random(), color, 0, 2);
 
 	addCharge(0, 0, 3);
 	addResource(0, 5, 0, 4);
-	addTrace(0, GL::Color(255, 0, 0), 0, 5);
-	addTrap(0, GL::Color(255, 0, 0), 0, 6);
+	addTrace(0, color, 0, 5);
+	addTrap(0, color, 0, 6);
 
 	addTransport(0, 0, 25, 1, 60);
 }

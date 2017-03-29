@@ -133,6 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="source\common\bezier.hpp" />
+    <ClInclude Include="source\common\ColorGenerator.hpp" />
     <ClInclude Include="source\common\IDPool.hpp" />
     <ClInclude Include="source\common\InputHelper.hpp" />
     <ClInclude Include="source\common\lerp.hpp" />
@@ -404,6 +405,7 @@
     <None Include="source\thirdparty\Rocket\Core\Vector2.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\common\ColorGenerator.cpp" />
     <ClCompile Include="source\common\InputHelper.cpp" />
     <ClCompile Include="source\game\GameThread.cpp" />
     <ClCompile Include="source\game\entity\ChargeEntity.cpp" />
