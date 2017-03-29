@@ -8,8 +8,9 @@
 
 namespace common
 {
-	inline float lerp(float a, float b, float t)
+	template<class T>
+	T lerp(T a, T b, float t)
 	{
-		return (1.f - t) * a + t * b;
+		return static_cast<T>((1.f - t) * a + t * b);
 	}
 }
