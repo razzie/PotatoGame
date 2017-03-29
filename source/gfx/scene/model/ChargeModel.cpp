@@ -13,7 +13,7 @@ gfx::scene::model::ChargeModel::ChargeModel(Scene& scene, uint32_t id, uint32_t 
 {
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 
-	shape::SphereShape sphere(GL::Vec3(0.f, 0.25f, 0.f), 0.25f, 8, GL::Color(224, 224, 224));
+	shape::SphereShape sphere(GL::Vec3(0.f, 0.2f, 0.f), 0.2f, 8, GL::Color(240, 240, 240));
 	sphere.generate(meshbuffer);
 
 	meshbuffer.recalculateNormals();

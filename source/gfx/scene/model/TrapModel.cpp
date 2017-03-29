@@ -7,12 +7,69 @@
 #include "gfx/scene/Scene.hpp"
 #include "gfx/scene/model/TrapModel.hpp"
 
-gfx::scene::model::TrapModel::TrapModel(Scene& scene, uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id) :
-	Model(id)
+static void addSpike(GL::Vec3 position, gfx::core::MeshBuffer<>& meshbuffer)
 {
+	const float scale = 0.125f;
+	const GL::Color top_color(224, 224, 224);
+	const GL::Color bottom_color(128, 128, 128);
+	uint16_t base_index = (uint16_t)meshbuffer.vertices.size();
+
+	gfx::core::Vertex top{ position + GL::Vec3(0.f, 2.f * scale, 0.f), GL::Vec3(), top_color };
+	gfx::core::Vertex bottom1{ position + GL::Vec3(scale, 0.f, scale), GL::Vec3(), bottom_color };
+	gfx::core::Vertex bottom2{ position + GL::Vec3(scale, 0.f, -scale), GL::Vec3(), bottom_color };
+	gfx::core::Vertex bottom3{ position + GL::Vec3(-scale, 0.f, -scale), GL::Vec3(), bottom_color };
+	gfx::core::Vertex bottom4{ position + GL::Vec3(-scale, 0.f, scale), GL::Vec3(), bottom_color };
+
+	meshbuffer.vertices.push_back(top);
+	meshbuffer.vertices.push_back(bottom1);
+	meshbuffer.vertices.push_back(bottom2);
+	meshbuffer.vertices.push_back(bottom3);
+	meshbuffer.vertices.push_back(bottom4);
+
+	uint16_t top_index = base_index;
+	uint16_t bottom1_index = base_index + 1;
+	uint16_t bottom2_index = base_index + 2;
+	uint16_t bottom3_index = base_index + 3;
+	uint16_t bottom4_index = base_index + 4;
+
+	meshbuffer.indices.push_back(top_index);
+	meshbuffer.indices.push_back(bottom1_index);
+	meshbuffer.indices.push_back(bottom2_index);
+
+	meshbuffer.indices.push_back(top_index);
+	meshbuffer.indices.push_back(bottom2_index);
+	meshbuffer.indices.push_back(bottom3_index);
+
+	meshbuffer.indices.push_back(top_index);
+	meshbuffer.indices.push_back(bottom3_index);
+	meshbuffer.indices.push_back(bottom4_index);
+
+	meshbuffer.indices.push_back(top_index);
+	meshbuffer.indices.push_back(bottom4_index);
+	meshbuffer.indices.push_back(bottom1_index);
+}
+
+gfx::scene::model::TrapModel::TrapModel(Scene& scene, uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id) :
+	Model(id),
+	m_color(color)
+{
+	HubModel* hub;
+	const HubModel::Platform* platform;
+
+	if (!scene.getHubPlatform(hub_id, platform_id, hub, platform))
+		return;
+
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 
-
+	for (int x = 1; x <= 4; ++x)
+	{
+		for (int y = 1; y <= 4; ++y)
+		{
+			GL::Vec3 pos = platform->getPosition(0.2f * x, 0.2f * y);
+			pos.Y -= 0.125f;
+			addSpike(pos, meshbuffer);
+		}
+	}
 
 	meshbuffer.recalculateNormals();
 
@@ -20,9 +77,7 @@ gfx::scene::model::TrapModel::TrapModel(Scene& scene, uint32_t id, GL::Color col
 	mesh = meshbuffer.createMesh();
 	mesh.bindShader(scene.getTrapShader());
 
-	GL::Vec3 position;
-	scene.getHubPlatformPosition(hub_id, platform_id, position);
-	setPosition(position);
+	setPosition(platform->center + hub->getPosition());
 }
 
 void gfx::scene::model::TrapModel::render(Scene& scene)
@@ -35,7 +90,7 @@ void gfx::scene::model::TrapModel::render(Scene& scene)
 	program.SetUniform("world_mat", world);
 	program.SetUniform("normal_mat", normal);
 	program.SetUniform("screen_mat", scene.getCameraMatrix() * world);
-	program.SetUniform("diffuse_color", GL::Color(255, 255, 255));
+	program.SetUniform("diffuse_color", m_color);
 	program.SetUniform("light_source", scene.getCamera().getPosition());
 	program.SetUniform("time", scene.getElapsedTime());
 

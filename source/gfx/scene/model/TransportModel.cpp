@@ -38,8 +38,8 @@ gfx::scene::model::TransportModel::TransportModel(Scene& scene, uint32_t id, uin
 
 	for (unsigned i = 0, count = random(1u, 3u); i < count; ++i)
 	{
-		GL::Vec3 p1 = common::lerp(platform1->outer1, platform1->outer2, random(0.1f, 0.9f)) + hub1->getPosition();
-		GL::Vec3 p2 = common::lerp(platform2->outer1, platform2->outer2, random(0.1f, 0.9f)) + hub2->getPosition();
+		GL::Vec3 p1 = common::lerp(platform1->outer1, platform1->outer2, random(0.25f, 0.75f)) + hub1->getPosition();
+		GL::Vec3 p2 = common::lerp(platform2->outer1, platform2->outer2, random(0.25f, 0.75f)) + hub2->getPosition();
 		p1.Y -= 0.25f;
 		p2.Y -= 0.25f;
 
