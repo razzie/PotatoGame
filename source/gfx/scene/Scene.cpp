@@ -27,7 +27,8 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	m_spawns(m_memory),
 	m_portals(m_memory),
 	m_traps(m_memory),
-	m_creatures(m_memory)
+	m_creatures(m_memory),
+	m_appear_anims(m_memory)
 {
 	m_cam.setPosition({ -8, 8, -8 });
 
@@ -45,10 +46,11 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 
 	addCharge(0, 0, 3);
 	addResource(0, 5, 0, 4);
-	addTrace(0, color, 0, 5);
-	addTrap(0, color, 0, 6);
+	addTrap(0, color, 0, 5);
 
 	addTransport(0, 0, 25, 1, 60);
+
+	m_timer.reset();
 }
 
 gfx::scene::Scene::~Scene()
@@ -206,6 +208,9 @@ void gfx::scene::Scene::render()
 {
 	m_time = 0.001f * m_timer.peekElapsed();
 
+	for (auto& anim : m_appear_anims)
+		anim.update(m_time);
+
 	m_horizon.render(*this);
 
 	m_current_shader = &getHubShader();
@@ -260,7 +265,11 @@ GL::Program& gfx::scene::Scene::getHubShader()
 gfx::scene::model::HubModel* gfx::scene::Scene::addHub(uint32_t id, uint64_t seed, uint32_t size, GL::Vec2 position)
 {
 	m_hubs.emplace_back(*this, id, seed, size, position);
-	return &m_hubs.back();
+	auto* hub = &m_hubs.back();
+
+	m_appear_anims.push_back(hub);
+
+	return hub;
 }
 
 gfx::scene::model::HubModel* gfx::scene::Scene::getHub(uint32_t id)
@@ -284,7 +293,11 @@ GL::Program& gfx::scene::Scene::getTransportShader()
 gfx::scene::model::TransportModel* gfx::scene::Scene::addTransport(uint32_t id, uint32_t hub1_id, uint32_t hub1_platform_id, uint32_t hub2_id, uint32_t hub2_platform_id)
 {
 	m_transports.emplace_back(*this, id, hub1_id, hub1_platform_id, hub2_id, hub2_platform_id);
-	return &m_transports.back();
+	auto* transport = &m_transports.back();
+
+	m_appear_anims.push_back(transport);
+
+	return transport;
 }
 
 gfx::scene::model::TransportModel* gfx::scene::Scene::getTransport(uint32_t id)
@@ -301,7 +314,11 @@ GL::Program& gfx::scene::Scene::getChargeShader()
 gfx::scene::model::ChargeModel* gfx::scene::Scene::addCharge(uint32_t id, uint32_t hub_id, uint32_t platform_id)
 {
 	m_charges.emplace_back(*this, id, hub_id, platform_id);
-	return &m_charges.back();
+	auto* charge = &m_charges.back();
+
+	m_appear_anims.push_back(charge);
+
+	return charge;
 }
 
 gfx::scene::model::ChargeModel* gfx::scene::Scene::getCharge(uint32_t id)
@@ -323,7 +340,11 @@ GL::Program& gfx::scene::Scene::getResourceShader()
 gfx::scene::model::ResourceModel* gfx::scene::Scene::addResource(uint32_t id, uint32_t value, uint32_t hub_id, uint32_t platform_id)
 {
 	m_resources.emplace_back(*this, id, value, hub_id, platform_id);
-	return &m_resources.back();
+	auto* resource = &m_resources.back();
+
+	m_appear_anims.push_back(resource);
+
+	return resource;
 }
 
 gfx::scene::model::ResourceModel* gfx::scene::Scene::getResource(uint32_t id)
@@ -345,7 +366,11 @@ GL::Program& gfx::scene::Scene::getTraceShader()
 gfx::scene::model::TraceModel* gfx::scene::Scene::addTrace(uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id)
 {
 	m_traces.emplace_back(*this, id, color, hub_id, platform_id);
-	return &m_traces.back();
+	auto* trace = &m_traces.back();
+
+	m_appear_anims.push_back(trace);
+
+	return trace;
 }
 
 gfx::scene::model::TraceModel* gfx::scene::Scene::getTrace(uint32_t id)
@@ -367,7 +392,11 @@ GL::Program& gfx::scene::Scene::getSpawnShader()
 gfx::scene::model::SpawnModel* gfx::scene::Scene::addSpawn(uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id)
 {
 	m_spawns.emplace_back(*this, id, color, hub_id, platform_id);
-	return &m_spawns.back();
+	auto* spawn = &m_spawns.back();
+
+	m_appear_anims.push_back(spawn);
+
+	return spawn;
 }
 
 gfx::scene::model::SpawnModel* gfx::scene::Scene::getSpawn(uint32_t id)
@@ -391,7 +420,11 @@ GL::Program& gfx::scene::Scene::getPortalShader()
 gfx::scene::model::PortalModel* gfx::scene::Scene::addPortal(uint32_t id, uint32_t hub_id, uint32_t platform_id)
 {
 	m_portals.emplace_back(*this, id, hub_id, platform_id);
-	return &m_portals.back();
+	auto* portal = &m_portals.back();
+
+	m_appear_anims.push_back(portal);
+
+	return portal;
 }
 
 gfx::scene::model::PortalModel* gfx::scene::Scene::getPortal(uint32_t id)
@@ -408,7 +441,11 @@ GL::Program& gfx::scene::Scene::getTrapShader()
 gfx::scene::model::TrapModel* gfx::scene::Scene::addTrap(uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id)
 {
 	m_traps.emplace_back(*this, id, color, hub_id, platform_id);
-	return &m_traps.back();
+	auto* trap = &m_traps.back();
+
+	m_appear_anims.push_back(trap);
+
+	return trap;
 }
 
 gfx::scene::model::TrapModel* gfx::scene::Scene::getTrap(uint32_t id)
@@ -430,7 +467,11 @@ GL::Program& gfx::scene::Scene::getCreatureShader()
 gfx::scene::model::CreatureModel* gfx::scene::Scene::addCreature(uint32_t id, uint64_t seed, GL::Color color, uint32_t hub_id, uint32_t platform_id)
 {
 	m_creatures.emplace_back(*this, id, seed, color, hub_id, platform_id);
-	return &m_creatures.back();
+	auto* creature = &m_creatures.back();
+
+	m_appear_anims.push_back(creature);
+
+	return creature;
 }
 
 gfx::scene::model::CreatureModel* gfx::scene::Scene::getCreature(uint32_t id)

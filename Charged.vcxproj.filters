@@ -459,6 +459,9 @@
     <ClCompile Include="source\common\ColorGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\gfx\scene\animator\AppearAnimator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\common\IDPool.hpp">
@@ -1239,6 +1242,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\common\ColorGenerator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gfx\scene\animator\AppearAnimator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
