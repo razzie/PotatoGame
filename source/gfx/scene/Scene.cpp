@@ -40,6 +40,8 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 
 	addCharge(0, 0, 3);
 	addResource(0, 5, 0, 4);
+	addTrace(0, GL::Color(255, 0, 0), 0, 5);
+	addTrap(0, GL::Color(255, 0, 0), 0, 6);
 
 	addTransport(0, 0, 25, 1, 60);
 }
@@ -288,7 +290,7 @@ gfx::scene::model::TransportModel* gfx::scene::Scene::getTransport(uint32_t id)
 
 GL::Program& gfx::scene::Scene::getChargeShader()
 {
-	return m_shader_table.getEntityShader();
+	return m_shader_table.getHubShader();
 }
 
 gfx::scene::model::ChargeModel* gfx::scene::Scene::addCharge(uint32_t id, uint32_t hub_id, uint32_t platform_id)
@@ -310,7 +312,7 @@ void gfx::scene::Scene::removeCharge(uint32_t id)
 
 GL::Program& gfx::scene::Scene::getResourceShader()
 {
-	return m_shader_table.getEntityShader();
+	return m_shader_table.getHubShader();
 }
 
 gfx::scene::model::ResourceModel* gfx::scene::Scene::addResource(uint32_t id, uint32_t value, uint32_t hub_id, uint32_t platform_id)
