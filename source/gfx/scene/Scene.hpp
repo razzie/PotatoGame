@@ -44,6 +44,7 @@ namespace scene
 		const GL::Mat4& getCameraMatrix() const;
 		GL::Program& getCurrentShader();
 		float getElapsedTime() const;
+		bool getHubPlatform(uint32_t hub_id, uint32_t platform_id, model::HubModel*& hub, const model::HubModel::Platform*& platform);
 		bool getHubPlatformPosition(uint32_t hub_id, uint32_t platform_id, GL::Vec3& position);
 		bool feed(const GL::Event& ev);
 		void render();

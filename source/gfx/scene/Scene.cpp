@@ -35,8 +35,11 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	//changeHubColor(0, GL::Color(255, 0, 0));
 
 	addCreature(0, std::time(NULL), GL::Color(255, 0, 0), 0, 0);
-	addCreature(1, std::time(NULL) + 123, GL::Color(0, 255, 0), 0, 2);
-	addCreature(2, std::time(NULL) + 256, GL::Color(0, 0, 255), 0, 4);
+	addCreature(1, std::time(NULL) + 123, GL::Color(255, 0, 0), 0, 1);
+	addCreature(2, std::time(NULL) + 256, GL::Color(255, 0, 0), 0, 2);
+
+	addCharge(0, 0, 3);
+	addResource(0, 5, 0, 4);
 
 	addTransport(0, 0, 25, 1, 60);
 }
@@ -80,14 +83,33 @@ float gfx::scene::Scene::getElapsedTime() const
 	return m_time;
 }
 
-bool gfx::scene::Scene::getHubPlatformPosition(uint32_t hub_id, uint32_t platform_id, GL::Vec3& position)
+bool gfx::scene::Scene::getHubPlatform(uint32_t hub_id, uint32_t platform_id, model::HubModel*& hub, const model::HubModel::Platform*& platform)
 {
-	auto* hub = getHub(hub_id);
+	hub = getHub(hub_id);
 	if (!hub)
 		return false;
 
-	auto* platform = hub->getPlatform(platform_id);
+	platform = hub->getPlatform(platform_id);
 	if (!platform)
+		return false;
+
+	return true;
+}
+
+bool gfx::scene::Scene::getHubPlatformPosition(uint32_t hub_id, uint32_t platform_id, GL::Vec3& position)
+{
+	//auto* hub = getHub(hub_id);
+	//if (!hub)
+	//	return false;
+
+	//auto* platform = hub->getPlatform(platform_id);
+	//if (!platform)
+	//	return false;
+
+	model::HubModel* hub;
+	const model::HubModel::Platform* platform;
+
+	if (!getHubPlatform(hub_id, platform_id, hub, platform))
 		return false;
 
 	position = platform->center + hub->getPosition();

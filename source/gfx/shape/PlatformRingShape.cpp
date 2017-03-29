@@ -5,6 +5,7 @@
  */
 
 #include "common/PI.hpp"
+#include "common/GLlerp.hpp"
 #include "gfx/shape/WireShape.hpp"
 #include "gfx/shape/PlatformRingShape.hpp"
 
@@ -220,4 +221,12 @@ void gfx::shape::PlatformRingShape::generate(raz::Random& random, PlatformVector
 	createPlatforms(platforms, random, m_radius);
 	insertPlatforms(platforms, random, meshbuffer);
 	insertWires(platforms, random, m_radius, m_complexity, meshbuffer);
+}
+
+
+GL::Vec3 gfx::shape::PlatformRingShape::Platform::getPosition(float x, float y) const
+{
+	GL::Vec3 inner_x = common::lerp(inner1, inner2, x);
+	GL::Vec3 outer_x = common::lerp(outer1, outer2, x);
+	return common::lerp(inner_x, outer_x, y) - center;
 }

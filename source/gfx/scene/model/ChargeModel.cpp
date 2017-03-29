@@ -4,6 +4,7 @@
  * Proprietary and confidential
  */
 
+#include "gfx/shape/SphereShape.hpp"
 #include "gfx/scene/Scene.hpp"
 #include "gfx/scene/model/ChargeModel.hpp"
 
@@ -12,7 +13,8 @@ gfx::scene::model::ChargeModel::ChargeModel(Scene& scene, uint32_t id, uint32_t 
 {
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 
-
+	shape::SphereShape sphere(GL::Vec3(0.f, 0.25f, 0.f), 0.25f, 8, GL::Color(224, 224, 224));
+	sphere.generate(meshbuffer);
 
 	meshbuffer.recalculateNormals();
 

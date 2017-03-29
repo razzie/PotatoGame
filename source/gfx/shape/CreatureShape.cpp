@@ -112,7 +112,7 @@ gfx::shape::CreatureShape::CreatureShape(raz::Random& random, raz::IMemoryPool* 
 	m_shade((unsigned char)random(192u, 255u)),
 	m_edge_mode(random(0, 2))
 {
-	const size_t parts = random(3, 8);
+	const size_t parts = random(4, 6);
 
 	m_control_points.push_back({ 0.0625f, 0.f });
 	for (size_t i = 0; i < parts; ++i)

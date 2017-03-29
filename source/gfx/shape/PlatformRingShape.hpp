@@ -27,6 +27,8 @@ namespace shape
 			GL::Vec3 inner2;
 			GL::Vec3 outer1;
 			GL::Vec3 outer2;
+
+			GL::Vec3 getPosition(float x, float y) const;
 		};
 
 		typedef std::vector<Platform, raz::Allocator<Platform>> PlatformVector;
