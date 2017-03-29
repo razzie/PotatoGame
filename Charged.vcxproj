@@ -176,6 +176,7 @@
     <ClInclude Include="source\gfx\scene\model\TraceModel.hpp" />
     <ClInclude Include="source\gfx\scene\model\TransportModel.hpp" />
     <ClInclude Include="source\gfx\scene\model\TrapModel.hpp" />
+    <ClInclude Include="source\gfx\shape\SphereShape.hpp" />
     <ClInclude Include="source\Potato.hpp" />
     <ClInclude Include="source\resource\ArchiveReader.hpp" />
     <ClInclude Include="source\resource\ArchiveWriter.hpp" />
@@ -431,6 +432,7 @@
     <ClCompile Include="source\gfx\scene\model\TraceModel.cpp" />
     <ClCompile Include="source\gfx\scene\model\TransportModel.cpp" />
     <ClCompile Include="source\gfx\scene\model\TrapModel.cpp" />
+    <ClCompile Include="source\gfx\shape\SphereShape.cpp" />
     <ClCompile Include="source\Potato.cpp" />
     <ClCompile Include="source\resource\ArchiveReader.cpp" />
     <ClCompile Include="source\resource\ArchiveWriter.cpp" />
