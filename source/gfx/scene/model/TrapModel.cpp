@@ -14,7 +14,7 @@ static void addSpike(GL::Vec3 position, gfx::core::MeshBuffer<>& meshbuffer)
 	const GL::Color bottom_color(128, 128, 128);
 	uint16_t base_index = (uint16_t)meshbuffer.vertices.size();
 
-	gfx::core::Vertex top{ position + GL::Vec3(0.f, 2.f * scale, 0.f), GL::Vec3(), top_color };
+	gfx::core::Vertex top{ position + GL::Vec3(0.f, 4.f * scale, 0.f), GL::Vec3(), top_color };
 	gfx::core::Vertex bottom1{ position + GL::Vec3(scale, 0.f, scale), GL::Vec3(), bottom_color };
 	gfx::core::Vertex bottom2{ position + GL::Vec3(scale, 0.f, -scale), GL::Vec3(), bottom_color };
 	gfx::core::Vertex bottom3{ position + GL::Vec3(-scale, 0.f, -scale), GL::Vec3(), bottom_color };
@@ -61,11 +61,11 @@ gfx::scene::model::TrapModel::TrapModel(Scene& scene, uint32_t id, GL::Color col
 
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 
-	for (int x = 1; x <= 4; ++x)
+	for (int x = 1; x <= 3; ++x)
 	{
-		for (int y = 1; y <= 4; ++y)
+		for (int y = 1; y <= 3; ++y)
 		{
-			GL::Vec3 pos = platform->getPosition(0.2f * x, 0.2f * y);
+			GL::Vec3 pos = platform->getPosition(0.25f * x, 0.25f * y);
 			pos.Y -= 0.125f;
 			addSpike(pos, meshbuffer);
 		}

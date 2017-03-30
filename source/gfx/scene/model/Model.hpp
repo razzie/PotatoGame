@@ -10,6 +10,7 @@
 #include <GL/Math/Vec3.hpp>
 #include <GL/Math/Mat4.hpp>
 #include "gfx/core/Mesh.hpp"
+#include "gfx/scene/animator/Animator.hpp"
 
 namespace gfx
 {
@@ -33,6 +34,9 @@ namespace scene
 			GL::Vec3 getScale() const;
 			void getMatrices(GL::Mat4& world, GL::Mat4& normal) const;
 			gfx::core::Mesh& getMesh();
+			gfx::scene::animator::Animator& getAnimator();
+			void animate(animator::Animator::Type type);
+			void animate(float elapsed_time);
 			virtual void render(Scene&) = 0;
 
 		private:
@@ -44,6 +48,7 @@ namespace scene
 			mutable GL::Mat4 m_normal_mat;
 			mutable bool m_dirty;
 			gfx::core::Mesh m_mesh;
+			gfx::scene::animator::Animator m_animator;
 		};
 	}
 }

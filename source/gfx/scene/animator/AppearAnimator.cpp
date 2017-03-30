@@ -5,35 +5,29 @@
  */
 
 #include "common/lerp.hpp"
+#include "gfx/scene/model/Model.hpp"
 #include "gfx/scene/animator/AppearAnimator.hpp"
 
-gfx::scene::animator::AppearAnimator::AppearAnimator(model::Model* model) :
-	m_model(model),
-	m_num_faces(model->getMesh().num_of_indices / 3)
+void gfx::scene::animator::AppearAnimator::begin(model::Model* model)
 {
+	m_num_faces = model->getMesh().num_of_indices / 3;
 }
 
-gfx::scene::animator::AppearAnimator::AppearAnimator(AppearAnimator&& other) :
-	m_model(other.m_model),
-	m_num_faces(other.m_num_faces)
+bool gfx::scene::animator::AppearAnimator::update(model::Model* model, float elapsed)
 {
-	other.m_model = nullptr;
+	const float duration = 0.75f;
+
+	if (elapsed < 0.f)
+		elapsed = 0.f;
+	else if (elapsed > duration)
+		return true;
+
+	unsigned show_faces = common::lerp(0u, m_num_faces, elapsed / duration);
+	model->getMesh().num_of_indices = show_faces * 3;
+	return false;
 }
 
-gfx::scene::animator::AppearAnimator::~AppearAnimator()
+void gfx::scene::animator::AppearAnimator::end(model::Model* model)
 {
-	if (m_model)
-		m_model->getMesh().num_of_indices = m_num_faces * 3;
-}
-
-void gfx::scene::animator::AppearAnimator::update(float progress)
-{
-	if (progress < 0.f)
-		progress = 0.f;
-	else if (progress > 1.f)
-		progress = 1.f;
-
-	unsigned show_faces = common::lerp(0u, m_num_faces, progress);
-	if (m_model)
-		m_model->getMesh().num_of_indices = show_faces * 3;
+	model->getMesh().num_of_indices = m_num_faces * 3;
 }

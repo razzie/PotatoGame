@@ -84,3 +84,18 @@ gfx::core::Mesh& gfx::scene::model::Model::getMesh()
 {
 	return m_mesh;
 }
+
+gfx::scene::animator::Animator& gfx::scene::model::Model::getAnimator()
+{
+	return m_animator;
+}
+
+void gfx::scene::model::Model::animate(animator::Animator::Type type)
+{
+	m_animator.start(type, this);
+}
+
+void gfx::scene::model::Model::animate(float elapsed_time)
+{
+	m_animator.update(elapsed_time, this);
+}

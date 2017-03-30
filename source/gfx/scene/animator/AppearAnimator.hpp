@@ -6,25 +6,21 @@
 
 #pragma once
 
-#include "gfx/scene/model/Model.hpp"
-
 namespace gfx
 {
 namespace scene
 {
+namespace model { class Model; }
 namespace animator
 {
 	class AppearAnimator
 	{
 	public:
-		AppearAnimator(model::Model* model);
-		AppearAnimator(AppearAnimator&& other);
-		AppearAnimator(const AppearAnimator&) = delete;
-		~AppearAnimator();
-		void update(float progress);
+		void begin(model::Model* model);
+		bool update(model::Model* model, float elapsed);
+		void end(model::Model* model);
 
 	private:
-		model::Model* m_model;
 		unsigned m_num_faces;
 	};
 }
