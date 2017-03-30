@@ -90,9 +90,9 @@ gfx::scene::animator::Animator& gfx::scene::model::Model::getAnimator()
 	return m_animator;
 }
 
-void gfx::scene::model::Model::animate(animator::Animator::Type type)
+void gfx::scene::model::Model::animate(animator::Animator::Type type, float start_time)
 {
-	m_animator.start(type, this);
+	m_animator.start(type, this, start_time);
 }
 
 void gfx::scene::model::Model::animate(float elapsed_time)

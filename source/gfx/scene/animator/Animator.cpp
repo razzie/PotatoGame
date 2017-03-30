@@ -15,11 +15,11 @@ gfx::scene::animator::Animator::~Animator()
 {
 }
 
-void gfx::scene::animator::Animator::start(Type type, model::Model* model)
+void gfx::scene::animator::Animator::start(Type type, model::Model* model, float start_time)
 {
 	reset(model);
 
-	m_start_time = 0.f;
+	m_start_time = start_time;
 	m_type = type;
 
 	switch (type)
