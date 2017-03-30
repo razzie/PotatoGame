@@ -25,7 +25,7 @@ namespace animator
 
 		Animator();
 		~Animator();
-		void start(Type type, model::Model* model);
+		void start(Type type, model::Model* model, float start_time);
 		void reset(model::Model* model);
 		void update(float elapsed, model::Model* model);
 

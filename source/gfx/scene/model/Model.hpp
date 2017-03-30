@@ -35,9 +35,9 @@ namespace scene
 			void getMatrices(GL::Mat4& world, GL::Mat4& normal) const;
 			gfx::core::Mesh& getMesh();
 			gfx::scene::animator::Animator& getAnimator();
-			void animate(animator::Animator::Type type);
+			void animate(animator::Animator::Type type, float start_time);
 			void animate(float elapsed_time);
-			virtual void render(Scene&) = 0;
+			virtual void render(Scene& scene) = 0;
 
 		private:
 			uint32_t m_id;
