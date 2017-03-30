@@ -157,11 +157,13 @@ game::entity::EntityManager::Result game::entity::EntityManager::addTransport(ui
 	dir = dir.Normal();
 	float angle = (float)std::atan2(dir.Y, dir.X);
 
-	PlatformEntity* p1 = hub1->getPlatformByAngle(angle);
+	float half_pi = (float)common::PI / 2.f;
+
+	PlatformEntity* p1 = hub1->getPlatformByAngle(angle + half_pi);
 	if (!p1)
 		return Result().fail();
 
-	PlatformEntity* p2 = hub2->getPlatformByAngle(angle + (float)common::PI);
+	PlatformEntity* p2 = hub2->getPlatformByAngle(angle + (float)common::PI + half_pi);
 	if (!p2)
 		return Result().fail();
 
