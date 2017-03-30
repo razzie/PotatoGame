@@ -30,24 +30,25 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	m_creatures(m_memory)
 {
 	m_cam.setPosition({ -8, 8, -8 });
+	m_cam.setTarget({ 0, 5, 0 });
 
-	raz::Random random((uint64_t)std::time(NULL));
-	common::ColorGenerator color_gen;
-	GL::Color color = color_gen[random(0u, 23u)];
+	//raz::Random random((uint64_t)std::time(NULL));
+	//common::ColorGenerator color_gen;
+	//GL::Color color = color_gen[random(0u, 11u)];
 
-	addHub(0, random(), 6, GL::Vec2());
-	addHub(1, random(), 8, GL::Vec2(30.f, 0.f));
-	//changeHubColor(0, color);
+	//addHub(0, random(), 6, GL::Vec2());
+	//addHub(1, random(), 8, GL::Vec2(30.f, 0.f));
+	////changeHubColor(0, color);
 
-	addCreature(0, random(), color, 0, 0);
-	addCreature(1, random(), color, 0, 1);
-	addCreature(2, random(), color, 0, 2);
+	//addTransport(0, 0, 25, 1, 60);
 
-	addCharge(0, 0, 3);
-	addResource(0, 5, 0, 4);
-	addTrap(0, color, 0, 5);
+	//addCreature(0, random(), color, 0, 0);
+	//addCreature(1, random(), color, 0, 1);
+	//addCreature(2, random(), color, 0, 2);
 
-	addTransport(0, 0, 25, 1, 60);
+	//addCharge(0, 0, 3);
+	//addResource(0, 5, 0, 4);
+	//addTrap(0, color, 0, 5);
 
 	m_timer.reset();
 }
@@ -131,6 +132,18 @@ bool gfx::scene::Scene::feed(const GL::Event& ev)
 	if (m_cam_mgr.feed(ev, helper))
 	{
 		return true;
+	}
+	else if (ev.Type == GL::Event::KeyDown)
+	{
+		switch (ev.Key.Code)
+		{
+		case GL::Key::Comma:
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			return true;
+		case GL::Key::Period:
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			return true;
+		}
 	}
 
 	return false;

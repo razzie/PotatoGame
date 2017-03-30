@@ -6,6 +6,7 @@
 
 #include "Potato.hpp"
 #include "gfx/RenderThread.hpp"
+#include "gfx/scene/Demo.hpp"
 
 gfx::RenderThread::RenderThread(Potato& potato, unsigned width, unsigned height, bool fullscreen, raz::IMemoryPool* memory) :
 	m_potato(potato),
@@ -22,8 +23,6 @@ gfx::RenderThread::RenderThread(Potato& potato, unsigned width, unsigned height,
 
 	m_gl.Enable(GL::Capability::DepthTest);
 	m_gl.Enable(GL::Capability::CullFace);
-
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 gfx::RenderThread::~RenderThread()
@@ -77,6 +76,7 @@ game::player::HumanPlayer& gfx::RenderThread::getPlayer()
 
 int gfx::RenderThread::run()
 {
+	scene::Demo demo(m_scene);
 	GL::Event ev;
 
 	while (m_window.IsOpen())
@@ -105,12 +105,12 @@ int gfx::RenderThread::run()
 		m_gl.Clear(GL::Buffer::Depth | GL::Buffer::Color);
 		m_gl.ClearColor(GL::Color(255, 255, 255));
 
+		demo.update();
 		m_scene.render();
 		m_gui.render();
 
 		m_window.Present();
 	}
-
 
 	return 0;
 }
