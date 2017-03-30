@@ -169,6 +169,7 @@
     <ClInclude Include="source\game\player\Player.hpp" />
     <ClInclude Include="source\gfx\core\ShaderTable.hpp" />
     <ClInclude Include="source\gfx\RenderThread.hpp" />
+    <ClInclude Include="source\gfx\scene\animator\Animator.hpp" />
     <ClInclude Include="source\gfx\scene\animator\AppearAnimator.hpp" />
     <ClInclude Include="source\gfx\scene\CameraManager.hpp" />
     <ClInclude Include="source\gfx\scene\Horizon.hpp" />
@@ -428,6 +429,7 @@
     <ClCompile Include="source\game\player\Player.cpp" />
     <ClCompile Include="source\gfx\core\ShaderTable.cpp" />
     <ClCompile Include="source\gfx\RenderThread.cpp" />
+    <ClCompile Include="source\gfx\scene\animator\Animator.cpp" />
     <ClCompile Include="source\gfx\scene\animator\AppearAnimator.cpp" />
     <ClCompile Include="source\gfx\scene\CameraManager.cpp" />
     <ClCompile Include="source\gfx\scene\Horizon.cpp" />

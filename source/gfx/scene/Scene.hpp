@@ -26,7 +26,6 @@
 #include "gfx/scene/model/PortalModel.hpp"
 #include "gfx/scene/model/TrapModel.hpp"
 #include "gfx/scene/model/CreatureModel.hpp"
-#include "gfx/scene/animator/AppearAnimator.hpp"
 
 namespace gfx
 {
@@ -129,7 +128,6 @@ namespace scene
 		Vector<model::PortalModel> m_portals;
 		Vector<model::TrapModel> m_traps;
 		Vector<model::CreatureModel> m_creatures;
-		Vector<animator::AppearAnimator> m_appear_anims;
 	};
 }
 }
