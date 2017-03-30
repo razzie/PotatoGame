@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <GL/Math/Vec2.hpp>
 #include <GL/Math/Vec3.hpp>
 
 namespace common
@@ -13,6 +14,11 @@ namespace common
 	inline bool equals(const float a, const float b, const float tolerance = 0.000001f)
 	{
 		return (a + tolerance >= b) && (a - tolerance <= b);
+	}
+
+	inline bool equals(const GL::Vec2 a, const GL::Vec2 b, const float tolerance = 0.000001f)
+	{
+		return equals(a.X, b.X, tolerance) && equals(a.Y, b.Y, tolerance);
 	}
 
 	inline bool equals(const GL::Vec3 a, const GL::Vec3 b, const float tolerance = 0.000001f)

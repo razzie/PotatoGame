@@ -129,38 +129,8 @@ bool gfx::scene::Scene::feed(const GL::Event& ev)
 {
 	auto& helper = m_render_thread.getInputHelper();
 
-	if (ev.Type == GL::Event::KeyDown)
+	if (m_cam_mgr.feed(ev, helper))
 	{
-		float speed = 5.0f;
-
-		switch (ev.Key.Code)
-		{
-		case GL::Key::W:
-			m_cam.move(speed, 0.f);
-			return true;
-		case GL::Key::S:
-			m_cam.move(-speed, 0.f);
-			return true;
-		case GL::Key::A:
-			m_cam.move(0.f, -speed);
-			return true;
-		case GL::Key::D:
-			m_cam.move(0.f, speed);
-			return true;
-		}
-	}
-	else if (ev.Type == GL::Event::MouseMove)
-	{
-		if (helper.isLeftMouseButtonDown() || helper.isRightMouseButtonDown())
-		{
-			auto delta = helper.getMouseDelta();
-			m_cam.rotate((float)-delta.x, (float)delta.y);
-			return true;
-		}
-	}
-	else if (ev.Type == GL::Event::MouseWheel)
-	{
-		m_cam.zoom(ev.Mouse.Delta > 0 ? 0.8f : -1.2f);
 		return true;
 	}
 
@@ -207,6 +177,8 @@ void renderModels(std::vector<Model, raz::Allocator<Model>>& models, gfx::scene:
 void gfx::scene::Scene::render()
 {
 	m_time = 0.001f * m_timer.peekElapsed();
+
+	m_cam_mgr.update(*this);
 
 	for (auto& anim : m_appear_anims)
 		anim.update(m_time);
