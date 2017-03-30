@@ -170,6 +170,7 @@
     <ClInclude Include="source\gfx\core\ShaderTable.hpp" />
     <ClInclude Include="source\gfx\RenderThread.hpp" />
     <ClInclude Include="source\gfx\scene\animator\AppearAnimator.hpp" />
+    <ClInclude Include="source\gfx\scene\CameraManager.hpp" />
     <ClInclude Include="source\gfx\scene\Horizon.hpp" />
     <ClInclude Include="source\gfx\scene\model\ChargeModel.hpp" />
     <ClInclude Include="source\gfx\scene\model\PortalModel.hpp" />
@@ -428,6 +429,7 @@
     <ClCompile Include="source\gfx\core\ShaderTable.cpp" />
     <ClCompile Include="source\gfx\RenderThread.cpp" />
     <ClCompile Include="source\gfx\scene\animator\AppearAnimator.cpp" />
+    <ClCompile Include="source\gfx\scene\CameraManager.cpp" />
     <ClCompile Include="source\gfx\scene\Horizon.cpp" />
     <ClCompile Include="source\gfx\scene\model\ChargeModel.cpp" />
     <ClCompile Include="source\gfx\scene\model\PortalModel.cpp" />

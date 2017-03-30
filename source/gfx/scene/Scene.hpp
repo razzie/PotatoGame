@@ -15,6 +15,7 @@
 #include <raz/timer.hpp>
 #include "gfx/core/ShaderTable.hpp"
 #include "gfx/scene/Camera.hpp"
+#include "gfx/scene/CameraManager.hpp"
 #include "gfx/scene/Horizon.hpp"
 #include "gfx/scene/model/HubModel.hpp"
 #include "gfx/scene/model/TransportModel.hpp"
@@ -117,6 +118,7 @@ namespace scene
 		raz::Timer m_timer;
 		float m_time;
 		Camera m_cam;
+		CameraManager m_cam_mgr;
 		Horizon m_horizon;
 		Vector<model::HubModel> m_hubs;
 		Vector<model::TransportModel> m_transports;
