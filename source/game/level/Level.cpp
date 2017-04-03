@@ -45,7 +45,7 @@ void game::level::Level::reset()
 
 void game::level::Level::update()
 {
-	m_entities.tick(m_random);
+	m_entities.update(m_random);
 }
 
 bool game::level::Level::connectPlayer(game::player::Player* player)

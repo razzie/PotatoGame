@@ -12,7 +12,7 @@ typedef std::basic_string<char, std::char_traits<char>, raz::Allocator<char>> St
 
 resource::ShaderLoader::ShaderLoader(raz::IMemoryPool* memory) :
 	m_memory(memory),
-	m_archive("../data/shader.res", memory)
+	m_archive("shader.res", memory)
 {
 }
 

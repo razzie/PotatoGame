@@ -9,7 +9,7 @@
 
 gfx::gui::RocketFileInterface::RocketFileInterface(raz::IMemoryPool* memory) :
 	m_memory(memory),
-	m_archive("../data/gui.res", memory)
+	m_archive("gui.res", memory)
 {
 }
 

@@ -85,8 +85,12 @@ namespace entity
 		bool addPlayer(int player, uint32_t& hub_id);
 		bool removePlayer(int player);
 		size_t getMaxPlayers() const;
-		void tick(raz::Random& random);
+		void update(raz::Random& random);
 		void reset();
+		bool getRandomEmptyPlatform(raz::Random& random, Entity::Type type, Entity::Platform& platform);
+		bool getRandomEntity(raz::Random& random, Entity::Type type, Entity::Platform& platform);
+		bool getRandomEntity(raz::Random& random, Entity::Type type, int player, Entity::Platform& platform);
+
 		Result addHub(uint64_t seed, uint32_t size, HubEntity::Position position, bool player_hub = false);
 		Result addTransport(uint32_t hub1_id, uint32_t hub2_id);
 		Result addTransport(Entity::Platform platform1, Entity::Platform platform2);
@@ -138,7 +142,9 @@ namespace entity
 			{
 				for (auto& entity : m_entities)
 				{
-					if (entity.getID() == id)
+					if (entity.getID() > id)
+						return nullptr;
+					else if (entity.getID() == id)
 						return &entity;
 				}
 				return nullptr;
@@ -148,7 +154,11 @@ namespace entity
 			{
 				for (auto it = m_entities.begin(), end = m_entities.end(); it != end; ++it)
 				{
-					if (it->getID() == id)
+					if (it->getID() > id)
+					{
+						return false;
+					}
+					else if (it->getID() == id)
 					{
 						iter = it;
 						return true;

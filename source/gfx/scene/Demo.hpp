@@ -35,7 +35,7 @@ namespace scene
 		game::entity::EntityManager m_entities;
 		int m_progress;
 
-		void addRandomEntity(game::entity::HubEntity* hub);
+		void addRandomEntity(uint32_t hub);
 	};
 }
 }

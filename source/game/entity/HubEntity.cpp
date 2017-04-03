@@ -64,12 +64,12 @@ const game::entity::PlatformEntity* game::entity::HubEntity::getPlatform(uint32_
 game::entity::PlatformEntity* game::entity::HubEntity::getPlatformByAngle(float angle)
 {
 	float angle_step = (2.f * (float)common::PI) / m_outer_platform_count;
-	uint32_t id = uint32_t(angle / angle_step) + m_inner_platform_count;
+	uint32_t id = (uint32_t(angle / angle_step) % m_outer_platform_count) + m_inner_platform_count;
 
 	return getPlatform(id);
 }
 
-game::entity::PlatformEntity* game::entity::HubEntity::getRandomFreePlatformFor(raz::Random& random, Entity::Type type)
+game::entity::PlatformEntity* game::entity::HubEntity::getRandomEmptyPlatform(raz::Random& random, Entity::Type type)
 {
 	uint32_t starting_id = random(0u, m_platforms.size() - 1);
 

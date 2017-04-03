@@ -76,7 +76,7 @@ size_t game::entity::EntityManager::getMaxPlayers() const
 	return m_player_hubs.size();
 }
 
-void game::entity::EntityManager::tick(raz::Random& random)
+void game::entity::EntityManager::update(raz::Random& random)
 {
 	auto& traces = m_traces.getEntities();
 	for (auto it = traces.begin(); it != traces.end(); )
@@ -98,7 +98,7 @@ void game::entity::EntityManager::tick(raz::Random& random)
 		{
 			for (int i = 0, count = size - charges; i < count; ++i)
 			{
-				PlatformEntity* platform = hub.getRandomFreePlatformFor(random, Entity::Type::CHARGE);
+				PlatformEntity* platform = hub.getRandomEmptyPlatform(random, Entity::Type::CHARGE);
 				if (!platform)
 					break;
 
@@ -120,6 +120,75 @@ void game::entity::EntityManager::reset()
 	m_traps.clear();
 	m_creatures.clear();
 	initPlayerHubs();
+}
+
+bool game::entity::EntityManager::getRandomEmptyPlatform(raz::Random& random, Entity::Type type, Entity::Platform& platform)
+{
+	auto* hub = m_hubs.find(platform.hub_id);
+	if (!hub)
+	{
+		auto& hubs = m_hubs.getEntities();
+		if (hubs.empty())
+			return false;
+
+		hub = &hubs[random(0u, hubs.size() - 1)];
+	}
+
+	auto* p = hub->getRandomEmptyPlatform(random, type);
+	if (p)
+	{
+		platform.hub_id = hub->getID();
+		platform.platform_id = p->getID();
+		return true;
+	}
+
+	return false;
+}
+
+bool game::entity::EntityManager::getRandomEntity(raz::Random& random, Entity::Type type, Entity::Platform& platform)
+{
+	auto* hub = m_hubs.find(platform.hub_id);
+	if (!hub)
+	{
+		auto& hubs = m_hubs.getEntities();
+		if (hubs.empty())
+			return false;
+
+		hub = &hubs[random(0u, hubs.size() - 1)];
+	}
+
+	auto* p = hub->getRandomEntity(random, type);
+	if (p)
+	{
+		platform.hub_id = hub->getID();
+		platform.platform_id = p->getID();
+		return true;
+	}
+
+	return false;
+}
+
+bool game::entity::EntityManager::getRandomEntity(raz::Random& random, Entity::Type type, int player, Entity::Platform& platform)
+{
+	auto* hub = m_hubs.find(platform.hub_id);
+	if (!hub)
+	{
+		auto& hubs = m_hubs.getEntities();
+		if (hubs.empty())
+			return false;
+
+		hub = &hubs[random(0u, hubs.size() - 1)];
+	}
+
+	auto* p = hub->getRandomEntity(random, type, player);
+	if (p)
+	{
+		platform.hub_id = hub->getID();
+		platform.platform_id = p->getID();
+		return true;
+	}
+
+	return false;
 }
 
 game::entity::EntityManager::Result game::entity::EntityManager::addHub(uint64_t seed, uint32_t size, HubEntity::Position position, bool player_hub)
@@ -155,15 +224,15 @@ game::entity::EntityManager::Result game::entity::EntityManager::addTransport(ui
 
 	GL::Vec2 dir(hub2->getPosition().x - hub1->getPosition().x, hub2->getPosition().z - hub1->getPosition().z);
 	dir = dir.Normal();
-	float angle = (float)std::atan2(dir.Y, dir.X);
+	float angle = (float)std::atan2(dir.Y, dir.X) + (float)common::PI;
 
 	float half_pi = (float)common::PI / 2.f;
 
-	PlatformEntity* p1 = hub1->getPlatformByAngle(angle + half_pi);
+	PlatformEntity* p1 = hub1->getPlatformByAngle(angle + (float)common::PI + half_pi);
 	if (!p1)
 		return Result().fail();
 
-	PlatformEntity* p2 = hub2->getPlatformByAngle(angle + (float)common::PI + half_pi);
+	PlatformEntity* p2 = hub2->getPlatformByAngle(angle + half_pi);
 	if (!p2)
 		return Result().fail();
 
