@@ -16,12 +16,12 @@ gfx::scene::Demo::Demo(Scene& scene) :
 	m_entities(this, scene.getMemoryPool()),
 	m_progress(1)
 {
-	ShowCursor(FALSE);
+	//ShowCursor(FALSE);
 }
 
 void gfx::scene::Demo::update()
 {
-	if (m_timer.peekElapsed() > 1000)
+	if (m_timer.peekElapsed() > 1500)
 	{
 		m_timer.reset();
 
@@ -33,6 +33,9 @@ void gfx::scene::Demo::update()
 
 		if (hub > 0)
 			m_entities.addTransport(hub - 1, hub);
+
+		for (int i = 0; i < 10; ++i)
+			addRandomEntity(hub);
 
 		++m_progress;
 	}
@@ -55,9 +58,6 @@ void gfx::scene::Demo::onEntityAdd(const game::entity::Entity* entity)
 		{
 			auto hub = static_cast<const game::entity::HubEntity*>(entity);
 			m_scene->addHub(hub->getID(), hub->getSeed(), hub->getSize(), { hub->getPosition().x, hub->getPosition().z });
-
-			for (int i = 0; i < 10; ++i)
-				addRandomEntity(const_cast<game::entity::HubEntity*>(hub));
 		}
 		break;
 
@@ -140,42 +140,39 @@ void gfx::scene::Demo::onEntityMove(const game::entity::Entity* entity, game::en
 {
 }
 
-void gfx::scene::Demo::addRandomEntity(game::entity::HubEntity* hub)
+void gfx::scene::Demo::addRandomEntity(uint32_t hub)
 {
-	game::entity::PlatformEntity* platform;
+	game::entity::Entity::Platform platform;
+	platform.hub_id = hub;
 	unsigned type = m_random(1, 4);
 
 	switch (type)
 	{
 	case 1:
-		platform = hub->getRandomFreePlatformFor(m_random, game::entity::Entity::Type::CREATURE);
-		if (platform)
+		if (m_entities.getRandomEmptyPlatform(m_random, game::entity::Entity::Type::CREATURE, platform))
 		{
-			m_entities.addCreature(m_random(), { hub->getID(), platform->getID() }, m_random(0, 5));
+			m_entities.addCreature(m_random(), platform, m_random(0, 5));
 		}
 		break;
 
 	case 2:
-		platform = hub->getRandomFreePlatformFor(m_random, game::entity::Entity::Type::CHARGE);
-		if (platform)
+		if (m_entities.getRandomEmptyPlatform(m_random, game::entity::Entity::Type::CHARGE, platform))
 		{
-			m_entities.addCharge({ hub->getID(), platform->getID() });
+			m_entities.addCharge(platform);
 		}
 		break;
 
 	case 3:
-		platform = hub->getRandomFreePlatformFor(m_random, game::entity::Entity::Type::RESOURCE);
-		if (platform)
+		if (m_entities.getRandomEmptyPlatform(m_random, game::entity::Entity::Type::RESOURCE, platform))
 		{
-			m_entities.addResource({ hub->getID(), platform->getID() }, { m_random(0u, 1u), m_random(0u, 2u), m_random(0u, 3u) });
+			m_entities.addResource(platform, { m_random(0u, 1u), m_random(0u, 2u), m_random(0u, 3u) });
 		}
 		break;
 
 	case 4:
-		platform = hub->getRandomFreePlatformFor(m_random, game::entity::Entity::Type::TRAP);
-		if (platform)
+		if (m_entities.getRandomEmptyPlatform(m_random, game::entity::Entity::Type::TRAP, platform))
 		{
-			m_entities.addTrap({ hub->getID(), platform->getID() }, m_random(0, 5));
+			m_entities.addTrap(platform, m_random(0, 5));
 		}
 		break;
 	}

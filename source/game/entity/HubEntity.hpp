@@ -35,7 +35,7 @@ namespace entity
 		PlatformEntity* getPlatform(uint32_t id);
 		const PlatformEntity* getPlatform(uint32_t id) const;
 		PlatformEntity* getPlatformByAngle(float angle);
-		PlatformEntity* getRandomFreePlatformFor(raz::Random& random, Entity::Type type);
+		PlatformEntity* getRandomEmptyPlatform(raz::Random& random, Entity::Type type);
 		PlatformEntity* getRandomEntity(raz::Random& random, Entity::Type type);
 		PlatformEntity* getRandomEntity(raz::Random& random, Entity::Type type, int player);
 		unsigned getPlatformNeighbors(uint32_t platform_id, uint32_t* neighbor_ids) const;
