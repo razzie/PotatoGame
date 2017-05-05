@@ -26,3 +26,12 @@ game::level::Level& game::GameThread::getLevel()
 {
 	return m_level;
 }
+
+void game::GameThread::operator()()
+{
+}
+
+void game::GameThread::operator()(std::exception& e)
+{
+	m_potato.exit(-1, e.what());
+}

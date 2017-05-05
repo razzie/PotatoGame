@@ -35,6 +35,7 @@ namespace gfx
 
 		// raz::Thread compatibility:
 		void operator()();
+		void operator()(std::exception& e);
 		void operator()(game::event::AddHubEvent ev);
 		void operator()(game::event::AddTransportEvent ev);
 		void operator()(game::event::AddChargeEvent ev);
