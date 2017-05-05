@@ -26,13 +26,3 @@ game::level::Level& game::GameThread::getLevel()
 {
 	return m_level;
 }
-
-int game::GameThread::run(std::future<void> exit_token)
-{
-	while (true)
-	{
-		auto exit_status = exit_token.wait_for(std::chrono::milliseconds(1));
-		if (exit_status == std::future_status::ready)
-			return 0;
-	}
-}

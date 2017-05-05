@@ -15,15 +15,5 @@ int CALLBACK WinMain(
 	_In_ LPSTR     lpCmdLine,
 	_In_ int       nCmdShow)
 {
-	try
-	{
-		return Potato(1, &lpCmdLine).run();
-	}
-	catch (std::exception& e)
-	{
-		std::cerr << e.what() << std::endl;
-		MessageBoxA(NULL, e.what(), "Error", MB_OK | MB_ICONERROR);
-	}
-
-	return -1;
+	return Potato(1, &lpCmdLine).run();
 }

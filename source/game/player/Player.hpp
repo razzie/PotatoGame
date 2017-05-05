@@ -28,13 +28,32 @@ namespace player
 		Player(Type type, raz::IMemoryPool* memory = nullptr);
 		virtual ~Player();
 		Type getType() const;
-		event::ServerEventQueue& getServerEventQueue();
-		event::EntityEventQueue& getEntityEventQueue();
+
+		virtual void handle(event::PlayerAcceptedEvent&& ev) = 0;
+		virtual void handle(event::PlayerRejectedEvent&& ev) = 0;
+		virtual void handle(event::PlayerUpdateEvent&& ev) = 0;
+
+		virtual void handle(event::AddHubEvent&& ev) = 0;
+		virtual void handle(event::AddTransportEvent&& ev) = 0;
+		virtual void handle(event::AddChargeEvent&& ev) = 0;
+		virtual void handle(event::AddResourceEvent&& ev) = 0;
+		virtual void handle(event::AddTraceEvent&& ev) = 0;
+		virtual void handle(event::AddSpawnEvent&& ev) = 0;
+		virtual void handle(event::AddPortalEvent&& ev) = 0;
+		virtual void handle(event::AddTrapEvent&& ev) = 0;
+		virtual void handle(event::AddCreatureEvent&& ev) = 0;
+		virtual void handle(event::RemoveChargeEvent&& ev) = 0;
+		virtual void handle(event::RemoveResourceEvent&& ev) = 0;
+		virtual void handle(event::RemoveTraceEvent&& ev) = 0;
+		virtual void handle(event::RemoveTrapEvent&& ev) = 0;
+		virtual void handle(event::RemoveCreatureEvent&& ev) = 0;
+		virtual void handle(event::ChangeHubColorEvent&& ev) = 0;
+		virtual void handle(event::ChangeSpawnColorEvent&& ev) = 0;
+		virtual void handle(event::ChangeCreatureColorEvent&& ev) = 0;
+		virtual void handle(event::MoveCreatureEvent&& ev) = 0;
 
 	private:
 		Type m_type;
-		event::ServerEventQueue m_server_event_queue;
-		event::EntityEventQueue m_entity_event_queue;
 	};
 }
 }

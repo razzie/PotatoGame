@@ -4,7 +4,9 @@
  * Proprietary and confidential
  */
 
+#include <Windows.h>
 #include "Potato.hpp"
+#include "Demo.hpp"
 
 Potato::Settings::Settings(int argc, char** argv) :
 	screen_width(1366),
@@ -14,9 +16,7 @@ Potato::Settings::Settings(int argc, char** argv) :
 }
 
 Potato::Potato(int argc, char** argv) :
-	m_settings(argc, argv),
-	m_game(*this, nullptr),
-	m_render(*this, m_settings.screen_width, m_settings.screen_height, m_settings.fullscreen, nullptr)
+	m_settings(argc, argv)
 {
 }
 
@@ -29,17 +29,40 @@ Potato::Settings& Potato::getSettings()
 	return m_settings;
 }
 
-game::GameThread& Potato::getGameThread()
+raz::Thread<game::GameThread>& Potato::getGameThread()
 {
-	return m_game;
+	return m_game_thread;
 }
 
-gfx::RenderThread& Potato::getRenderThread()
+raz::Thread<gfx::RenderThread>& Potato::getRenderThread()
 {
-	return m_render;
+	return m_render_thread;
 }
 
 int Potato::run()
 {
-	return m_render.run();
+	auto exit_code_future = m_exit_code.get_future();
+
+	m_game_thread.start(std::ref(*this), nullptr);
+	m_render_thread.start(std::ref(*this), m_settings.screen_width, m_settings.screen_height, m_settings.fullscreen, nullptr);
+
+	raz::Thread<Demo> demo_thread;
+	demo_thread.start(std::ref(*this));
+
+	int exit_code = exit_code_future.get();
+
+	m_render_thread.stop();
+	m_game_thread.stop();
+
+	return exit_code;
+}
+
+void Potato::exit(int code, const char* msg)
+{
+	if (msg)
+	{
+		MessageBoxA(NULL, msg, "Exit message", MB_OK);
+	}
+
+	m_exit_code.set_value(code);
 }

@@ -6,7 +6,6 @@
 
 #include "Potato.hpp"
 #include "gfx/RenderThread.hpp"
-#include "gfx/scene/Demo.hpp"
 
 gfx::RenderThread::RenderThread(Potato& potato, unsigned width, unsigned height, bool fullscreen, raz::IMemoryPool* memory) :
 	m_potato(potato),
@@ -15,9 +14,10 @@ gfx::RenderThread::RenderThread(Potato& potato, unsigned width, unsigned height,
 	m_memory(memory),
 	m_shader_table(memory),
 	m_gui(*this),
-	m_scene(*this),
-	m_player(*this)
+	m_scene(*this)
 {
+	//ShowCursor(FALSE);
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -69,48 +69,148 @@ gfx::scene::Scene& gfx::RenderThread::getScene()
 	return m_scene;
 }
 
-game::player::HumanPlayer& gfx::RenderThread::getPlayer()
+void gfx::RenderThread::operator()()
 {
-	return m_player;
-}
-
-int gfx::RenderThread::run()
-{
-	scene::Demo demo(m_scene);
-	GL::Event ev;
-
-	while (m_window.IsOpen())
+	if (m_window.IsOpen())
 	{
+		GL::Event ev;
 		while (m_window.GetEvent(ev))
 		{
 			m_input.feed(ev);
-			
+
 			if (ev.Type == GL::Event::KeyUp && ev.Key.Code == GL::Key::Escape)
 			{
 				m_window.Close();
-				return 0;
+				m_potato.exit(0);
+				return;
 			}
 
 			if (m_gui.feed(ev))
-				continue;
-			else if (m_player.feed(ev))
 				continue;
 			else if (m_scene.feed(ev))
 				continue;
 		}
 
 		m_gui.update();
-		m_player.update();
 
 		m_gl.Clear(GL::Buffer::Depth | GL::Buffer::Color);
 		m_gl.ClearColor(GL::Color(255, 255, 255));
 
-		demo.update();
 		m_scene.render();
 		m_gui.render();
 
 		m_window.Present();
 	}
+	else
+	{
+		m_potato.exit(0);
+	}
+}
 
-	return 0;
+void gfx::RenderThread::operator()(game::event::AddHubEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.addHub(data.id, data.seed, data.size, data.position);
+}
+
+void gfx::RenderThread::operator()(game::event::AddTransportEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.addTransport(data.id, data.position1.hub_id, data.position1.platform_id, data.position2.hub_id, data.position2.platform_id);
+}
+
+void gfx::RenderThread::operator()(game::event::AddChargeEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.addCharge(data.id, data.position.hub_id, data.position.platform_id);
+}
+
+void gfx::RenderThread::operator()(game::event::AddResourceEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.addResource(data.id, data.value, data.position.hub_id, data.position.platform_id);
+}
+
+void gfx::RenderThread::operator()(game::event::AddTraceEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.addTrace(data.id, data.color, data.position.hub_id, data.position.platform_id);
+}
+
+void gfx::RenderThread::operator()(game::event::AddSpawnEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.addSpawn(data.id, data.color, data.position.hub_id, data.position.platform_id);
+}
+
+void gfx::RenderThread::operator()(game::event::AddPortalEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.addPortal(data.id, data.position.hub_id, data.position.platform_id);
+}
+
+void gfx::RenderThread::operator()(game::event::AddTrapEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.addTrap(data.id, data.color, data.position.hub_id, data.position.platform_id);
+}
+
+void gfx::RenderThread::operator()(game::event::AddCreatureEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.addCreature(data.id, data.seed, data.color, data.position.hub_id, data.position.platform_id);
+}
+
+void gfx::RenderThread::operator()(game::event::RemoveChargeEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.removeCharge(data.id);
+}
+
+void gfx::RenderThread::operator()(game::event::RemoveResourceEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.removeResource(data.id);
+}
+
+void gfx::RenderThread::operator()(game::event::RemoveTraceEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.removeTrace(data.id);
+}
+
+void gfx::RenderThread::operator()(game::event::RemoveTrapEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.removeTrap(data.id);
+}
+
+void gfx::RenderThread::operator()(game::event::RemoveCreatureEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.removeCreature(data.id);
+}
+
+void gfx::RenderThread::operator()(game::event::ChangeHubColorEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.changeHubColor(data.id, data.color);
+}
+
+void gfx::RenderThread::operator()(game::event::ChangeSpawnColorEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.changeSpawnColor(data.id, data.color);
+}
+
+void gfx::RenderThread::operator()(game::event::ChangeCreatureColorEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.changeCreatureColor(data.id, data.color);
+}
+
+void gfx::RenderThread::operator()(game::event::MoveCreatureEvent ev)
+{
+	auto& data = ev.get<0>();
+	m_scene.moveCreature(data.id, data.position.hub_id, data.position.platform_id);
 }

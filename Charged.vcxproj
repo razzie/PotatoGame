@@ -172,7 +172,7 @@
     <ClInclude Include="source\gfx\scene\animator\Animator.hpp" />
     <ClInclude Include="source\gfx\scene\animator\AppearAnimator.hpp" />
     <ClInclude Include="source\gfx\scene\CameraManager.hpp" />
-    <ClInclude Include="source\gfx\scene\Demo.hpp" />
+    <ClInclude Include="source\Demo.hpp" />
     <ClInclude Include="source\gfx\scene\Horizon.hpp" />
     <ClInclude Include="source\gfx\scene\model\ChargeModel.hpp" />
     <ClInclude Include="source\gfx\scene\model\PortalModel.hpp" />
@@ -201,6 +201,7 @@
     <ClInclude Include="source\thirdparty\Doboz\Dictionary.h" />
     <ClInclude Include="source\thirdparty\raz\bitset.hpp" />
     <ClInclude Include="source\thirdparty\raz\callback.hpp" />
+    <ClInclude Include="source\thirdparty\raz\color.hpp" />
     <ClInclude Include="source\thirdparty\raz\event.hpp" />
     <ClInclude Include="source\thirdparty\raz\functional.hpp" />
     <ClInclude Include="source\thirdparty\raz\memory.hpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="source\thirdparty\raz\serialization.hpp" />
     <ClInclude Include="source\thirdparty\raz\storage.hpp" />
     <ClInclude Include="source\thirdparty\raz\stream.hpp" />
+    <ClInclude Include="source\thirdparty\raz\thread.hpp" />
     <ClInclude Include="source\thirdparty\raz\timer.hpp" />
     <ClInclude Include="source\thirdparty\Rocket\Controls.h" />
     <ClInclude Include="source\thirdparty\Rocket\Controls\Clipboard.h" />
@@ -426,14 +428,13 @@
     <ClCompile Include="source\game\entity\TrapEntity.cpp" />
     <ClCompile Include="source\game\level\Level.cpp" />
     <ClCompile Include="source\game\level\LevelBuilder.cpp" />
-    <ClCompile Include="source\game\player\HumanPlayer.cpp" />
     <ClCompile Include="source\game\player\Player.cpp" />
     <ClCompile Include="source\gfx\core\ShaderTable.cpp" />
     <ClCompile Include="source\gfx\RenderThread.cpp" />
     <ClCompile Include="source\gfx\scene\animator\Animator.cpp" />
     <ClCompile Include="source\gfx\scene\animator\AppearAnimator.cpp" />
     <ClCompile Include="source\gfx\scene\CameraManager.cpp" />
-    <ClCompile Include="source\gfx\scene\Demo.cpp" />
+    <ClCompile Include="source\Demo.cpp" />
     <ClCompile Include="source\gfx\scene\Horizon.cpp" />
     <ClCompile Include="source\gfx\scene\model\ChargeModel.cpp" />
     <ClCompile Include="source\gfx\scene\model\PortalModel.cpp" />

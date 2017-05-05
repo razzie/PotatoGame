@@ -33,11 +33,5 @@ namespace event
 	typedef raz::Event<"PlayerConnection"_event, PlayerConnectionData> PlayerConnectionEvent;
 	typedef raz::Event<"PlayerDisconnection"_event, PlayerDisconnectionData> PlayerDisconnectionEvent;
 	typedef raz::Event<"PlayerSkillUse"_event, PlayerSkillUseData> PlayerSkillUseEvent;
-
-	typedef raz::EventQueueSystem<
-		PlayerConnectionEvent,
-		PlayerDisconnectionEvent,
-		PlayerSkillUseEvent
-	> ClientEventQueue;
 }
 }

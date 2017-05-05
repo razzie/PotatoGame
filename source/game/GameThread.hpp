@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include <future>
 #include <raz/memory.hpp>
 #include "game/level/Level.hpp"
 
@@ -21,7 +20,6 @@ namespace game
 		~GameThread();
 		raz::IMemoryPool* getMemoryPool();
 		game::level::Level& getLevel();
-		int run(std::future<void> exit_token);
 
 	private:
 		Potato& m_potato;

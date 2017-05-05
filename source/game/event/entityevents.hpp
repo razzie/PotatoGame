@@ -167,29 +167,5 @@ namespace event
 	typedef raz::Event<"ChangeCreatureColor"_event, ChangeColorParameters> ChangeCreatureColorEvent;
 
 	typedef raz::Event<"MoveCreature"_event, MoveCreatureParameters> MoveCreatureEvent;
-
-	typedef raz::EventQueueSystem<
-		AddHubEvent,
-		AddTransportEvent,
-		AddChargeEvent,
-		AddResourceEvent,
-		AddTraceEvent,
-		AddSpawnEvent,
-		AddPortalEvent,
-		AddTrapEvent,
-		AddCreatureEvent,
-
-		RemoveChargeEvent,
-		RemoveResourceEvent,
-		RemoveTraceEvent,
-		RemoveTrapEvent,
-		RemoveCreatureEvent,
-
-		ChangeHubColorEvent,
-		ChangeSpawnColorEvent,
-		ChangeCreatureColorEvent,
-
-		MoveCreatureEvent
-	> EntityEventQueue;
 }
 }
