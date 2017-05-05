@@ -107,6 +107,11 @@ void gfx::RenderThread::operator()()
 	}
 }
 
+void gfx::RenderThread::operator()(std::exception& e)
+{
+	m_potato.exit(-1, e.what());
+}
+
 void gfx::RenderThread::operator()(game::event::AddHubEvent ev)
 {
 	auto& data = ev.get<0>();

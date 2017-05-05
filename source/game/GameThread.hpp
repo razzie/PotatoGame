@@ -21,6 +21,10 @@ namespace game
 		raz::IMemoryPool* getMemoryPool();
 		game::level::Level& getLevel();
 
+		// raz::Thread compatibility:
+		void operator()();
+		void operator()(std::exception& e);
+
 	private:
 		Potato& m_potato;
 		raz::IMemoryPool* m_memory;
