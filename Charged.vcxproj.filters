@@ -372,9 +372,6 @@
     <ClCompile Include="source\gfx\core\ShaderTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\player\HumanPlayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\gfx\RenderThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -468,7 +465,7 @@
     <ClCompile Include="source\gfx\scene\animator\Animator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\gfx\scene\Demo.cpp">
+    <ClCompile Include="source\Demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1262,7 +1259,13 @@
     <ClInclude Include="source\gfx\scene\animator\Animator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\gfx\scene\Demo.hpp">
+    <ClInclude Include="source\thirdparty\raz\color.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\thirdparty\raz\thread.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Demo.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

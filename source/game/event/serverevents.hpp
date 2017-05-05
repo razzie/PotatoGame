@@ -33,13 +33,5 @@ namespace event
 	typedef raz::Event<"PlayerAccepted"_event, PlayerAcceptedData> PlayerAcceptedEvent;
 	typedef raz::Event<"PlayerRejectedEvent"_event, PlayerRejectedData> PlayerRejectedEvent;
 	typedef raz::Event<"PlayerUpdate"_event, PlayerUpdateData> PlayerUpdateEvent;
-	typedef raz::Event<"Tick"_event> TickEvent;
-
-	typedef raz::EventQueueSystem<
-		PlayerAcceptedEvent,
-		PlayerRejectedEvent,
-		PlayerUpdateEvent,
-		TickEvent
-	> ServerEventQueue;
 }
 }

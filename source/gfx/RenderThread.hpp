@@ -13,7 +13,7 @@
 #include "gfx/core/ShaderTable.hpp"
 #include "gfx/gui/GUI.hpp"
 #include "gfx/scene/Scene.hpp"
-#include "game/player/HumanPlayer.hpp"
+#include "game/event/entityevents.hpp"
 
 class Potato;
 
@@ -32,8 +32,27 @@ namespace gfx
 		gfx::core::ShaderTable& getShaderTable();
 		gfx::gui::GUI& getGUI();
 		gfx::scene::Scene& getScene();
-		game::player::HumanPlayer& getPlayer();
-		int run();
+
+		// raz::Thread compatibility:
+		void operator()();
+		void operator()(game::event::AddHubEvent ev);
+		void operator()(game::event::AddTransportEvent ev);
+		void operator()(game::event::AddChargeEvent ev);
+		void operator()(game::event::AddResourceEvent ev);
+		void operator()(game::event::AddTraceEvent ev);
+		void operator()(game::event::AddSpawnEvent ev);
+		void operator()(game::event::AddPortalEvent ev);
+		void operator()(game::event::AddTrapEvent ev);
+		void operator()(game::event::AddCreatureEvent ev);
+		void operator()(game::event::RemoveChargeEvent ev);
+		void operator()(game::event::RemoveResourceEvent ev);
+		void operator()(game::event::RemoveTraceEvent ev);
+		void operator()(game::event::RemoveTrapEvent ev);
+		void operator()(game::event::RemoveCreatureEvent ev);
+		void operator()(game::event::ChangeHubColorEvent ev);
+		void operator()(game::event::ChangeSpawnColorEvent ev);
+		void operator()(game::event::ChangeCreatureColorEvent ev);
+		void operator()(game::event::MoveCreatureEvent ev);
 
 	private:
 		Potato& m_potato;
@@ -44,6 +63,5 @@ namespace gfx
 		gfx::core::ShaderTable m_shader_table;
 		gfx::gui::GUI m_gui;
 		gfx::scene::Scene m_scene;
-		game::player::HumanPlayer m_player;
 	};
 }
