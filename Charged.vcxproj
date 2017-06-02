@@ -167,6 +167,7 @@
     <ClInclude Include="source\game\player\HumanPlayer.hpp" />
     <ClInclude Include="source\game\player\NetworkPlayer.hpp" />
     <ClInclude Include="source\game\player\Player.hpp" />
+    <ClInclude Include="source\gfx\core\GBuffer.hpp" />
     <ClInclude Include="source\gfx\core\ShaderTable.hpp" />
     <ClInclude Include="source\gfx\RenderThread.hpp" />
     <ClInclude Include="source\gfx\scene\animator\Animator.hpp" />
