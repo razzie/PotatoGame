@@ -82,6 +82,7 @@ GLUNIFORMMATRIX3X4FV glUniformMatrix3x4fv;
 GLUNIFORMMATRIX4X3FV glUniformMatrix4x3fv;
 
 GLGENBUFFERS glGenBuffers;
+GLDRAWBUFFERS glDrawBuffers;
 GLDELETEBUFFERS glDeleteBuffers;
 GLBINDBUFFER glBindBuffer;
 GLBUFFERDATA glBufferData;
@@ -198,6 +199,7 @@ namespace GL
 		glUniformMatrix4x3fv = (GLUNIFORMMATRIX4X3FV)LoadExtension( "glUniformMatrix4x3fv" );
 
 		glGenBuffers = (GLGENBUFFERS)LoadExtension( "glGenBuffers" );
+		glDrawBuffers = (GLDRAWBUFFERS)LoadExtension( "glDrawBuffers" );
 		glDeleteBuffers = (GLDELETEBUFFERS)LoadExtension( "glDeleteBuffers" );
 		glBindBuffer = (GLBINDBUFFER)LoadExtension( "glBindBuffer" );
 		glBufferData = (GLBUFFERDATA)LoadExtension( "glBufferData" );
