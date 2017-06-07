@@ -18,8 +18,14 @@ namespace gfx
 {
 namespace core
 {
+	class GBufferBase
+	{
+	protected:
+		static GL::GC m_gc;
+	};
+
 	template<size_t N>
-	class GBuffer
+	class GBuffer : protected GBufferBase
 	{
 	public:
 		GBuffer(unsigned width, unsigned height)
@@ -36,7 +42,7 @@ namespace core
 			{
 				// Create texture to hold color buffer
 				GL::Texture& tex = m_attachments[i];
-				tex.Image2D(0, GL::DataType::Float, Format::RGB, width, height, GL::InternalFormat::RGB32F);
+				tex.Image2D(0, GL::DataType::Float, GL::Format::RGB, width, height, GL::InternalFormat::RGB32F);
 				tex.SetWrapping(GL::Wrapping::ClampEdge, GL::Wrapping::ClampEdge);
 				tex.SetFilters(GL::Filter::Linear, GL::Filter::Linear);
 				glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, tex, 0);
@@ -48,7 +54,7 @@ namespace core
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 			m_depth.SetWrapping(GL::Wrapping::ClampEdge, GL::Wrapping::ClampEdge);
 			m_depth.SetFilters(GL::Filter::Nearest, GL::Filter::Nearest);
-			glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texDepth, 0);
+			glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depth, 0);
 			glDrawBuffers(N, drawbuffers);
 
 			// Check
@@ -83,18 +89,22 @@ namespace core
 			return *this;
 		}
 
-		const Texture& GetTexture(size_t n)
+		void bind()
+		{
+			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_obj);
+		}
+
+		const GL::Texture& GetTexture(size_t n)
 		{
 			return m_attachments[n];
 		}
 
-		const Texture& GetDepthTexture()
+		const GL::Texture& GetDepthTexture()
 		{
 			return m_depth;
 		}
 
 	private:
-		static GL::GC m_gc;
 		GLuint m_obj;
 		std::array<GL::Texture, N> m_attachments;
 		GL::Texture m_depth;
