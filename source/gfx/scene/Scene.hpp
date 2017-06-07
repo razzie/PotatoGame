@@ -14,6 +14,7 @@
 #include <raz/memory.hpp>
 #include <raz/timer.hpp>
 #include "gfx/core/ShaderTable.hpp"
+#include "gfx/core/GBuffer.hpp"
 #include "gfx/scene/Camera.hpp"
 #include "gfx/scene/CameraManager.hpp"
 #include "gfx/scene/Horizon.hpp"
@@ -116,6 +117,7 @@ namespace scene
 		GL::Program* m_current_shader;
 		raz::Timer m_timer;
 		float m_time;
+		core::GBuffer<3> m_gbuffer;
 		Camera m_cam;
 		CameraManager m_cam_mgr;
 		Horizon m_horizon;

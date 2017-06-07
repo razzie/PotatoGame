@@ -17,6 +17,7 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	m_memory(render_thread.getMemoryPool()),
 	m_shader_table(render_thread.getShaderTable()),
 	m_current_shader(nullptr),
+	m_gbuffer(render_thread.getWindow().GetWidth(), render_thread.getWindow().GetHeight()),
 	m_cam(render_thread.getAspectRatio()),
 	m_horizon(render_thread.getShaderTable().getHorizonShader()),
 	m_hubs(m_memory),

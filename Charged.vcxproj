@@ -430,6 +430,7 @@
     <ClCompile Include="source\game\level\Level.cpp" />
     <ClCompile Include="source\game\level\LevelBuilder.cpp" />
     <ClCompile Include="source\game\player\Player.cpp" />
+    <ClCompile Include="source\gfx\core\GBuffer.cpp" />
     <ClCompile Include="source\gfx\core\ShaderTable.cpp" />
     <ClCompile Include="source\gfx\RenderThread.cpp" />
     <ClCompile Include="source\gfx\scene\animator\Animator.cpp" />
