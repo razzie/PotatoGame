@@ -211,6 +211,8 @@ extern GLUNIFORMMATRIX4X3FV glUniformMatrix4x3fv;
 
 typedef void ( APIENTRYP GLGENBUFFERS ) ( GLsizei n, GLuint* buffers );
 extern GLGENBUFFERS glGenBuffers;
+typedef void ( APIENTRYP GLDRAWBUFFERS ) ( GLsizei n, const GLenum* buffers );
+extern GLDRAWBUFFERS glDrawBuffers;
 typedef void ( APIENTRYP GLDELETEBUFFERS ) ( GLsizei n, const GLuint* buffers );
 extern GLDELETEBUFFERS glDeleteBuffers;
 typedef void ( APIENTRYP GLBINDBUFFER )  ( GLenum target, GLuint buffer );
