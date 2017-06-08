@@ -12,7 +12,7 @@ gfx::RenderThread::RenderThread(Potato& potato, unsigned width, unsigned height,
 	m_window(width, height, "Potato", fullscreen ? GL::WindowStyle::Fullscreen : GL::WindowStyle::Base | GL::WindowStyle::Close),
 	m_gl(m_window.GetContext(32, 24, 8, 4)),
 	m_memory(memory),
-	m_shader_table(memory),
+	m_shader_loader(memory),
 	m_gui(*this),
 	m_scene(*this)
 {
@@ -54,9 +54,9 @@ const common::InputHelper& gfx::RenderThread::getInputHelper() const
 	return m_input;
 }
 
-gfx::core::ShaderTable& gfx::RenderThread::getShaderTable()
+resource::ShaderLoader& gfx::RenderThread::getShaderLoader()
 {
-	return m_shader_table;
+	return m_shader_loader;
 }
 
 gfx::gui::GUI& gfx::RenderThread::getGUI()
@@ -92,9 +92,6 @@ void gfx::RenderThread::operator()()
 		}
 
 		m_gui.update();
-
-		m_gl.Clear(GL::Buffer::Depth | GL::Buffer::Color);
-		m_gl.ClearColor(GL::Color(255, 255, 255));
 
 		m_scene.render();
 		m_gui.render();

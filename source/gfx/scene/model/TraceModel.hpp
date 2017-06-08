@@ -14,11 +14,10 @@ namespace scene
 {
 namespace model
 {
-	class TraceModel : public Model
+	class TraceModel : public Model<>
 	{
 	public:
 		TraceModel(Scene& scene, uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id);
-		virtual void render(Scene& scene);
 
 	private:
 		GL::Color m_color;

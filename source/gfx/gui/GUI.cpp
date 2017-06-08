@@ -13,7 +13,7 @@
 
 gfx::gui::GUI::GUI(gfx::RenderThread& render_thread) :
 	m_render_thread(render_thread),
-	m_gui_shader(render_thread.getShaderTable().getGUIShader()),
+	m_gui_shader(render_thread.getShaderLoader().get("gui")),
 	m_file_if(render_thread.getMemoryPool()),
 	m_render_if(render_thread.getWindow(), render_thread.getContext(), m_gui_shader, render_thread.getMemoryPool())
 {
@@ -104,8 +104,6 @@ void gfx::gui::GUI::render()
 	gl.UseProgram(m_gui_shader);
 
 	m_context->Render();
-
-	gl.Enable(GL::Capability::DepthTest);
 }
 
 void gfx::gui::GUI::ProcessEvent(Rocket::Core::Event& ev)

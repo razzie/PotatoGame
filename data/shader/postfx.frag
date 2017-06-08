@@ -1,11 +1,16 @@
 #version 150
-in vec3 frag_position;
-in vec3 frag_normal;
-in vec4 frag_color;
-out vec4 out_color;
-uniform vec4 diffuse_color;
-uniform vec3 light_source;
+
+uniform sampler2D color_tex;
+uniform sampler2D normal_tex;
+uniform sampler2D position_tex;
+uniform sampler2D depth_tex;
 uniform float time;
+uniform vec2 dimensions;
+uniform float max_depth;
+
+in vec2 frag_position;
+
+out vec4 out_color;
 
 void FAST32_hash_3D(vec3 gridcell,
                     out vec4 lowz_hash_0,
@@ -71,40 +76,10 @@ float Cubist3D(vec3 P, vec2 range_clamp)
     return clamp((final - range_clamp.x) * range_clamp.y, 0.0, 1.0);
 }
 
-vec4 getHorizonTexture()
-{
-	float v = Cubist3D(0.25 * frag_position + vec3(0.0, 0.1 * time, 0.0), vec2(-2.0, 1.0 / 3.0)) * 0.1 + 0.9;
-	return vec4(v, v, v, 1.0);
-}
-
 void main()
 {
-	float dist = distance(frag_position, light_source);
+	//float v = Cubist3D(0.25 * position + vec3(0.0, 0.1 * time, 0.0), vec2(-2.0, 1.0 / 3.0)) * 0.1 + 0.9;
 
-	if (dist > 100.0)
-	{
-		out_color = vec4(1.0, 1.0, 1.0, 0.0);
-	}
-	else
-	{
-		float light_dot = clamp(dot(normalize(frag_normal), normalize(light_source - frag_position)), 0.0, 1.0);
-		float light_step1 = light_dot * 0.25 + 0.75;
-		float light_step2 = light_dot * 2.0 - 1.0;
-		
-		vec4 color = (frag_color.a > 0.5) ? frag_color : mix(diffuse_color, frag_color, 0.5);
-		color = vec4(color.rgb * light_step1, 1.0);
-		
-		if (light_step2 > 0.0)
-			color = mix(color, vec4(1.0, 1.0, 1.0, 1.0), light_step2 * 0.125);
-		else
-			color = mix(color, vec4(0.0, 0.0, 0.0, 1.0), -light_step2 * 0.125);
-		
-		if (frag_position.y < 1.0)
-			color = mix(getHorizonTexture(), color, frag_position.y);
-		
-		if (dist > 50.0)
-			color = mix(color, vec4(1.0, 1.0, 1.0, 1.0), (dist - 50.f) * 0.02);
-		
-		out_color = color;
-	}
+	float depth = texture(depth_tex, frag_position).r;
+	out_color = texture(color_tex, frag_position);
 }

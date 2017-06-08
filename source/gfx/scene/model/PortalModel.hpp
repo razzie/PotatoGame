@@ -14,11 +14,10 @@ namespace scene
 {
 namespace model
 {
-	class PortalModel : public Model
+	class PortalModel : public Model<>
 	{
 	public:
 		PortalModel(Scene& scene, uint32_t id, uint32_t hub_id, uint32_t platform_id);
-		virtual void render(Scene& scene);
 	};
 }
 }

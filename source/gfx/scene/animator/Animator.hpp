@@ -14,25 +14,66 @@ namespace scene
 {
 namespace animator
 {
+	enum AnimatorType
+	{
+		NONE,
+		APPEAR
+	};
+
+	template<class Model>
 	class Animator
 	{
 	public:
-		enum Type
+		Animator() : m_type(AnimatorType::NONE)
 		{
-			NONE,
-			APPEAR
-		};
+		}
 
-		Animator();
-		~Animator();
-		void start(Type type, model::Model* model, float start_time);
-		void reset(model::Model* model);
-		void update(float elapsed, model::Model* model);
+		~Animator()
+		{
+		}
+
+		void start(AnimatorType type, Model* model, float start_time)
+		{
+			reset(model);
+
+			m_start_time = start_time;
+			m_type = type;
+
+			switch (type)
+			{
+			case AnimatorType::APPEAR:
+				m_appear_anim.begin(model);
+				break;
+			}
+		}
+
+		void reset(Model* model)
+		{
+			switch (m_type)
+			{
+			case AnimatorType::APPEAR:
+				m_appear_anim.end(model);
+				break;
+			}
+
+			m_type = AnimatorType::NONE;
+		}
+
+		void update(float elapsed, Model* model)
+		{
+			switch (m_type)
+			{
+			case AnimatorType::APPEAR:
+				if (m_appear_anim.update(model, elapsed - m_start_time))
+					reset(model);
+				break;
+			}
+		}
 
 	private:
-		Type m_type;
+		AnimatorType m_type;
 		float m_start_time;
-		AppearAnimator m_appear_anim;
+		AppearAnimator<Model> m_appear_anim;
 	};
 }
 }

@@ -37,25 +37,6 @@ gfx::scene::model::ResourceModel::ResourceModel(Scene& scene, uint32_t id, uint3
 
 	auto& mesh = getMesh();
 	mesh = meshbuffer.createMesh();
-	mesh.bindShader(scene.getResourceShader());
 
 	setPosition(platform->center + hub->getPosition());
-}
-
-void gfx::scene::model::ResourceModel::render(Scene& scene)
-{
-	GL::Mat4 world;
-	GL::Mat4 normal;
-	getMatrices(world, normal);
-
-	auto& program = scene.getCurrentShader();
-	program.SetUniform("world_mat", world);
-	program.SetUniform("normal_mat", normal);
-	program.SetUniform("screen_mat", scene.getCameraMatrix() * world);
-	program.SetUniform("diffuse_color", GL::Color(255, 255, 255));
-	program.SetUniform("light_source", scene.getCamera().getPosition());
-	program.SetUniform("time", scene.getElapsedTime());
-
-	GL::Context& gl = scene.getContext();
-	getMesh().render(gl);
 }

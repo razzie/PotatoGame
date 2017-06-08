@@ -14,11 +14,10 @@ namespace scene
 {
 namespace model
 {
-	class ResourceModel : public Model
+	class ResourceModel : public Model<>
 	{
 	public:
 		ResourceModel(Scene& scene, uint32_t id, uint32_t value, uint32_t hub_id, uint32_t platform_id);
-		virtual void render(Scene& scene);
 	};
 }
 }

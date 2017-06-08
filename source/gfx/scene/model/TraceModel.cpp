@@ -50,25 +50,6 @@ gfx::scene::model::TraceModel::TraceModel(Scene& scene, uint32_t id, GL::Color c
 
 	auto& mesh = getMesh();
 	mesh = meshbuffer.createMesh();
-	mesh.bindShader(scene.getTraceShader());
 
 	setPosition(platform->center + hub->getPosition());
-}
-
-void gfx::scene::model::TraceModel::render(Scene& scene)
-{
-	GL::Mat4 world;
-	GL::Mat4 normal;
-	getMatrices(world, normal);
-
-	auto& program = scene.getCurrentShader();
-	program.SetUniform("world_mat", world);
-	program.SetUniform("normal_mat", normal);
-	program.SetUniform("screen_mat", scene.getCameraMatrix() * world);
-	program.SetUniform("diffuse_color", m_color);
-	program.SetUniform("light_source", scene.getCamera().getPosition());
-	program.SetUniform("time", scene.getElapsedTime());
-
-	GL::Context& gl = scene.getContext();
-	getMesh().render(gl);
 }
