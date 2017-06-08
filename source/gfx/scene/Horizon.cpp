@@ -39,9 +39,7 @@ void gfx::scene::Horizon::render(Scene& scene)
 	GL::Context& gl = scene.getContext();
 	gl.UseProgram(m_shader);
 
-	m_shader.SetUniform("screen_mat", scene.getCameraMatrix());
-	m_shader.SetUniform("light_source", scene.getCamera().getPosition());
-	m_shader.SetUniform("time", scene.getElapsedTime());
+	m_shader.SetUniform("wvp_mat", scene.getCamera().getMatrix());
 
 	gl.DrawElements(m_vertex_array, GL::Primitive::Triangles, 0, 12, GL::Type::UnsignedShort);
 }

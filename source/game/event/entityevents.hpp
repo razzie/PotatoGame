@@ -61,13 +61,14 @@ namespace event
 	{
 		uint32_t id;
 		uint64_t seed;
+		uint32_t team;
 		GL::Color color;
 		HubPlatform position;
 
 		template<class Serializer>
 		void operator()(Serializer& serializer)
 		{
-			serializer(id)(seed)(color.R)(color.G)(color.B)(color.A)(position);
+			serializer(id)(seed)(team)(color.R)(color.G)(color.B)(color.A)(position);
 		}
 	};
 
@@ -99,14 +100,14 @@ namespace event
 	struct ColoredEntityParameters
 	{
 		uint32_t id;
+		uint32_t team;
 		GL::Color color;
-		uint32_t diplomacy;
 		HubPlatform position;
 
 		template<class Serializer>
 		void operator()(Serializer& serializer)
 		{
-			serializer(id)(color.R)(color.G)(color.B)(color.A)(diplomacy)(position);
+			serializer(id)(team)(color.R)(color.G)(color.B)(color.A)(position);
 		}
 	};
 

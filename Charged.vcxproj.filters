@@ -333,9 +333,6 @@
     <ClCompile Include="source\gfx\scene\model\HubModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\gfx\scene\model\Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\gfx\scene\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -367,9 +364,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\resource\ShaderLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\gfx\core\ShaderTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\gfx\RenderThread.cpp">
@@ -456,13 +450,7 @@
     <ClCompile Include="source\common\ColorGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\gfx\scene\animator\AppearAnimator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\gfx\scene\CameraManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\gfx\scene\animator\Animator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Demo.cpp">
@@ -471,12 +459,12 @@
     <ClCompile Include="source\gfx\core\GBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\gfx\scene\PostFX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\common\IDPool.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\common\stringhash.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\game\creature\action\Action.hpp">
@@ -1157,9 +1145,6 @@
     <ClInclude Include="source\resource\ShaderLoader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\gfx\core\ShaderTable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\gfx\RenderThread.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1272,6 +1257,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\gfx\core\GBuffer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gfx\core\Material.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\thirdparty\raz\hash.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gfx\scene\PostFX.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

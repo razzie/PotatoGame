@@ -50,8 +50,7 @@ static void addSpike(GL::Vec3 position, gfx::core::MeshBuffer<>& meshbuffer)
 }
 
 gfx::scene::model::TrapModel::TrapModel(Scene& scene, uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id) :
-	Model(id),
-	m_color(color)
+	Model(id)
 {
 	HubModel* hub;
 	const HubModel::Platform* platform;
@@ -75,25 +74,7 @@ gfx::scene::model::TrapModel::TrapModel(Scene& scene, uint32_t id, GL::Color col
 
 	auto& mesh = getMesh();
 	mesh = meshbuffer.createMesh();
-	mesh.bindShader(scene.getTrapShader());
 
 	setPosition(platform->center + hub->getPosition());
-}
-
-void gfx::scene::model::TrapModel::render(Scene& scene)
-{
-	GL::Mat4 world;
-	GL::Mat4 normal;
-	getMatrices(world, normal);
-
-	auto& program = scene.getCurrentShader();
-	program.SetUniform("world_mat", world);
-	program.SetUniform("normal_mat", normal);
-	program.SetUniform("screen_mat", scene.getCameraMatrix() * world);
-	program.SetUniform("diffuse_color", m_color);
-	program.SetUniform("light_source", scene.getCamera().getPosition());
-	program.SetUniform("time", scene.getElapsedTime());
-
-	GL::Context& gl = scene.getContext();
-	getMesh().render(gl);
+	setColor(color);
 }

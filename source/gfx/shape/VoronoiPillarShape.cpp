@@ -109,26 +109,7 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 	float height = getVoronoiCellPosition(cell, radius).Y;
 	auto* edge = cell.incident_edge();
 
-	GL::Color color;
-
-	switch (random(0, 6))
-	{
-	case 0:
-	case 1:
-	case 2:
-		color = GL::Color(224, 224, 224); // white
-		break;
-
-	case 3:
-	case 4:
-	case 5:
-		color = GL::Color(32, 32, 32); // black
-		break;
-
-	case 6:
-		color = GL::Color(192, 192, 192, 0); // transparent, will be replaced by diffuse color in shader
-		break;
-	}
+	GL::Color color = random(0, 1) ? GL::Color(224, 224, 224) : GL::Color(32, 32, 32);
 
 	do
 	{

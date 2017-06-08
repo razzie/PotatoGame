@@ -93,7 +93,7 @@ void Demo::onEntityAdd(const game::entity::Entity* entity)
 	case game::entity::Entity::Type::TRACE:
 		{
 			auto trace = static_cast<const game::entity::TraceEntity*>(entity);
-			game::event::AddTraceEvent ev({ trace->getID(), color, trace->getPlatform().hub_id, trace->getPlatform().platform_id });
+			game::event::AddTraceEvent ev({ trace->getID(), 0, color, trace->getPlatform().hub_id, trace->getPlatform().platform_id });
 			m_potato->getRenderThread()(ev);
 		}
 		break;
@@ -101,7 +101,7 @@ void Demo::onEntityAdd(const game::entity::Entity* entity)
 	case game::entity::Entity::Type::SPAWN:
 		{
 			auto spawn = static_cast<const game::entity::SpawnEntity*>(entity);
-			game::event::AddSpawnEvent ev({ spawn->getID(), color, spawn->getPlatform().hub_id, spawn->getPlatform().platform_id });
+			game::event::AddSpawnEvent ev({ spawn->getID(), 0, color, spawn->getPlatform().hub_id, spawn->getPlatform().platform_id });
 			m_potato->getRenderThread()(ev);
 		}
 		break;
@@ -117,7 +117,7 @@ void Demo::onEntityAdd(const game::entity::Entity* entity)
 	case game::entity::Entity::Type::TRAP:
 		{
 			auto trap = static_cast<const game::entity::TrapEntity*>(entity);
-			game::event::AddTrapEvent ev({ trap->getID(), color, trap->getPlatform().hub_id, trap->getPlatform().platform_id });
+			game::event::AddTrapEvent ev({ trap->getID(), 0, color, trap->getPlatform().hub_id, trap->getPlatform().platform_id });
 			m_potato->getRenderThread()(ev);
 		}
 		break;
@@ -125,7 +125,7 @@ void Demo::onEntityAdd(const game::entity::Entity* entity)
 	case game::entity::Entity::Type::CREATURE:
 		{
 			auto creature = static_cast<const game::entity::CreatureEntity*>(entity);
-			game::event::AddCreatureEvent ev({ creature->getID(), creature->getSeed(), color,
+			game::event::AddCreatureEvent ev({ creature->getID(), creature->getSeed(), 0, color,
 				creature->getPlatform().hub_id, creature->getPlatform().platform_id });
 			m_potato->getRenderThread()(ev);
 		}

@@ -8,8 +8,7 @@
 #include "gfx/scene/model/SpawnModel.hpp"
 
 gfx::scene::model::SpawnModel::SpawnModel(Scene& scene, uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id) :
-	Model(id),
-	m_color(color)
+	Model(id)
 {
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 
@@ -19,32 +18,10 @@ gfx::scene::model::SpawnModel::SpawnModel(Scene& scene, uint32_t id, GL::Color c
 
 	auto& mesh = getMesh();
 	mesh = meshbuffer.createMesh();
-	mesh.bindShader(scene.getSpawnShader());
 
 	GL::Vec3 position;
 	scene.getHubPlatformPosition(hub_id, platform_id, position);
 	setPosition(position);
-}
 
-void gfx::scene::model::SpawnModel::changeColor(GL::Color color)
-{
-	m_color = color;
-}
-
-void gfx::scene::model::SpawnModel::render(Scene& scene)
-{
-	GL::Mat4 world;
-	GL::Mat4 normal;
-	getMatrices(world, normal);
-
-	auto& program = scene.getCurrentShader();
-	program.SetUniform("world_mat", world);
-	program.SetUniform("normal_mat", normal);
-	program.SetUniform("screen_mat", scene.getCameraMatrix() * world);
-	program.SetUniform("diffuse_color", m_color);
-	program.SetUniform("light_source", scene.getCamera().getPosition());
-	program.SetUniform("time", scene.getElapsedTime());
-
-	GL::Context& gl = scene.getContext();
-	getMesh().render(gl);
+	setColor(color);
 }

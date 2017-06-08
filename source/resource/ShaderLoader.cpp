@@ -7,13 +7,29 @@
 #include <string>
 #include "resource/ShaderLoader.hpp"
 
-template<class T> using Vector = std::vector<T, raz::Allocator<T>>;
-typedef std::basic_string<char, std::char_traits<char>, raz::Allocator<char>> String;
-
 resource::ShaderLoader::ShaderLoader(raz::IMemoryPool* memory) :
 	m_memory(memory),
-	m_archive("shader.res", memory)
+	m_archive("shader.res", memory),
+	m_shaders(memory)
 {
+}
+
+GL::Program& resource::ShaderLoader::get(const char* shader_name)
+{
+	String name(shader_name, m_memory);
+
+	auto it = m_shaders.find(name);
+	if (it == m_shaders.end())
+	{
+		GL::Program shader;
+
+		if (!loadShader(shader_name, shader))
+			throw ShaderLoaderError();
+
+		it = m_shaders.emplace(name, std::move(shader)).first;
+	}
+
+	return it->second;
 }
 
 bool resource::ShaderLoader::loadShader(const char* shader_name, GL::Program& program)
@@ -53,4 +69,9 @@ bool resource::ShaderLoader::loadShader(const char* shader_name, GL::Program& pr
 	program.Link();
 
 	return true;
+}
+
+const char* resource::ShaderLoaderError::what() const
+{
+	return "Could not load shader";
 }

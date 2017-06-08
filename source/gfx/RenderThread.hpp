@@ -10,7 +10,7 @@
 #include <GL/GL/Context.hpp>
 #include <raz/memory.hpp>
 #include "common/InputHelper.hpp"
-#include "gfx/core/ShaderTable.hpp"
+#include "resource/ShaderLoader.hpp"
 #include "gfx/gui/GUI.hpp"
 #include "gfx/scene/Scene.hpp"
 #include "game/event/entityevents.hpp"
@@ -29,7 +29,7 @@ namespace gfx
 		float getAspectRatio();
 		raz::IMemoryPool* getMemoryPool();
 		const common::InputHelper& getInputHelper() const;
-		gfx::core::ShaderTable& getShaderTable();
+		resource::ShaderLoader& getShaderLoader();
 		gfx::gui::GUI& getGUI();
 		gfx::scene::Scene& getScene();
 
@@ -61,7 +61,7 @@ namespace gfx
 		GL::Context& m_gl;
 		raz::IMemoryPool* m_memory;
 		common::InputHelper m_input;
-		gfx::core::ShaderTable m_shader_table;
+		resource::ShaderLoader m_shader_loader;
 		gfx::gui::GUI m_gui;
 		gfx::scene::Scene m_scene;
 	};

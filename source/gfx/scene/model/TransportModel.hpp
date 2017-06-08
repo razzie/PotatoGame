@@ -14,11 +14,10 @@ namespace scene
 {
 namespace model
 {
-	class TransportModel : public Model
+	class TransportModel : public Model<>
 	{
 	public:
 		TransportModel(Scene& scene, uint32_t id, uint32_t hub1_id, uint32_t hub1_platform_id, uint32_t hub2_id, uint32_t hub2_platform_id);
-		virtual void render(Scene& scene);
 	};
 }
 }
