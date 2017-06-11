@@ -47,10 +47,14 @@ void gfx::scene::PostFX::render(Scene& scene)
 	GL::Context& gl = scene.getContext();
 	GBuffer& gbuffer = scene.getGBuffer();
 
-	gl.BindFramebuffer();
-	gl.ClearColor(GL::Color(255, 255, 255));
-	gl.Clear(/*GL::Buffer::Depth | */GL::Buffer::Color);
+	gl.DepthMask(false);
 	gl.Disable(GL::Capability::DepthTest);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	gl.BindFramebuffer();
+	gl.Clear(GL::Buffer::Color | GL::Buffer::Depth);
 
 	gl.UseProgram(m_postfx);
 

@@ -11,6 +11,6 @@ out vec3 out_position;
 void main()
 {
 	out_color = frag_color.rgb;
-	out_normal = frag_normal;
+	out_normal = normalize(frag_normal);
 	out_position = frag_position;
 }
