@@ -80,6 +80,7 @@ void main()
 {
 	//float v = Cubist3D(0.25 * position + vec3(0.0, 0.1 * time, 0.0), vec2(-2.0, 1.0 / 3.0)) * 0.1 + 0.9;
 
-	float depth = texture(depth_tex, frag_position).r;
-	out_color = texture(color_tex, frag_position);
+	//float depth = texture(depth_tex, frag_position).r;
+	vec3 color = texture(color_tex, frag_position).rgb;
+	out_color = vec4(color, 1.0);
 }

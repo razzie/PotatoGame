@@ -18,10 +18,10 @@ gfx::RenderThread::RenderThread(Potato& potato, unsigned width, unsigned height,
 {
 	//ShowCursor(FALSE);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	m_gl.Enable(GL::Capability::DepthTest);
+	//m_gl.Enable(GL::Capability::DepthTest);
 	m_gl.Enable(GL::Capability::CullFace);
 }
 

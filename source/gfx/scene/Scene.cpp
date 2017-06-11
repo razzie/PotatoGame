@@ -31,6 +31,8 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	m_creatures(CONTAINER_INIT)
 #undef CONTAINER_INIT
 {
+	m_gl.ClearColor(GL::Color(0, 0, 0));
+
 	m_cam.setPosition({ -8, 8, -8 });
 	m_cam.setTarget({ 0, 5, 0 });
 
@@ -134,10 +136,13 @@ void gfx::scene::Scene::render()
 
 	m_cam_mgr.update(*this);
 
-	m_gbuffer.bind();
-	m_gl.ClearColor(GL::Color(255, 255, 255));
-	m_gl.Clear(GL::Buffer::Depth | GL::Buffer::Color);
+	glDisable(GL_BLEND);
+
+	m_gl.DepthMask(true);
 	m_gl.Enable(GL::Capability::DepthTest);
+
+	m_gbuffer.bind();
+	m_gl.Clear(GL::Buffer::Color | GL::Buffer::Depth);
 
 	m_horizon.render(*this);
 
