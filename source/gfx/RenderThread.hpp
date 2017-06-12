@@ -11,8 +11,9 @@
 #include <raz/memory.hpp>
 #include "common/InputHelper.hpp"
 #include "resource/ShaderLoader.hpp"
-#include "gfx/gui/GUI.hpp"
 #include "gfx/scene/Scene.hpp"
+#include "gfx/scene/PostFX.hpp"
+#include "gfx/gui/GUI.hpp"
 #include "game/event/entityevents.hpp"
 
 class Potato;
@@ -22,16 +23,19 @@ namespace gfx
 	class RenderThread
 	{
 	public:
-		RenderThread(Potato& potato, unsigned width, unsigned height, bool fullscreen, raz::IMemoryPool* memory = nullptr);
+		RenderThread(Potato& potato, raz::IMemoryPool* memory = nullptr);
 		~RenderThread();
 		GL::Window& getWindow();
 		GL::Context& getContext();
-		float getAspectRatio();
+		float getAspectRatio() const;
+		float getRenderDistance() const;
+		void setRenderDistance(float render_distance);
 		raz::IMemoryPool* getMemoryPool();
 		const common::InputHelper& getInputHelper() const;
 		resource::ShaderLoader& getShaderLoader();
-		gfx::gui::GUI& getGUI();
 		gfx::scene::Scene& getScene();
+		gfx::scene::PostFX& getPostFX();
+		gfx::gui::GUI& getGUI();
 
 		// raz::Thread compatibility:
 		void operator()();
@@ -62,7 +66,8 @@ namespace gfx
 		raz::IMemoryPool* m_memory;
 		common::InputHelper m_input;
 		resource::ShaderLoader m_shader_loader;
-		gfx::gui::GUI m_gui;
 		gfx::scene::Scene m_scene;
+		gfx::scene::PostFX m_postfx;
+		gfx::gui::GUI m_gui;
 	};
 }

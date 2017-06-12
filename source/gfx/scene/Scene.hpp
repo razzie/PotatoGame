@@ -172,7 +172,6 @@ namespace scene
 		raz::Timer m_timer;
 		float m_time;
 		PostFX::GBuffer m_gbuffer;
-		PostFX m_postfx;
 		Camera m_cam;
 		CameraManager m_cam_mgr;
 		Horizon m_horizon;

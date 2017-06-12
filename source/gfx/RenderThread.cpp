@@ -7,21 +7,19 @@
 #include "Potato.hpp"
 #include "gfx/RenderThread.hpp"
 
-gfx::RenderThread::RenderThread(Potato& potato, unsigned width, unsigned height, bool fullscreen, raz::IMemoryPool* memory) :
+gfx::RenderThread::RenderThread(Potato& potato, raz::IMemoryPool* memory) :
 	m_potato(potato),
-	m_window(width, height, "Potato", fullscreen ? GL::WindowStyle::Fullscreen : GL::WindowStyle::Base | GL::WindowStyle::Close),
+	m_window(potato.getSettings().screen_width, potato.getSettings().screen_height, "Potato", potato.getSettings().fullscreen ? GL::WindowStyle::Fullscreen : GL::WindowStyle::Base | GL::WindowStyle::Close),
 	m_gl(m_window.GetContext(32, 24, 8, 4)),
 	m_memory(memory),
 	m_shader_loader(memory),
-	m_gui(*this),
-	m_scene(*this)
+	m_scene(*this),
+	m_postfx(potato.getSettings().screen_width, potato.getSettings().screen_height, potato.getSettings().render_distance, m_shader_loader),
+	m_gui(*this)
 {
 	//ShowCursor(FALSE);
 
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	//m_gl.Enable(GL::Capability::DepthTest);
+	m_gl.ClearColor(GL::Color(255, 255, 255));
 	m_gl.Enable(GL::Capability::CullFace);
 }
 
@@ -39,9 +37,15 @@ GL::Context& gfx::RenderThread::getContext()
 	return m_gl;
 }
 
-float gfx::RenderThread::getAspectRatio()
+float gfx::RenderThread::getAspectRatio() const
 {
-	return ((float)m_window.GetWidth() / (float)m_window.GetHeight());
+	GL::Window& window = const_cast<GL::Window&>(m_window);
+	return ((float)window.GetWidth() / (float)window.GetHeight());
+}
+
+float gfx::RenderThread::getRenderDistance() const
+{
+	return m_potato.getSettings().render_distance;
 }
 
 raz::IMemoryPool* gfx::RenderThread::getMemoryPool()
@@ -59,14 +63,19 @@ resource::ShaderLoader& gfx::RenderThread::getShaderLoader()
 	return m_shader_loader;
 }
 
-gfx::gui::GUI& gfx::RenderThread::getGUI()
-{
-	return m_gui;
-}
-
 gfx::scene::Scene& gfx::RenderThread::getScene()
 {
 	return m_scene;
+}
+
+gfx::scene::PostFX& gfx::RenderThread::getPostFX()
+{
+	return m_postfx;
+}
+
+gfx::gui::GUI& gfx::RenderThread::getGUI()
+{
+	return m_gui;
 }
 
 void gfx::RenderThread::operator()()
@@ -94,6 +103,7 @@ void gfx::RenderThread::operator()()
 		m_gui.update();
 
 		m_scene.render();
+		m_postfx.render(m_scene);
 		m_gui.render();
 
 		m_window.Present();

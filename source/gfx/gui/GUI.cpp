@@ -100,7 +100,12 @@ void gfx::gui::GUI::render()
 {
 	auto& gl = m_render_thread.getContext();
 
-	gl.Disable(GL::Capability::DepthTest);
+	//gl.DepthMask(false);
+	//gl.Disable(GL::Capability::DepthTest);
+
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	gl.UseProgram(m_gui_shader);
 
 	m_context->Render();

@@ -23,19 +23,14 @@ namespace scene
 	public:
 		typedef core::GBuffer<3> GBuffer;
 
-		PostFX(unsigned width, unsigned height, float max_depth, resource::ShaderLoader& shader_loader);
+		PostFX(unsigned width, unsigned height, float render_distance, resource::ShaderLoader& shader_loader);
 		~PostFX();
-		void setDimensions(unsigned width, unsigned height);
-		void setMaxDepth(float max_depth);
 		void render(Scene& scene);
 
 	private:
 		GL::Program m_postfx;
 		GL::VertexBuffer m_vbo;
 		GL::VertexArray m_vao;
-		unsigned m_width;
-		unsigned m_height;
-		float m_max_depth;
 	};
 }
 }

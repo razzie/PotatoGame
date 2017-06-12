@@ -11,7 +11,8 @@
 Potato::Settings::Settings(int argc, char** argv) :
 	screen_width(1366),
 	screen_height(768),
-	fullscreen(false)
+	fullscreen(false),
+	render_distance(200.f)
 {
 }
 
@@ -24,7 +25,7 @@ Potato::~Potato()
 {
 }
 
-Potato::Settings& Potato::getSettings()
+const Potato::Settings& Potato::getSettings() const
 {
 	return m_settings;
 }
@@ -44,7 +45,7 @@ int Potato::run()
 	auto exit_code_future = m_exit_code.get_future();
 
 	m_game_thread.start(std::ref(*this), nullptr);
-	m_render_thread.start(std::ref(*this), m_settings.screen_width, m_settings.screen_height, m_settings.fullscreen, nullptr);
+	m_render_thread.start(std::ref(*this), nullptr);
 
 	raz::Thread<Demo> demo_thread;
 	demo_thread.start(std::ref(*this));

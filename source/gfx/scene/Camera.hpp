@@ -16,10 +16,13 @@ namespace scene
 	class Camera
 	{
 	public:
-		Camera(float aspect_ratio);
-		Camera(float aspect_ratio, GL::Vec3 position, GL::Vec3 target);
+		Camera(float aspect_ratio, float render_distance);
+		Camera(float aspect_ratio, float render_distance, GL::Vec3 position, GL::Vec3 target);
 		~Camera();
+		float getAspectRatio() const;
 		void setAspectRatio(float aspect_ratio);
+		float getRenderDistance() const;
+		void setRenderDistance(float render_distance);
 		GL::Vec3 getPosition() const;
 		void setPosition(GL::Vec3 position);
 		GL::Vec3 getTarget() const;
@@ -30,6 +33,8 @@ namespace scene
 		void rotate(float horizontal, float vertical);
 
 	private:
+		float m_aspect_ratio;
+		float m_render_distance;
 		GL::Vec3 m_position;
 		GL::Vec3 m_target;
 		GL::Mat4 m_proj;

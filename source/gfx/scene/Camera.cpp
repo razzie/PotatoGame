@@ -9,29 +9,46 @@
 #include "common/equals.hpp"
 #include "common/Quaternion.hpp"
 
-gfx::scene::Camera::Camera(float aspect_ratio) :
-	m_position(1, 1, 1),
-	m_target(0, 0, 0),
-	m_dirty(true)
+gfx::scene::Camera::Camera(float aspect_ratio, float max_depth) :
+	Camera(aspect_ratio, max_depth, GL::Vec3(1.f, 1.f, 1.f), GL::Vec3(0.f, 0.f, 0.f))
 {
-	setAspectRatio(aspect_ratio);
 }
 
-gfx::scene::Camera::Camera(float aspect_ratio, GL::Vec3 position, GL::Vec3 target) :
+gfx::scene::Camera::Camera(float aspect_ratio, float render_distance, GL::Vec3 position, GL::Vec3 target) :
+	m_aspect_ratio(aspect_ratio),
+	m_render_distance(render_distance),
 	m_position(position),
 	m_target(target),
 	m_dirty(true)
 {
-	setAspectRatio(aspect_ratio);
+	m_proj = GL::Mat4::Perspective(GL::Rad(90), m_aspect_ratio, 0.1f, m_render_distance);
 }
 
 gfx::scene::Camera::~Camera()
 {
 }
 
+float gfx::scene::Camera::getAspectRatio() const
+{
+	return m_aspect_ratio;
+}
+
 void gfx::scene::Camera::setAspectRatio(float aspect_ratio)
 {
-	m_proj = GL::Mat4::Perspective(GL::Rad(90), aspect_ratio, 0.1f, 100.0f);
+	m_aspect_ratio = aspect_ratio;
+	m_proj = GL::Mat4::Perspective(GL::Rad(90), m_aspect_ratio, 0.1f, m_render_distance);
+	m_dirty = true;
+}
+
+float gfx::scene::Camera::getRenderDistance() const
+{
+	return m_render_distance;
+}
+
+void gfx::scene::Camera::setRenderDistance(float render_distance)
+{
+	m_render_distance = render_distance;
+	m_proj = GL::Mat4::Perspective(GL::Rad(90), m_aspect_ratio, 0.1f, m_render_distance);
 	m_dirty = true;
 }
 
