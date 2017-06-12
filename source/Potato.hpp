@@ -20,11 +20,12 @@ public:
 		unsigned screen_width;
 		unsigned screen_height;
 		bool fullscreen;
+		float render_distance;
 	};
 
 	Potato(int argc, char** argv);
 	~Potato();
-	Settings& getSettings();
+	const Settings& getSettings() const;
 	raz::Thread<game::GameThread>& getGameThread();
 	raz::Thread<gfx::RenderThread>& getRenderThread();
 	int run();

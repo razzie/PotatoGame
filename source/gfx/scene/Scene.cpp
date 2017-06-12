@@ -16,8 +16,7 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	m_gl(render_thread.getContext()),
 	m_memory(render_thread.getMemoryPool()),
 	m_gbuffer(render_thread.getWindow().GetWidth(), render_thread.getWindow().GetHeight()),
-	m_postfx(render_thread.getWindow().GetWidth(), render_thread.getWindow().GetHeight(), 100.f, render_thread.getShaderLoader()),
-	m_cam(render_thread.getAspectRatio()),
+	m_cam(render_thread.getAspectRatio(), render_thread.getRenderDistance()),
 	m_horizon(m_render_thread.getShaderLoader().get("horizon")),
 #define CONTAINER_INIT m_memory, std::ref(m_render_thread.getShaderLoader())
 	m_hubs(CONTAINER_INIT),
@@ -31,8 +30,6 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	m_creatures(CONTAINER_INIT)
 #undef CONTAINER_INIT
 {
-	m_gl.ClearColor(GL::Color(0, 0, 0));
-
 	m_cam.setPosition({ -8, 8, -8 });
 	m_cam.setTarget({ 0, 5, 0 });
 
@@ -155,8 +152,6 @@ void gfx::scene::Scene::render()
 	m_portals.render(*this);
 	m_traps.render(*this);
 	m_creatures.render(*this);
-
-	m_postfx.render(*this);
 }
 
 void gfx::scene::Scene::reset()
