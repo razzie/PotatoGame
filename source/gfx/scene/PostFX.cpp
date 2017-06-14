@@ -17,7 +17,7 @@ static const float vertices[] = {
 	 1.f, -1.f
 };
 
-gfx::scene::PostFX::PostFX(unsigned width, unsigned height, float render_distance, resource::ShaderLoader& shader_loader) :
+gfx::scene::PostFX::PostFX(resource::ShaderLoader& shader_loader) :
 	m_postfx(shader_loader.get("postfx")),
 	m_vbo(vertices, sizeof(vertices), GL::BufferUsage::StaticCopy)
 {
