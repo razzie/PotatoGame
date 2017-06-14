@@ -23,7 +23,7 @@ namespace scene
 	public:
 		typedef core::GBuffer<3> GBuffer;
 
-		PostFX(unsigned width, unsigned height, float render_distance, resource::ShaderLoader& shader_loader);
+		PostFX(resource::ShaderLoader& shader_loader);
 		~PostFX();
 		void render(Scene& scene);
 

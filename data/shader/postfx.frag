@@ -78,16 +78,17 @@ float Cubist3D(vec3 P, vec2 range_clamp)
 
 void main()
 {
-	float depth = texture(depth_tex, frag_position).x;
-	if (depth < 0.01)
+	float depth = texture(depth_tex, frag_position).r;
+	if (depth == 1.0)
 		discard;
 	
 	vec3 color = texture(color_tex, frag_position).rgb;
 	vec3 normal = texture(normal_tex, frag_position).xyz;
 	vec3 position = texture(position_tex, frag_position).xyz;
 	
-	float light = clamp(dot(normalize(camera - position), normal), 0.5, 1.0);
-	color = color * light;
+	float light = dot(normalize(camera - position), normal);
+	if (light > 0.75)
+		color = mix(color, vec3(1.0, 1.0, 1.0), light - 0.75);
 	
 	if (position.y < 1.0)
 	{
@@ -96,12 +97,6 @@ void main()
 	}
 	
 	float distance = length(camera - position);
-	//float fog_distance = render_distance - 10.0;
-	//if (distance > fog_distance)
-	//	out_color = mix(vec4(color, 1.0), vec4(1.0, 1.0, 1.0, 1.0), (distance - fog_distance) / 10.0);
-	//else
-	//	out_color = vec4(color, 1.0);
-	
 	if (distance < render_distance)
 		out_color = mix(vec4(color, 1.0), vec4(1.0, 1.0, 1.0, 1.0), distance / render_distance);
 	else

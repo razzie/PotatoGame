@@ -14,13 +14,16 @@ gfx::RenderThread::RenderThread(Potato& potato, raz::IMemoryPool* memory) :
 	m_memory(memory),
 	m_shader_loader(memory),
 	m_scene(*this),
-	m_postfx(potato.getSettings().screen_width, potato.getSettings().screen_height, potato.getSettings().render_distance, m_shader_loader),
+	m_postfx(m_shader_loader),
 	m_gui(*this)
 {
 	//ShowCursor(FALSE);
 
+	glClearDepth(1.0);
 	m_gl.ClearColor(GL::Color(255, 255, 255));
 	m_gl.Enable(GL::Capability::CullFace);
+
+	glDepthRange(0.0, 1.0);
 }
 
 gfx::RenderThread::~RenderThread()
