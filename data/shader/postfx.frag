@@ -76,6 +76,63 @@ float Cubist3D(vec3 P, vec2 range_clamp)
     return clamp((final - range_clamp.x) * range_clamp.y, 0.0, 1.0);
 }
 
+// GPU Gems 3, pg 443-444
+float GetEdgeWeight()
+{
+	vec2 offsets[9] = vec2[](
+		vec2( 0.0,  0.0),
+		vec2(-1.0, -1.0),
+		vec2( 0.0, -1.0),
+		vec2( 1.0, -1.0),
+		vec2( 1.0,  0.0),
+		vec2( 1.0,  1.0),
+		vec2( 0.0,  1.0),
+		vec2(-1.0,  1.0),
+		vec2(-1.0,  0.0)
+	);
+
+	vec2 PixelSize = 1.0 / textureSize(color_tex, 0);
+
+	float Depth[9];
+	vec3 Normal[9];
+
+	for(int i = 0; i < 9; i++)
+	{
+		vec2 uv = frag_position + offsets[i] * PixelSize;
+		Depth[i] = texture(depth_tex, uv).r;
+		Normal[i] = texture(normal_tex, uv).rgb;
+	}
+
+	vec4 Deltas1 = vec4(Depth[1], Depth[2], Depth[3], Depth[4]);
+	vec4 Deltas2 = vec4(Depth[5], Depth[6], Depth[7], Depth[8]);
+
+	Deltas1 = abs(Deltas1 - Depth[0]);
+	Deltas2 = abs(Depth[0] - Deltas2);
+
+	vec4 maxDeltas = max(Deltas1, Deltas2);
+	vec4 minDeltas = max(min(Deltas1, Deltas2), 0.00001);
+
+	vec4 depthResults = step(minDeltas * 25.0, maxDeltas);
+
+	Deltas1.x = dot(Normal[1], Normal[0]);
+	Deltas1.y = dot(Normal[2], Normal[0]);
+	Deltas1.z = dot(Normal[3], Normal[0]);
+	Deltas1.w = dot(Normal[4], Normal[0]);
+
+	Deltas2.x = dot(Normal[5], Normal[0]);
+	Deltas2.y = dot(Normal[6], Normal[0]);
+	Deltas2.z = dot(Normal[7], Normal[0]);
+	Deltas2.w = dot(Normal[8], Normal[0]);
+
+	Deltas1 = abs(Deltas1 - Deltas2);
+
+	vec4 normalResults = step(0.4, Deltas1);
+
+	normalResults = max(normalResults, depthResults);
+
+	return dot(normalResults, vec4(1.0, 1.0, 1.0, 1.0)) * 0.25;
+}
+
 void main()
 {
 	float depth = texture(depth_tex, frag_position).r;
@@ -87,8 +144,9 @@ void main()
 	vec3 position = texture(position_tex, frag_position).xyz;
 	
 	float light = dot(normalize(camera - position), normal);
-	if (light > 0.75)
-		color = mix(color, vec3(1.0, 1.0, 1.0), light - 0.75);
+	color = mix(color, vec3(1.0, 1.0, 1.0), light * light * 0.5);
+	
+	color *= 1.0 - GetEdgeWeight();
 	
 	if (position.y < 1.0)
 	{
