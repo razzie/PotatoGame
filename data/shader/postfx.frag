@@ -144,9 +144,10 @@ void main()
 	vec3 position = texture(position_tex, frag_position).xyz;
 	
 	float light = dot(normalize(camera - position), normal);
-	color = mix(color, vec3(1.0, 1.0, 1.0), light * light * 0.5);
+	color = mix(color, vec3(1.0), light * light * 0.5);
 	
-	color *= 1.0 - GetEdgeWeight();
+	float outline = 1.0 - GetEdgeWeight();
+	color *= outline;
 	
 	if (position.y < 1.0)
 	{
@@ -156,7 +157,7 @@ void main()
 	
 	float distance = length(camera - position);
 	if (distance < render_distance)
-		out_color = mix(vec4(color, 1.0), vec4(1.0, 1.0, 1.0, 1.0), distance / render_distance);
+		out_color = mix(vec4(color, 1.0), vec4(1.0), distance / render_distance);
 	else
-		out_color = vec4(1.0, 1.0, 1.0, 1.0);
+		out_color = vec4(1.0);
 }
