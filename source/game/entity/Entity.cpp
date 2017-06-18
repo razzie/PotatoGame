@@ -10,7 +10,7 @@
 game::entity::Entity::Entity(Type type, uint32_t id, int player_id) :
 	m_type(type),
 	m_id(id),
-	m_player_id(0)
+	m_player_id(player_id)
 {
 	assert(type != Type::NONE);
 }
