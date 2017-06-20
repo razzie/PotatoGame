@@ -153,7 +153,7 @@ void Demo::addRandomEntity(uint32_t hub)
 {
 	game::entity::Entity::Platform platform;
 	platform.hub_id = hub;
-	unsigned type = m_random(1, 4);
+	unsigned type = m_random(1, 5);
 
 	switch (type)
 	{
@@ -179,6 +179,13 @@ void Demo::addRandomEntity(uint32_t hub)
 		break;
 
 	case 4:
+		if (m_entities.getRandomEmptyPlatform(m_random, game::entity::Entity::Type::TRACE, platform))
+		{
+			m_entities.addTrace(platform, m_random(0, 5));
+		}
+		break;
+
+	case 5:
 		if (m_entities.getRandomEmptyPlatform(m_random, game::entity::Entity::Type::TRAP, platform))
 		{
 			m_entities.addTrap(platform, m_random(0, 5));

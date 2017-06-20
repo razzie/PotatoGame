@@ -106,7 +106,8 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 	const common::Point2D<float> center{ 0.f,0.f };
 
 	unsigned points_inserted = 0;
-	float height = getVoronoiCellPosition(cell, radius).Y;
+	GL::Vec3 pos = getVoronoiCellPosition(cell, radius);
+	float height = pos.Y;
 	auto* edge = cell.incident_edge();
 
 	GL::Color color = random(0, 1) ? GL::Color(224, 224, 224) : GL::Color(32, 32, 32);
@@ -146,8 +147,8 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 
 			float distance = center.getDistanceFrom({ v.position.X, v.position.Z });
 
-			v.position.X = 0.5f * std::cbrt(0.75f * v.position.X);
-			v.position.Z = 0.5f * std::cbrt(0.75f * v.position.Z);
+			v.position.X = 0.5f * std::cbrt(0.75f * v.position.X)/* + pos.X * 1.2f*/;
+			v.position.Z = 0.5f * std::cbrt(0.75f * v.position.Z)/* + pos.Z * 1.2f*/;
 
 			v.position.Y = 3.f * height + 0.25f * (radius - distance);
 

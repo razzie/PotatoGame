@@ -52,22 +52,17 @@ static void addSpike(GL::Vec3 position, gfx::core::MeshBuffer<>& meshbuffer)
 gfx::scene::model::TrapModel::TrapModel(Scene& scene, uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id) :
 	Model(id)
 {
-	HubModel* hub;
-	const HubModel::Platform* platform;
-
-	if (!scene.getHubPlatform(hub_id, platform_id, hub, platform))
+	gfx::shape::PlatformShape platform;
+	if (!scene.getPlatform(hub_id, platform_id, platform))
 		return;
 
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
+	raz::Random random(platform.seed);
 
-	for (int x = 1; x <= 3; ++x)
+	for (int i = 0, spikes = random(3u, 5u); i < spikes; ++i)
 	{
-		for (int y = 1; y <= 3; ++y)
-		{
-			GL::Vec3 pos = platform->getPosition(0.25f * x, 0.25f * y);
-			pos.Y -= 0.125f;
-			addSpike(pos, meshbuffer);
-		}
+		GL::Vec3 pos = platform.getRandomPosition(random) - platform.center;
+		addSpike(pos, meshbuffer);
 	}
 
 	meshbuffer.recalculateNormals();
@@ -75,6 +70,6 @@ gfx::scene::model::TrapModel::TrapModel(Scene& scene, uint32_t id, GL::Color col
 	auto& mesh = getMesh();
 	mesh = meshbuffer.createMesh();
 
-	setPosition(platform->center + hub->getPosition());
+	setPosition(platform.center);
 	setColor(color);
 }

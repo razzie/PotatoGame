@@ -22,7 +22,8 @@ gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t
 	pillar.generate(random, meshbuffer);
 
 	gfx::shape::PlatformRingShape platforms(size, complexity);
-	platforms.generate(random, m_platforms, meshbuffer);
+	platforms.generate(random, m_platforms);
+	platforms.generate(m_platforms, meshbuffer);
 
 	meshbuffer.recalculateNormals();
 
@@ -38,10 +39,13 @@ uint64_t gfx::scene::model::HubModel::getSeed() const
 	return m_seed;
 }
 
-const gfx::shape::PlatformRingShape::Platform* gfx::scene::model::HubModel::getPlatform(size_t id)
+bool gfx::scene::model::HubModel::getPlatform(size_t platform_id, gfx::shape::PlatformShape& platform) const
 {
-	if (id < m_platforms.size())
-		return &m_platforms[id];
-	else
-		return nullptr;
+	if (platform_id < m_platforms.size())
+	{
+		platform = m_platforms[platform_id];
+		return true;
+	}
+
+	return false;
 }
