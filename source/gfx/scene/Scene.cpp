@@ -70,39 +70,6 @@ float gfx::scene::Scene::getElapsedTime() const
 	return m_time;
 }
 
-bool gfx::scene::Scene::getHubPlatform(uint32_t hub_id, uint32_t platform_id, model::HubModel*& hub, const model::HubModel::Platform*& platform)
-{
-	hub = getHub(hub_id);
-	if (!hub)
-		return false;
-
-	platform = hub->getPlatform(platform_id);
-	if (!platform)
-		return false;
-
-	return true;
-}
-
-bool gfx::scene::Scene::getHubPlatformPosition(uint32_t hub_id, uint32_t platform_id, GL::Vec3& position)
-{
-	//auto* hub = getHub(hub_id);
-	//if (!hub)
-	//	return false;
-
-	//auto* platform = hub->getPlatform(platform_id);
-	//if (!platform)
-	//	return false;
-
-	model::HubModel* hub;
-	const model::HubModel::Platform* platform;
-
-	if (!getHubPlatform(hub_id, platform_id, hub, platform))
-		return false;
-
-	position = platform->center + hub->getPosition();
-	return true;
-}
-
 bool gfx::scene::Scene::feed(const GL::Event& ev)
 {
 	auto& helper = m_render_thread.getInputHelper();
@@ -183,6 +150,23 @@ void gfx::scene::Scene::changeHubColor(uint32_t id, GL::Color color)
 	auto* hub = getHub(id);
 	if (hub)
 		hub->setColor(color);
+}
+
+bool gfx::scene::Scene::getPlatform(uint32_t hub_id, uint32_t platform_id, gfx::shape::PlatformShape& platform) const
+{
+	auto* hub = m_hubs.get(hub_id);
+	if (!hub)
+		return false;
+
+	gfx::shape::PlatformShape p;
+	if (hub->getPlatform(platform_id, p))
+	{
+		p.center += hub->getPosition();
+		platform = p;
+		return true;
+	}
+
+	return false;
 }
 
 

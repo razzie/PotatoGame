@@ -12,29 +12,20 @@
 #include <raz/memory.hpp>
 #include <raz/random.hpp>
 #include "gfx/core/Mesh.hpp"
+#include "gfx/shape/PlatformShape.hpp"
 
 namespace gfx
 {
 namespace shape
 {
+	typedef std::vector<PlatformShape, raz::Allocator<PlatformShape>> Platforms;
+
 	class PlatformRingShape
 	{
 	public:
-		struct Platform
-		{
-			GL::Vec3 center;
-			GL::Vec3 inner1;
-			GL::Vec3 inner2;
-			GL::Vec3 outer1;
-			GL::Vec3 outer2;
-
-			GL::Vec3 getPosition(float x, float y) const;
-		};
-
-		typedef std::vector<Platform, raz::Allocator<Platform>> PlatformVector;
-
 		PlatformRingShape(unsigned radius, unsigned complexity);
-		void generate(raz::Random& random, PlatformVector& platforms, gfx::core::MeshBuffer<>& meshbuffer) const;
+		void generate(raz::Random& random, Platforms& platforms) const;
+		void generate(const Platforms& platforms, gfx::core::MeshBuffer<>& meshbuffer) const;
 
 	private:
 		unsigned m_radius;

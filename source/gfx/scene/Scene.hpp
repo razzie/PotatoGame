@@ -44,8 +44,6 @@ namespace scene
 		Camera& getCamera();
 		const Camera& getCamera() const;
 		float getElapsedTime() const;
-		bool getHubPlatform(uint32_t hub_id, uint32_t platform_id, model::HubModel*& hub, const model::HubModel::Platform*& platform);
-		bool getHubPlatformPosition(uint32_t hub_id, uint32_t platform_id, GL::Vec3& position);
 		bool feed(const GL::Event& ev);
 		void render();
 		void reset();
@@ -54,6 +52,7 @@ namespace scene
 		model::HubModel* addHub(uint32_t id, uint64_t seed, uint32_t size, GL::Vec2 position);
 		model::HubModel* getHub(uint32_t id);
 		void changeHubColor(uint32_t id, GL::Color color);
+		bool getPlatform(uint32_t hub_id, uint32_t platform_id, gfx::shape::PlatformShape& platform) const;
 
 		// transport
 		model::TransportModel* addTransport(uint32_t id, uint32_t hub1_id, uint32_t hub1_platform_id, uint32_t hub2_id, uint32_t hub2_platform_id);
@@ -123,6 +122,17 @@ namespace scene
 			}
 
 			T* get(uint32_t id)
+			{
+				for (auto& model : models)
+				{
+					if (model.getID() == id)
+						return &model;
+				}
+
+				return nullptr;
+			}
+
+			const T* get(uint32_t id) const
 			{
 				for (auto& model : models)
 				{

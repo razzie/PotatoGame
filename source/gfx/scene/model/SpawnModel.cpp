@@ -10,6 +10,10 @@
 gfx::scene::model::SpawnModel::SpawnModel(Scene& scene, uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id) :
 	Model(id)
 {
+	gfx::shape::PlatformShape platform;
+	if (!scene.getPlatform(hub_id, platform_id, platform))
+		return;
+
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 
 
@@ -19,9 +23,6 @@ gfx::scene::model::SpawnModel::SpawnModel(Scene& scene, uint32_t id, GL::Color c
 	auto& mesh = getMesh();
 	mesh = meshbuffer.createMesh();
 
-	GL::Vec3 position;
-	scene.getHubPlatformPosition(hub_id, platform_id, position);
-	setPosition(position);
-
+	setPosition(platform.center);
 	setColor(color);
 }

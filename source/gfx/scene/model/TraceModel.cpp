@@ -10,13 +10,10 @@
 #include "gfx/scene/model/TraceModel.hpp"
 
 gfx::scene::model::TraceModel::TraceModel(Scene& scene, uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id) :
-	Model(id),
-	m_color(color)
+	Model(id)
 {
-	HubModel* hub;
-	const HubModel::Platform* platform;
-
-	if (!scene.getHubPlatform(hub_id, platform_id, hub, platform))
+	gfx::shape::PlatformShape platform;
+	if (!scene.getPlatform(hub_id, platform_id, platform))
 		return;
 
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
@@ -28,12 +25,10 @@ gfx::scene::model::TraceModel::TraceModel(Scene& scene, uint32_t id, GL::Color c
 
 	for (unsigned i = 0; i < edges; ++i)
 	{
-		float x = 0.5f + 0.125f * std::sin(angle_rad);
-		float y = 0.5f + 0.125f * std::cos(angle_rad);
+		float x = 0.125f * std::sin(angle_rad);
+		float z = 0.125f * -std::cos(angle_rad);
 
-		GL::Vec3 pos = platform->getPosition(x, y);
-		pos.Y += 0.025f;
-		gfx::core::Vertex v{ pos, GL::Vec3(0.f, 1.f, 0.f), GL::Color(224, 224, 224) };
+		gfx::core::Vertex v{ GL::Vec3(x, 0.025f, z), GL::Vec3(0.f, 1.f, 0.f), GL::Color(224, 224, 224) };
 		meshbuffer.vertices.push_back(v);
 
 		angle_rad += angle_step;
@@ -46,10 +41,11 @@ gfx::scene::model::TraceModel::TraceModel(Scene& scene, uint32_t id, GL::Color c
 		meshbuffer.indices.push_back(base_index + i);
 	}
 
-	meshbuffer.recalculateNormals();
+	//meshbuffer.recalculateNormals();
 
 	auto& mesh = getMesh();
 	mesh = meshbuffer.createMesh();
 
-	setPosition(platform->center + hub->getPosition());
+	setPosition(platform.center);
+	setColor(color);
 }
