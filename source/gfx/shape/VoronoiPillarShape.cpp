@@ -158,12 +158,12 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 		}
 
 		// indexing bottom
-		for (unsigned i = 1; i < points_inserted - 1; ++i)
-		{
-			meshbuffer.indices.push_back(base_index);
-			meshbuffer.indices.push_back(base_index + i);
-			meshbuffer.indices.push_back(base_index + i + 1);
-		}
+		//for (unsigned i = 1; i < points_inserted - 1; ++i)
+		//{
+		//	meshbuffer.indices.push_back(base_index);
+		//	meshbuffer.indices.push_back(base_index + i);
+		//	meshbuffer.indices.push_back(base_index + i + 1);
+		//}
 
 		// indexing sides
 		for (unsigned i = 0; i < points_inserted; ++i)

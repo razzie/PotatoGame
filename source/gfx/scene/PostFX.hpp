@@ -9,11 +9,13 @@
 #include <GL/GL/Program.hpp>
 #include <GL/GL/VertexBuffer.hpp>
 #include <GL/GL/VertexArray.hpp>
-#include "resource/ShaderLoader.hpp"
+#include <GL/GL/Framebuffer.hpp>
 #include "gfx/core/GBuffer.hpp"
 
 namespace gfx
 {
+class RenderThread;
+
 namespace scene
 {
 	class Scene;
@@ -23,14 +25,16 @@ namespace scene
 	public:
 		typedef core::GBuffer<3> GBuffer;
 
-		PostFX(resource::ShaderLoader& shader_loader);
+		PostFX(RenderThread& render_thread);
 		~PostFX();
 		void render(Scene& scene);
 
 	private:
 		GL::Program m_postfx;
+		GL::Program m_aa;
 		GL::VertexBuffer m_vbo;
 		GL::VertexArray m_vao;
+		GL::Framebuffer m_fbo;
 	};
 }
 }
