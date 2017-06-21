@@ -14,7 +14,7 @@ gfx::RenderThread::RenderThread(Potato& potato, raz::IMemoryPool* memory) :
 	m_memory(memory),
 	m_shader_loader(memory),
 	m_scene(*this),
-	m_postfx(m_shader_loader),
+	m_postfx(*this),
 	m_gui(*this)
 {
 	//ShowCursor(FALSE);
