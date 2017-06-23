@@ -14,7 +14,14 @@ namespace scene
 {
 namespace model
 {
-	class ChargeModel : public Model<>
+	struct ChargeEntityMaterial : public core::Material
+	{
+		ChargeEntityMaterial(resource::ShaderLoader& shader_loader) : Material(shader_loader.get("charge_entity"))
+		{
+		}
+	};
+
+	class ChargeModel : public Model<ChargeEntityMaterial>
 	{
 	public:
 		ChargeModel(Scene& scene, uint32_t id, uint32_t hub_id, uint32_t platform_id);
