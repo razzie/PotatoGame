@@ -7,18 +7,16 @@
 #include "gfx/scene/Scene.hpp"
 #include "gfx/scene/model/TrapModel.hpp"
 
-static void addSpike(GL::Vec3 position, gfx::core::MeshBuffer<>& meshbuffer)
+static void addSpike(GL::Vec3 position, float scale, gfx::core::MeshBuffer<>& meshbuffer)
 {
-	const float scale = 0.125f;
-	const GL::Color top_color(224, 224, 224);
-	const GL::Color bottom_color(128, 128, 128);
+	const GL::Color color(224, 224, 224);
 	uint16_t base_index = (uint16_t)meshbuffer.vertices.size();
 
-	gfx::core::Vertex top{ position + GL::Vec3(0.f, 4.f * scale, 0.f), GL::Vec3(), top_color };
-	gfx::core::Vertex bottom1{ position + GL::Vec3(scale, 0.f, scale), GL::Vec3(), bottom_color };
-	gfx::core::Vertex bottom2{ position + GL::Vec3(scale, 0.f, -scale), GL::Vec3(), bottom_color };
-	gfx::core::Vertex bottom3{ position + GL::Vec3(-scale, 0.f, -scale), GL::Vec3(), bottom_color };
-	gfx::core::Vertex bottom4{ position + GL::Vec3(-scale, 0.f, scale), GL::Vec3(), bottom_color };
+	gfx::core::Vertex top{ position + GL::Vec3(0.f, 4.f * scale, 0.f), GL::Vec3(), color };
+	gfx::core::Vertex bottom1{ position + GL::Vec3(scale, 0.f, scale), GL::Vec3(), color };
+	gfx::core::Vertex bottom2{ position + GL::Vec3(scale, 0.f, -scale), GL::Vec3(), color };
+	gfx::core::Vertex bottom3{ position + GL::Vec3(-scale, 0.f, -scale), GL::Vec3(), color };
+	gfx::core::Vertex bottom4{ position + GL::Vec3(-scale, 0.f, scale), GL::Vec3(), color };
 
 	meshbuffer.vertices.push_back(top);
 	meshbuffer.vertices.push_back(bottom1);
@@ -62,7 +60,7 @@ gfx::scene::model::TrapModel::TrapModel(Scene& scene, uint32_t id, GL::Color col
 	for (int i = 0, spikes = random(3u, 5u); i < spikes; ++i)
 	{
 		GL::Vec3 pos = platform.getRandomPosition(random) - platform.center;
-		addSpike(pos, meshbuffer);
+		addSpike(pos, random(3, 5) * 0.025f, meshbuffer);
 	}
 
 	meshbuffer.recalculateNormals();
