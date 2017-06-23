@@ -21,14 +21,13 @@ gfx::scene::model::ResourceModel::ResourceModel(Scene& scene, uint32_t id, uint3
 
 	for (uint32_t i = 0; i < value; ++i)
 	{
-		//GL::Vec3 pos = platform->getPosition(random(0.25f, 0.75f), random(0.25f, 0.75f));
 		GL::Vec3 pos = platform.getRandomPosition(random) - platform.center;
 		GL::uchar color = (GL::uchar)random(64u, 128u);
 		float radius = 0.1f + 0.0125f * i;
 
-		pos.Y += radius;
+		pos.Y += radius * 0.5f;
 
-		shape::SphereShape sphere(pos, radius, 8, GL::Color(color, color, color));
+		shape::SphereShape sphere(pos, radius, random(3u, 6u), GL::Color(color, color, color));
 		sphere.generate(meshbuffer);
 	}
 

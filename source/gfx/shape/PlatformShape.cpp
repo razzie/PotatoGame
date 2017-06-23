@@ -17,7 +17,7 @@ static constexpr size_t MAX_EDGES = 8;
 GL::Vec3 gfx::shape::PlatformShape::getRandomPosition(raz::Random& random) const
 {
 	const double angle = random(-common::PI, common::PI);
-	const float radius = random(0.f, size * 0.75f);
+	const float radius = std::round(random(0.f, size * 0.75f) * 4.f) / 4.f;
 	float x = std::sin(angle) * radius;
 	float z = -std::cos(angle) * radius;
 
