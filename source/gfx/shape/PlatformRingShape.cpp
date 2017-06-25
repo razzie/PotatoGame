@@ -43,7 +43,7 @@ static void insertWires(const gfx::shape::Platforms& platforms, raz::Random& ran
 	{
 		auto& platform = platforms[random(0u, max_platform)];
 		GL::Vec3 p1 = platform.center;
-		GL::Vec3 p2 { 0.f, random(0.25f * radius, 1.f * radius), 0.f };
+		GL::Vec3 p2 { 0.f, random(0.f, 0.25f * radius), 0.f };
 	
 		p1.Y -= 0.75f;
 	

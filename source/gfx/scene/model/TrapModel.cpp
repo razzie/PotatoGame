@@ -60,6 +60,7 @@ gfx::scene::model::TrapModel::TrapModel(Scene& scene, uint32_t id, GL::Color col
 	for (int i = 0, spikes = random(3u, 5u); i < spikes; ++i)
 	{
 		GL::Vec3 pos = platform.getRandomPosition(random) - platform.center;
+		pos.Y += 0.05f;
 		addSpike(pos, random(3, 5) * 0.025f, meshbuffer);
 	}
 
