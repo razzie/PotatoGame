@@ -4,6 +4,7 @@
  * Proprietary and confidential
  */
 
+#include "gfx/shape/SpawnShape.hpp"
 #include "gfx/scene/Scene.hpp"
 #include "gfx/scene/model/SpawnModel.hpp"
 
@@ -16,7 +17,8 @@ gfx::scene::model::SpawnModel::SpawnModel(Scene& scene, uint32_t id, GL::Color c
 
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 
-
+	gfx::shape::SpawnShape shape(GL::Vec3(), platform.size * 0.75f, (float)platform.seed);
+	shape.generate(meshbuffer);
 
 	meshbuffer.recalculateNormals();
 
