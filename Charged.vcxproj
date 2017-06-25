@@ -182,6 +182,7 @@
     <ClInclude Include="source\gfx\scene\model\TransportModel.hpp" />
     <ClInclude Include="source\gfx\scene\model\TrapModel.hpp" />
     <ClInclude Include="source\gfx\scene\PostFX.hpp" />
+    <ClInclude Include="source\gfx\scene\SceneEntityHandler.hpp" />
     <ClInclude Include="source\gfx\shape\PlatformShape.hpp" />
     <ClInclude Include="source\gfx\shape\SpawnShape.hpp" />
     <ClInclude Include="source\gfx\shape\SphereShape.hpp" />
@@ -446,6 +447,7 @@
     <ClCompile Include="source\gfx\scene\model\TransportModel.cpp" />
     <ClCompile Include="source\gfx\scene\model\TrapModel.cpp" />
     <ClCompile Include="source\gfx\scene\PostFX.cpp" />
+    <ClCompile Include="source\gfx\scene\SceneEntityHandler.cpp" />
     <ClCompile Include="source\gfx\shape\PlatformShape.cpp" />
     <ClCompile Include="source\gfx\shape\SpawnShape.cpp" />
     <ClCompile Include="source\gfx\shape\SphereShape.cpp" />
