@@ -471,6 +471,9 @@
     <ClCompile Include="source\gfx\scene\SceneEntityHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\gfx\shape\SpikeShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\common\IDPool.hpp">
@@ -1284,6 +1287,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\gfx\scene\SceneEntityHandler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gfx\shape\SpikeShape.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
