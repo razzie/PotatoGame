@@ -12,68 +12,88 @@ in vec2 frag_position;
 
 out vec4 out_color;
 
-void FAST32_hash_3D(vec3 gridcell,
-                    out vec4 lowz_hash_0,
-                    out vec4 lowz_hash_1,
-                    out vec4 lowz_hash_2,
-                    out vec4 lowz_hash_3,
-                    out vec4 highz_hash_0,
-                    out vec4 highz_hash_1,
-                    out vec4 highz_hash_2,
-                    out vec4 highz_hash_3)
+float Noise3D(in vec3 coord, in float wavelength);
+float GetEdgeWeight();
+
+void main()
 {
-    const vec2 OFFSET = vec2(50.0, 161.0);
-    const float DOMAIN = 69.0;
-    const vec4 SOMELARGEFLOATS = vec4(635.298681, 682.357502, 668.926525, 588.255119);
-    const vec4 ZINC = vec4(48.500388, 65.294118, 63.934599, 63.279683);
+	vec4 fog_color = vec4(vec3(1.0), 1.0);
 
-    gridcell.xyz = gridcell.xyz - floor(gridcell.xyz * (1.0 / DOMAIN)) * DOMAIN;
-    vec3 gridcell_inc1 = step(gridcell, vec3(DOMAIN - 1.5)) * (gridcell + 1.0);
-
-    vec4 P = vec4(gridcell.xy, gridcell_inc1.xy) + OFFSET.xyxy;
-    P *= P;
-    P = P.xzxz * P.yyww;
-    lowz_hash_3.xyzw = vec4(1.0 / (SOMELARGEFLOATS.xyzw + gridcell.zzzz * ZINC.xyzw));
-    highz_hash_3.xyzw = vec4(1.0 / (SOMELARGEFLOATS.xyzw + gridcell_inc1.zzzz * ZINC.xyzw));
-    lowz_hash_0 = fract(P * lowz_hash_3.xxxx);
-    highz_hash_0 = fract(P * highz_hash_3.xxxx);
-    lowz_hash_1 = fract(P * lowz_hash_3.yyyy);
-    highz_hash_1 = fract(P * highz_hash_3.yyyy);
-    lowz_hash_2 = fract(P * lowz_hash_3.zzzz);
-    highz_hash_2 = fract(P * highz_hash_3.zzzz);
-    lowz_hash_3 = fract(P * lowz_hash_3.wwww);
-    highz_hash_3 = fract(P * highz_hash_3.wwww);
+	float depth = texture(depth_tex, frag_position).r;
+	if (depth == 1.0)
+	{
+		out_color = fog_color;
+		return;
+	}
+	
+	vec3 color = texture(color_tex, frag_position).rgb;
+	vec3 normal = texture(normal_tex, frag_position).xyz;
+	vec3 position = texture(position_tex, frag_position).xyz;
+	
+	float light = dot(normalize(camera - position), normal);
+	color = mix(color, vec3(1.0), light * light * 0.5);
+	
+	float outline = 1.0 - GetEdgeWeight();
+	color *= outline;
+	
+	if (position.y < 1.0)
+	{
+		float horizon = smoothstep(0.4, 0.6, Noise3D(position + vec3(time, time, 0.0), 4.0)) * 0.05 + 0.95;
+		color = mix(vec3(horizon), color, position.y);
+	}
+	
+	float distance = length(camera - position);
+	if (distance < render_distance)
+		out_color = mix(vec4(color, 1.0), fog_color, distance / render_distance);
+	else
+		out_color = fog_color;
 }
 
-vec3 Interpolation_C2(vec3 x) { return x * x * x * (x * (x * 6.0 - 15.0) + 10.0); }
-
-float Cubist3D(vec3 P, vec2 range_clamp)
+float rand3D(in vec3 co)
 {
-    vec3 Pi = floor(P);
-    vec3 Pf = P - Pi;
-    vec3 Pf_min1 = Pf - 1.0;
+    return fract(sin(dot(co.xyz ,vec3(12.9898,78.233,144.7272))) * 43758.5453);
+}
 
-    vec4 hashx0, hashy0, hashz0, hash_value0, hashx1, hashy1, hashz1, hash_value1;
-    FAST32_hash_3D(Pi, hashx0, hashy0, hashz0, hash_value0, hashx1, hashy1, hashz1, hash_value1);
+float simple_interpolate(in float a, in float b, in float x)
+{
+   return a + smoothstep(0.0,1.0,x) * (b-a);
+}
 
-    vec4 grad_x0 = hashx0 - 0.49999;
-    vec4 grad_y0 = hashy0 - 0.49999;
-    vec4 grad_z0 = hashz0 - 0.49999;
-    vec4 grad_x1 = hashx1 - 0.49999;
-    vec4 grad_y1 = hashy1 - 0.49999;
-    vec4 grad_z1 = hashz1 - 0.49999;
-    vec4 grad_results_0 = inversesqrt(grad_x0 * grad_x0 + grad_y0 * grad_y0 + grad_z0 * grad_z0) * (vec2(Pf.x, Pf_min1.x).xyxy * grad_x0 + vec2(Pf.y, Pf_min1.y).xxyy * grad_y0 + Pf.zzzz * grad_z0);
-    vec4 grad_results_1 = inversesqrt(grad_x1 * grad_x1 + grad_y1 * grad_y1 + grad_z1 * grad_z1) * (vec2(Pf.x, Pf_min1.x).xyxy * grad_x1 + vec2(Pf.y, Pf_min1.y).xxyy * grad_y1 + Pf_min1.zzzz * grad_z1);
+float interpolatedNoise3D(in float x, in float y, in float z)
+{
+    float integer_x = x - fract(x);
+    float fractional_x = x - integer_x;
 
-    grad_results_0 = (hash_value0 - 0.5) * (1.0 / grad_results_0);
-    grad_results_1 = (hash_value1 - 0.5) * (1.0 / grad_results_1);
+    float integer_y = y - fract(y);
+    float fractional_y = y - integer_y;
 
-    vec3 blend = Interpolation_C2(Pf);
-    vec4 res0 = mix(grad_results_0, grad_results_1, blend.z);
-    vec4 blend2 = vec4(blend.xy, vec2(1.0 - blend.xy));
-    float final = dot(res0, blend2.zxzx * blend2.wwyy);
+    float integer_z = z - fract(z);
+    float fractional_z = z - integer_z;
 
-    return clamp((final - range_clamp.x) * range_clamp.y, 0.0, 1.0);
+    float v1 = rand3D(vec3(integer_x, integer_y, integer_z));
+    float v2 = rand3D(vec3(integer_x+1.0, integer_y, integer_z));
+    float v3 = rand3D(vec3(integer_x, integer_y+1.0, integer_z));
+    float v4 = rand3D(vec3(integer_x+1.0, integer_y +1.0, integer_z));
+
+    float v5 = rand3D(vec3(integer_x, integer_y, integer_z+1.0));
+    float v6 = rand3D(vec3(integer_x+1.0, integer_y, integer_z+1.0));
+    float v7 = rand3D(vec3(integer_x, integer_y+1.0, integer_z+1.0));
+    float v8 = rand3D(vec3(integer_x+1.0, integer_y +1.0, integer_z+1.0));
+
+    float i1 = simple_interpolate(v1,v5, fractional_z);
+    float i2 = simple_interpolate(v2,v6, fractional_z);
+    float i3 = simple_interpolate(v3,v7, fractional_z);
+    float i4 = simple_interpolate(v4,v8, fractional_z);
+
+    float ii1 = simple_interpolate(i1,i2,fractional_x);
+    float ii2 = simple_interpolate(i3,i4,fractional_x);
+
+    return simple_interpolate(ii1 , ii2 , fractional_y);
+}
+
+float Noise3D(in vec3 coord, in float wavelength)
+{
+   return interpolatedNoise3D(coord.x/wavelength, coord.y/wavelength, coord.z/wavelength);
 }
 
 // GPU Gems 3, pg 443-444
@@ -131,33 +151,4 @@ float GetEdgeWeight()
 	normalResults = max(normalResults, depthResults);
 
 	return dot(normalResults, vec4(1.0, 1.0, 1.0, 1.0)) * 0.25;
-}
-
-void main()
-{
-	float depth = texture(depth_tex, frag_position).r;
-	if (depth == 1.0)
-		discard;
-	
-	vec3 color = texture(color_tex, frag_position).rgb;
-	vec3 normal = texture(normal_tex, frag_position).xyz;
-	vec3 position = texture(position_tex, frag_position).xyz;
-	
-	float light = dot(normalize(camera - position), normal);
-	color = mix(color, vec3(1.0), light * light * 0.5);
-	
-	float outline = 1.0 - GetEdgeWeight();
-	color *= outline;
-	
-	if (position.y < 1.0)
-	{
-		float horizon = Cubist3D(0.25 * position + vec3(0.0, 0.1 * time, 0.0), vec2(-2.0, 1.0 / 3.0)) * 0.1 + 0.9;
-		color = mix(vec3(horizon, horizon, horizon), color, position.y);
-	}
-	
-	float distance = length(camera - position);
-	if (distance < render_distance)
-		out_color = mix(vec4(color, 1.0), vec4(1.0), distance / render_distance);
-	else
-		out_color = vec4(1.0);
 }

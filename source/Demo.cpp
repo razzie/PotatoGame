@@ -11,6 +11,8 @@
 #include "Demo.hpp"
 #include "Potato.hpp"
 
+#define PLAYERS 3
+
 Demo::Demo(Potato& potato) :
 	m_potato(&potato),
 	m_random((uint64_t)std::time(NULL)),
@@ -34,7 +36,7 @@ void Demo::operator()()
 		game::entity::Entity::Platform platform;
 		platform.hub_id = hub;
 		m_entities.getRandomEmptyPlatform(m_random, game::entity::Entity::Type::SPAWN, platform);
-		m_entities.addSpawn(platform, m_random(-1, 5));
+		m_entities.addSpawn(platform, (m_random() % 2) ? -1 : m_random(-1, PLAYERS - 1));
 
 		if (hub > 0)
 			m_entities.addTransport(hub - 1, hub);
@@ -165,7 +167,7 @@ void Demo::addRandomEntity(uint32_t hub)
 	case 1:
 		if (m_entities.getRandomEmptyPlatform(m_random, game::entity::Entity::Type::CREATURE, platform))
 		{
-			m_entities.addCreature(m_random(), platform, m_random(0, 5));
+			m_entities.addCreature(m_random(), platform, m_random(0, PLAYERS - 1));
 		}
 		break;
 
@@ -186,14 +188,14 @@ void Demo::addRandomEntity(uint32_t hub)
 	case 4:
 		if (m_entities.getRandomEmptyPlatform(m_random, game::entity::Entity::Type::TRACE, platform))
 		{
-			m_entities.addTrace(platform, m_random(0, 5));
+			m_entities.addTrace(platform, m_random(0, PLAYERS - 1));
 		}
 		break;
 
 	case 5:
 		if (m_entities.getRandomEmptyPlatform(m_random, game::entity::Entity::Type::TRAP, platform))
 		{
-			m_entities.addTrap(platform, m_random(0, 5));
+			m_entities.addTrap(platform, m_random(0, PLAYERS - 1));
 		}
 		break;
 	}

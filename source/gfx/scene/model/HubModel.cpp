@@ -31,7 +31,7 @@ gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t
 	mesh = meshbuffer.createMesh();
 
 	setPosition(GL::Vec3(position.X, 0.f, position.Y));
-	setColor(GL::Color(192, 192, 192));
+	setColor(GL::Color(224, 224, 224));
 }
 
 uint64_t gfx::scene::model::HubModel::getSeed() const
