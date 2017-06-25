@@ -139,6 +139,7 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 	else
 	{
 		uint16_t base_index = (uint16_t)meshbuffer.vertices.size() - points_inserted;
+		float radius = random(0.f, 0.5f);
 
 		// duplicating vertices for top
 		for (unsigned i = base_index, len = meshbuffer.vertices.size(); i < len; ++i)
@@ -147,8 +148,8 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 
 			float distance = center.getDistanceFrom({ v.position.X, v.position.Z });
 
-			v.position.X = 0.5f * std::cbrt(0.75f * v.position.X)/* + pos.X * 1.2f*/;
-			v.position.Z = 0.5f * std::cbrt(0.75f * v.position.Z)/* + pos.Z * 1.2f*/;
+			v.position.X = 0.5f * std::cbrt(0.75f * v.position.X) + (pos.X * radius);
+			v.position.Z = 0.5f * std::cbrt(0.75f * v.position.Z) + (pos.Z * radius);
 
 			v.position.Y = 3.f * height + 0.25f * (radius - distance);
 
