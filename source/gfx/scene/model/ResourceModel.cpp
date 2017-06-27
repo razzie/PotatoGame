@@ -32,9 +32,7 @@ gfx::scene::model::ResourceModel::ResourceModel(Scene& scene, uint32_t id, uint3
 	}
 
 	meshbuffer.recalculateNormals();
-
-	auto& mesh = getMesh();
-	mesh = meshbuffer.createMesh();
+	getMesh() = meshbuffer;
 
 	setPosition(platform.center);
 }

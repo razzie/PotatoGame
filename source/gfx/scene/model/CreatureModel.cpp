@@ -22,9 +22,7 @@ gfx::scene::model::CreatureModel::CreatureModel(scene::Scene& scene, uint32_t id
 	shape.generate(meshbuffer);
 
 	meshbuffer.recalculateNormals();
-
-	auto& mesh = getMesh();
-	mesh = meshbuffer.createMesh();
+	getMesh() = meshbuffer;
 
 	setPosition(platform.center);
 	setColor(color);

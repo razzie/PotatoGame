@@ -31,7 +31,5 @@ gfx::scene::model::TransportModel::TransportModel(Scene& scene, uint32_t id, uin
 	}
 
 	meshbuffer.recalculateNormals();
-
-	auto& mesh = getMesh();
-	mesh = meshbuffer.createMesh();
+	getMesh() = meshbuffer;
 }

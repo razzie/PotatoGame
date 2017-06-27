@@ -26,9 +26,7 @@ gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t
 	platforms.generate(m_platforms, meshbuffer);
 
 	meshbuffer.recalculateNormals();
-
-	auto& mesh = getMesh();
-	mesh = meshbuffer.createMesh();
+	getMesh() = meshbuffer;
 
 	setPosition(GL::Vec3(position.X, 0.f, position.Y));
 	setColor(GL::Color(224, 224, 224));

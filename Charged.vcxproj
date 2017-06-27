@@ -172,6 +172,7 @@
     <ClInclude Include="source\game\player\Player.hpp" />
     <ClInclude Include="source\gfx\core\GBuffer.hpp" />
     <ClInclude Include="source\gfx\core\Material.hpp" />
+    <ClInclude Include="source\gfx\core\MeshBuffer.hpp" />
     <ClInclude Include="source\gfx\RenderThread.hpp" />
     <ClInclude Include="source\gfx\scene\animator\Animator.hpp" />
     <ClInclude Include="source\gfx\scene\animator\AppearAnimator.hpp" />
@@ -440,6 +441,7 @@
     <ClCompile Include="source\game\level\LevelBuilder.cpp" />
     <ClCompile Include="source\game\player\Player.cpp" />
     <ClCompile Include="source\gfx\core\GBuffer.cpp" />
+    <ClCompile Include="source\gfx\core\Mesh_.cpp" />
     <ClCompile Include="source\gfx\RenderThread.cpp" />
     <ClCompile Include="source\gfx\scene\CameraManager.cpp" />
     <ClCompile Include="source\Demo.cpp" />
