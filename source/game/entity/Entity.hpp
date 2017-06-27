@@ -33,11 +33,14 @@ namespace entity
 
 		struct Data
 		{
-			Type type = Type::NONE;
-			uint32_t id = 0;
-			int player_id = 0;
+			Type type;
+			uint32_t id;
+			int player_id;
 
-			Data() = default;
+			Data() :
+				type(Type::NONE), id(0), player_id(-1)
+			{
+			}
 
 			Data(Type t, uint32_t i, int p) :
 				type(t), id(i), player_id(p)

@@ -10,7 +10,7 @@
 gfx::RenderThread::RenderThread(Potato& potato, raz::IMemoryPool* memory) :
 	m_potato(potato),
 	m_window(potato.getSettings().screen_width, potato.getSettings().screen_height, "Potato", potato.getSettings().fullscreen ? GL::WindowStyle::Fullscreen : GL::WindowStyle::Base | GL::WindowStyle::Close),
-	m_gl(m_window.GetContext(32, 24, 8, 4)),
+	m_gl(m_window.GetContext(32, 0, 0, 0)),
 	m_memory(memory),
 	m_shader_loader(memory),
 	m_scene(*this),
