@@ -33,13 +33,13 @@ void Demo::operator()()
 
 		uint32_t hub = result.entity.id;
 
+		if (hub > 0)
+			m_entities.addTransport(hub - 1, hub);
+
 		game::entity::Entity::Platform platform;
 		platform.hub_id = hub;
 		m_entities.getRandomEmptyPlatform(m_random, game::entity::Entity::Type::SPAWN, platform);
 		m_entities.addSpawn(platform, (m_random() % 2) ? -1 : m_random(-1, PLAYERS - 1));
-
-		if (hub > 0)
-			m_entities.addTransport(hub - 1, hub);
 
 		for (int i = 0; i < 10; ++i)
 			addRandomEntity(hub);
