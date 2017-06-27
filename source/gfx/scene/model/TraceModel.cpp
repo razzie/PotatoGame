@@ -28,7 +28,7 @@ gfx::scene::model::TraceModel::TraceModel(Scene& scene, uint32_t id, GL::Color c
 		float x = 0.125f * std::sin(angle_rad);
 		float z = 0.125f * -std::cos(angle_rad);
 
-		gfx::core::Vertex v{ GL::Vec3(x, 0.025f, z), GL::Vec3(0.f, 1.f, 0.f), GL::Color(224, 224, 224) };
+		gfx::core::Vertex v{ GL::Vec3(x, 0.0125f, z), GL::Vec3(0.f, 1.f, 0.f), GL::Color(224, 224, 224) };
 		meshbuffer.vertices.push_back(v);
 
 		angle_rad += angle_step;

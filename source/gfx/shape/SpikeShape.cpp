@@ -18,10 +18,10 @@ void gfx::shape::SpikeShape::generate(gfx::core::MeshBuffer<>& meshbuffer) const
 	uint16_t base_index = (uint16_t)meshbuffer.vertices.size();
 
 	gfx::core::Vertex top{ m_position + GL::Vec3(0.f, 4.f * m_scale, 0.f), GL::Vec3(), color };
-	gfx::core::Vertex bottom1{ m_position + GL::Vec3(m_scale, 0.f, m_scale), GL::Vec3(), color };
-	gfx::core::Vertex bottom2{ m_position + GL::Vec3(m_scale, 0.f, -m_scale), GL::Vec3(), color };
-	gfx::core::Vertex bottom3{ m_position + GL::Vec3(-m_scale, 0.f, -m_scale), GL::Vec3(), color };
-	gfx::core::Vertex bottom4{ m_position + GL::Vec3(-m_scale, 0.f, m_scale), GL::Vec3(), color };
+	gfx::core::Vertex bottom1{ m_position + GL::Vec3(m_scale, 0.f, m_scale), GL::Vec3(), GL::Color() };
+	gfx::core::Vertex bottom2{ m_position + GL::Vec3(m_scale, 0.f, -m_scale), GL::Vec3(), GL::Color() };
+	gfx::core::Vertex bottom3{ m_position + GL::Vec3(-m_scale, 0.f, -m_scale), GL::Vec3(), GL::Color() };
+	gfx::core::Vertex bottom4{ m_position + GL::Vec3(-m_scale, 0.f, m_scale), GL::Vec3(), GL::Color() };
 
 	meshbuffer.vertices.push_back(top);
 	meshbuffer.vertices.push_back(bottom1);
@@ -50,4 +50,11 @@ void gfx::shape::SpikeShape::generate(gfx::core::MeshBuffer<>& meshbuffer) const
 	meshbuffer.indices.push_back(top_index);
 	meshbuffer.indices.push_back(bottom4_index);
 	meshbuffer.indices.push_back(bottom1_index);
+
+	meshbuffer.indices.push_back(bottom1_index);
+	meshbuffer.indices.push_back(bottom3_index);
+	meshbuffer.indices.push_back(bottom2_index);
+	meshbuffer.indices.push_back(bottom1_index);
+	meshbuffer.indices.push_back(bottom4_index);
+	meshbuffer.indices.push_back(bottom3_index);
 }
