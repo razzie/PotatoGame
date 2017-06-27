@@ -18,12 +18,10 @@ gfx::scene::model::TrapModel::TrapModel(Scene& scene, uint32_t id, GL::Color col
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 	raz::Random random(platform.seed);
 
-	for (int i = 0, spikes = random(3u, 5u); i < spikes; ++i)
+	for (int i = 0, spikes = random(4u, 8u); i < spikes; ++i)
 	{
 		GL::Vec3 pos = platform.getRandomPosition(random) - platform.center;
-		pos.Y += 0.025f;
-
-		gfx::shape::SpikeShape shape(pos, random(3, 5) * 0.025f);
+		gfx::shape::SpikeShape shape(pos, random(3, 5) * 0.0125f);
 		shape.generate(meshbuffer);
 	}
 
