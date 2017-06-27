@@ -14,7 +14,14 @@ namespace scene
 {
 namespace model
 {
-	class CreatureModel : public Model<>
+	struct CreatureEntityMaterial : public gfx::core::Material
+	{
+		CreatureEntityMaterial(resource::ShaderLoader& shader_loader) : Material(shader_loader.get("creature_entity"))
+		{
+		}
+	};
+
+	class CreatureModel : public Model<CreatureEntityMaterial>
 	{
 	public:
 		CreatureModel(scene::Scene& scene, uint32_t id, uint64_t seed, GL::Color color, uint32_t hub_id, uint32_t platform_id);
