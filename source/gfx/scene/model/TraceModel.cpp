@@ -42,9 +42,7 @@ gfx::scene::model::TraceModel::TraceModel(Scene& scene, uint32_t id, GL::Color c
 	}
 
 	//meshbuffer.recalculateNormals();
-
-	auto& mesh = getMesh();
-	mesh = meshbuffer.createMesh();
+	getMesh() = meshbuffer;
 
 	setPosition(platform.center);
 	setColor(color);

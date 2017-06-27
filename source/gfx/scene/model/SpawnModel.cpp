@@ -21,9 +21,7 @@ gfx::scene::model::SpawnModel::SpawnModel(Scene& scene, uint32_t id, GL::Color c
 	shape.generate(meshbuffer);
 
 	meshbuffer.recalculateNormals();
-
-	auto& mesh = getMesh();
-	mesh = meshbuffer.createMesh();
+	getMesh() = meshbuffer;
 
 	setPosition(platform.center);
 	setColor(color);

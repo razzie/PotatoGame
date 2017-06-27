@@ -6,168 +6,59 @@
 
 #pragma once
 
-#include <cstdint>
-#include <functional>
-#include <vector>
-#include <GL/Math/Vec3.hpp>
 #include <GL/GL/Context.hpp>
 #include <GL/GL/Program.hpp>
 #include <GL/GL/VertexBuffer.hpp>
 #include <GL/GL/VertexArray.hpp>
-#include <raz/memory.hpp>
-#include "gfx/core/Vertex.hpp"
+#include "common/lerp.hpp"
+#include "gfx/core/MeshBuffer.hpp"
 
 namespace gfx
 {
 namespace core
 {
-	struct Mesh
+	class Mesh
 	{
-		GL::VertexBuffer vertices;
-		GL::VertexBuffer indices;
-		GL::VertexArray vertex_array;
-		unsigned num_of_indices;
-		GL::Type::type_t index_type;
-		std::function<void(Mesh&, GL::Program&)> shader_binder;
+	public:
+		Mesh();
+		Mesh(Mesh&& other);
+		Mesh& operator=(Mesh&& other);
+		void bindShader(GL::Program& program);
+		void render(GL::Context& gl) const;
+		void setCompleteness(float t);
+		operator bool() const;
 
-		void bindShader(GL::Program& program)
+		template<class VertexType, class IndexType>
+		Mesh& operator=(const MeshBuffer<VertexType, IndexType>& meshbuffer)
 		{
-			shader_binder(*this, program);
-		}
+			m_vertices = GL::VertexBuffer(meshbuffer.vertices.data(), meshbuffer.vertices.size() * sizeof(VertexType), GL::BufferUsage::StaticCopy);
+			m_indices = GL::VertexBuffer(meshbuffer.indices.data(), meshbuffer.indices.size() * sizeof(IndexType), GL::BufferUsage::StaticCopy);
+			m_orig_num_indices = m_num_indices = meshbuffer.indices.size();
+			m_index_type = (sizeof(IndexType) == 4) ? GL::Type::UnsignedInt : GL::Type::UnsignedShort;
+			m_vertex_array.BindElements(m_indices);
 
-		void render(GL::Context& gl) const
-		{
-			gl.DrawElements(vertex_array, GL::Primitive::Triangles, 0, num_of_indices, index_type);
-		}
-	};
-
-	template<class VertexType = Vertex, class IndexType = uint16_t>
-	struct MeshBuffer
-	{
-		std::vector<VertexType, raz::Allocator<VertexType>> vertices;
-		std::vector<IndexType, raz::Allocator<IndexType>> indices;
-
-		MeshBuffer(raz::IMemoryPool* memory = nullptr) :
-			vertices(memory),
-			indices(memory)
-		{
-		}
-
-		MeshBuffer(const MeshBuffer&) = default;
-
-		Mesh createMesh() const
-		{
-			Mesh mesh;
-
-			mesh.vertices = GL::VertexBuffer(vertices.data(), vertices.size() * sizeof(VertexType), GL::BufferUsage::StaticCopy);
-			mesh.indices = GL::VertexBuffer(indices.data(), indices.size() * sizeof(IndexType), GL::BufferUsage::StaticCopy);
-			mesh.num_of_indices = indices.size();
-			mesh.index_type = (sizeof(IndexType) == 4) ? GL::Type::UnsignedInt : GL::Type::UnsignedShort;
-			mesh.vertex_array.BindElements(mesh.indices);
-
-			mesh.shader_binder = [](Mesh& mesh, GL::Program& program) -> void
+			m_shader_binder = [](Mesh& mesh, GL::Program& program) -> void
 			{
 				for (int i = 0, count = VertexType::getVertexAttributeCount(); i < count; ++i)
 				{
 					const VertexAttribute* attrib = VertexType::getVertexAttribute(i);
-					mesh.vertex_array.BindAttribute(program.GetAttribute(attrib->name), mesh.vertices, attrib->type, attrib->count, attrib->stride, attrib->offset);
+					mesh.m_vertex_array.BindAttribute(program.GetAttribute(attrib->name), mesh.m_vertices, attrib->type, attrib->count, attrib->stride, attrib->offset);
 				}
 			};
 
-			return mesh;
+			return *this;
 		}
 
-		GL::Vec3* getVector(VertexType* vertex, const VertexAttribute* attrib)
-		{
-			if (attrib->type != GL::Type::Float || attrib->count != 3)
-				return nullptr;
+	private:
+		typedef void(*ShaderBinderFunc)(Mesh&, GL::Program&);
 
-			char* vertex_mem = reinterpret_cast<char*>(vertex);
-			return reinterpret_cast<GL::Vec3*>(vertex_mem + attrib->offset);
-		}
-
-		GL::Vec3* getVector(VertexType* vertex, const char* attrib_name)
-		{
-			const gx::VertexAttribute* attrib = getVertexAttributeByName<VertexType>(attrib_name);
-			if (attrib == nullptr)
-				return nullptr;
-
-			return getVector(vertex, attrib);
-		}
-
-		bool transform(const GL::Mat4& matrix, const VertexAttribute* attrib)
-		{
-			for (auto& vertex : vertices)
-			{
-				GL::Vec3* v = getVector(&vertex, attrib);
-				if (!v)
-					return false;
-
-				*v = matrix * (*v);
-			}
-
-			return true;
-		}
-
-		bool transform(const GL::Mat4& matrix, const char* attrib_name)
-		{
-			const gx::VertexAttribute* attrib = getVertexAttributeByName<VertexType>(attrib_name);
-			if (attrib == nullptr)
-				return nullptr;
-
-			return transform(matrix, attrib);
-		}
-
-		bool recalculateNormals(const VertexAttribute* position_attrib, const VertexAttribute* normal_attrib)
-		{
-			if (indices.size() % 3)
-				return false;
-
-			for (size_t i = 0, max_i = vertices.size(); i < max_i; ++i)
-			{
-				int count = 0;
-				GL::Vec3 normal;
-
-				for (size_t j = 0, max_j = indices.size(); j < max_j; j += 3)
-				{
-					if (indices[j] == i || indices[j + 1] == i || indices[j + 2] == i)
-					{
-						GL::Vec3* a = getVector(&vertices[indices[j]], position_attrib);
-						GL::Vec3* b = getVector(&vertices[indices[j + 1]], position_attrib);
-						GL::Vec3* c = getVector(&vertices[indices[j + 2]], position_attrib);
-
-						if (!a || !b || !c)
-							return false;
-
-						GL::Vec3 u = *b - *a;
-						GL::Vec3 v = *c - *a;
-						normal += u.Cross(v);
-						++count;
-					}
-				}
-
-				if (count)
-				{
-					GL::Vec3* normal_ptr = getVector(&vertices[i], normal_attrib);
-					if (!normal_ptr)
-						return false;
-
-					*normal_ptr = normal.Normal();
-				}
-			}
-
-			return true;
-		}
-
-		bool recalculateNormals(const char* position_name = "position", const char* normal_name = "normal")
-		{
-			const VertexAttribute* position_attrib = getVertexAttributeByName<VertexType>(position_name);
-			const VertexAttribute* normal_attrib = getVertexAttributeByName<VertexType>(normal_name);
-			if (!position_attrib || !normal_attrib)
-				return false;
-
-			return recalculateNormals(position_attrib, normal_attrib);
-		}
+		GL::VertexBuffer m_vertices;
+		GL::VertexBuffer m_indices;
+		GL::VertexArray m_vertex_array;
+		unsigned m_num_indices;
+		unsigned m_orig_num_indices;
+		GL::Type::type_t m_index_type;
+		ShaderBinderFunc m_shader_binder;
 	};
 }
 }

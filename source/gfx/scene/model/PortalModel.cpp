@@ -19,9 +19,7 @@ gfx::scene::model::PortalModel::PortalModel(Scene& scene, uint32_t id, uint32_t 
 
 
 	meshbuffer.recalculateNormals();
-
-	auto& mesh = getMesh();
-	mesh = meshbuffer.createMesh();
+	getMesh() = meshbuffer;
 
 	setPosition(platform.center);
 }

@@ -20,7 +20,6 @@ namespace animator
 	public:
 		void begin(Model* model)
 		{
-			m_num_faces = model->getMesh().num_of_indices / 3;
 		}
 
 		bool update(Model* model, float elapsed)
@@ -32,14 +31,13 @@ namespace animator
 			else if (elapsed > duration)
 				return true;
 
-			unsigned show_faces = common::lerp(0u, m_num_faces, elapsed / duration);
-			model->getMesh().num_of_indices = show_faces * 3;
+			model->getMesh().setCompleteness(elapsed / duration);
 			return false;
 		}
 
 		void end(Model* model)
 		{
-			model->getMesh().num_of_indices = m_num_faces * 3;
+			model->getMesh().setCompleteness(1.f);
 		}
 
 	private:

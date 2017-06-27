@@ -6,6 +6,9 @@
 
 #include "common/ColorGenerator.hpp"
 
+#pragma warning(push)
+#pragma warning(disable: 4267) // possible loss of data
+
 common::ColorGenerator::ColorGenerator() :
 	m_table{
 		GL::Color(255, 0, 0),
@@ -36,3 +39,5 @@ GL::Color common::ColorGenerator::operator[](size_t n) const
 
 	return base;
 }
+
+#pragma warning(pop)

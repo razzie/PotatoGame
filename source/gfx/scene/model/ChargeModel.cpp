@@ -21,9 +21,7 @@ gfx::scene::model::ChargeModel::ChargeModel(Scene& scene, uint32_t id, uint32_t 
 	sphere.generate(meshbuffer);
 
 	meshbuffer.recalculateNormals();
-
-	auto& mesh = getMesh();
-	mesh = meshbuffer.createMesh();
+	getMesh() = meshbuffer;
 
 	setPosition(platform.center);
 }
