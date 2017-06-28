@@ -6,11 +6,11 @@
 
 #pragma once
 
+#include <cstdint>
 #include <vector>
 #include <GL/Math/Vec3.hpp>
 #include <GL/Util/Color.hpp>
 #include <raz/memory.hpp>
-#include <raz/random.hpp>
 #include "gfx/core/Mesh.hpp"
 #include "gfx/shape/PlatformShape.hpp"
 
@@ -24,7 +24,7 @@ namespace shape
 	{
 	public:
 		PlatformRingShape(unsigned radius, unsigned complexity);
-		void generate(raz::Random& random, Platforms& platforms) const;
+		void generate(uint64_t seed, Platforms& platforms) const;
 		void generate(const Platforms& platforms, gfx::core::MeshBuffer<>& meshbuffer) const;
 
 	private:

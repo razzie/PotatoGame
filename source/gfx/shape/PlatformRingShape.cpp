@@ -4,6 +4,7 @@
  * Proprietary and confidential
  */
 
+#include <raz/random.hpp>
 #include "common/PI.hpp"
 #include "common/GLlerp.hpp"
 #include "gfx/shape/WireShape.hpp"
@@ -58,8 +59,9 @@ gfx::shape::PlatformRingShape::PlatformRingShape(unsigned radius, unsigned compl
 {
 }
 
-void gfx::shape::PlatformRingShape::generate(raz::Random& random, Platforms& platforms) const
+void gfx::shape::PlatformRingShape::generate(uint64_t seed, Platforms& platforms) const
 {
+	raz::Random random(seed);
 	float global_height = 0.75f * m_radius;
 	const unsigned inner_platform_count = m_radius * 3;
 	unsigned platform_count = inner_platform_count;
