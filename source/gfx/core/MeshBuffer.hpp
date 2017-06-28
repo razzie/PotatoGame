@@ -35,6 +35,13 @@ namespace core
 		{
 		}
 
+		MeshBuffer& operator=(MeshBuffer&& other)
+		{
+			vertices = std::move(other.vertices);
+			indices = std::move(other.indices);
+			return *this;
+		}
+
 		GL::Vec3* getVector(VertexType* vertex, const VertexAttribute* attrib)
 		{
 			if (attrib->type != GL::Type::Float || attrib->count != 3)

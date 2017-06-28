@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <future>
 #include <GL/Math/Vec2.hpp>
 #include "gfx/scene/model/Model.hpp"
 #include "gfx/shape/PlatformRingShape.hpp"
@@ -20,12 +21,14 @@ namespace model
 	{
 	public:
 		HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, uint32_t size, GL::Vec2 position);
-		uint64_t getSeed() const;
 		bool getPlatform(size_t platform_id, gfx::shape::PlatformShape& platform) const;
+		void render(MaterialType& material, GL::Context& gl);
 
 	private:
-		uint64_t m_seed;
 		gfx::shape::Platforms m_platforms;
+		std::future<gfx::core::MeshBuffer<>> m_async_mesh;
+
+		static gfx::core::MeshBuffer<> generate(uint64_t seed, unsigned size, unsigned complexity);
 	};
 }
 }
