@@ -44,18 +44,16 @@ void gfx::shape::WireShape::generate(gfx::core::MeshBuffer<>& meshbuffer) const
 		float pitch = acos(direction.Y);
 		float yaw = atan2(direction.Z, direction.X);
 
+		GL::Vec3 axis(std::sin(yaw), 0.f, -std::cos(yaw));
+
 		GL::Mat4 mat;
 		mat.Translate(p);
-		mat.RotateX(pitch);
+		mat.Rotate(axis, pitch);
 		mat.RotateY(yaw);
 
 		gfx::core::Vertex v1{ mat * p1, GL::Vec3(), m_color };
 		gfx::core::Vertex v2{ mat * p2, GL::Vec3(), m_color };
 		gfx::core::Vertex v3{ mat * p3, GL::Vec3(), m_color };
-
-		v1.normal = v1.position.Normal();
-		v2.normal = v2.position.Normal();
-		v3.normal = v3.position.Normal();
 
 		meshbuffer.vertices.push_back(v1);
 		meshbuffer.vertices.push_back(v2);
