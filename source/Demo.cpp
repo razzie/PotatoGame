@@ -4,13 +4,18 @@
  * Proprietary and confidential
  */
 
+#include <cmath>
 #include <ctime>
+#include <boost/polygon/voronoi_builder.hpp>
 #include <Windows.h>
+#include "common/PI.hpp"
+#include "common/Point2D.hpp"
 #include "game/event/entityevents.hpp"
 #include "Demo.hpp"
 #include "Potato.hpp"
 
 #define PLAYERS 3
+#define HUB_DISTANCE 32
 
 Demo::Demo(Potato& potato) :
 	m_potato(&potato),
@@ -19,33 +24,103 @@ Demo::Demo(Potato& potato) :
 	m_handler(potato),
 	m_progress(1)
 {
+	const unsigned radius = m_random(2u, 3u);
+	const unsigned complexity = m_random(5u, 8u);
+
+	const float angle_step = static_cast<float>(common::PI * 2 / complexity);
+	float angle_rad = 0.f;
+
+	boost::polygon::voronoi_builder<int> builder;
+
+	builder.insert_point(0, 0);
+
+	for (size_t i = 0; i < radius; ++i)
+	{
+		for (size_t j = 0; j < complexity; ++j)
+		{
+			float x = std::sin(angle_rad) * (HUB_DISTANCE * (i + 2)) + m_random(-4, 4);
+			float y = -std::cos(angle_rad) * (HUB_DISTANCE * (i + 2)) + m_random(-4, 4);
+
+			builder.insert_point((int)x, (int)y);
+			angle_rad += angle_step;
+		}
+
+		angle_rad += 0.5f * angle_step;
+	}
+
+	builder.construct(&m_diagram);
 }
 
 void Demo::operator()()
 {
-	if (m_timer.peekElapsed() > 1500)
+	if (m_progress < m_diagram.vertices().size() && m_timer.peekElapsed() > 1500)
 	{
-		m_timer.reset();
+		auto& vertex = m_diagram.vertices()[m_progress];
 
-		auto result = m_entities.addHub(m_random(), m_random(5u, 7u), { 30.f * m_progress, m_random(-15.f, 15.f) });
-		if (!result)
+		if (vertex.is_degenerate())
 			return;
 
-		uint32_t hub = result.entity.id;
+		auto* edge = vertex.incident_edge();
+		do {
+			edge = edge->next();
+			addHub(*edge);
+		} while (edge != vertex.incident_edge());
 
-		if (hub > 0)
-			m_entities.addTransport(hub - 1, hub);
+		if (vertex.color())
+			populateHub(vertex.color());
 
-		game::entity::Entity::Platform platform;
-		platform.hub_id = hub;
-		m_entities.getRandomEmptyPlatform(m_random, game::entity::Entity::Type::SPAWN, platform);
-		m_entities.addSpawn(platform, (m_random() % 2) ? -1 : m_random(-1, PLAYERS - 1));
-
-		for (int i = 0; i < 10; ++i)
-			addRandomEntity(hub);
-
+		m_timer.reset();
 		++m_progress;
 	}
+
+	std::this_thread::yield();
+}
+
+const boost::polygon::voronoi_vertex<double>& Demo::findCloseVertex(const boost::polygon::voronoi_vertex<double>& v) const
+{
+	if (v.color())
+		return v;
+
+	common::Point2D<double> p1{ v.vertex().x(), v.vertex().y() };
+
+	for (auto& vertex : m_diagram.vertices())
+	{
+		common::Point2D<double> p2{ vertex.vertex().x(), vertex.vertex().y() };
+		if (p1.getDistanceFromSq(p2) < 100 && vertex.color())
+			return vertex;
+	}
+
+	return v;
+}
+
+void Demo::addHub(const boost::polygon::voronoi_vertex<double>& v)
+{
+	if (!v.is_degenerate() && !v.color())
+	{
+		auto result = m_entities.addHub(m_random(), m_random(5u, 7u), { (float)v.vertex().x(), (float)v.vertex().y() });
+		v.color(result.entity.id);
+	}
+}
+
+void Demo::addHub(const boost::polygon::voronoi_edge<double>& e)
+{
+	auto* v1 = e.vertex0();
+	auto* v2 = e.vertex1();
+
+	if (v1)
+	{
+		v1 = &findCloseVertex(*v1);
+		addHub(*v1);
+	}
+
+	if (v2)
+	{
+		v2 = &findCloseVertex(*v2);
+		addHub(*v2);
+	}
+
+	if (v1 && v2 && v1->color() && v2->color())
+		m_entities.addTransport(v1->color(), v2->color());
 }
 
 void Demo::addRandomEntity(uint32_t hub)
@@ -98,4 +173,15 @@ void Demo::addRandomEntity(uint32_t hub)
 		}
 		break;
 	}
+}
+
+void Demo::populateHub(uint32_t hub)
+{
+	game::entity::Entity::Platform platform;
+	platform.hub_id = hub;
+	m_entities.getRandomEmptyPlatform(m_random, game::entity::Entity::Type::SPAWN, platform);
+	m_entities.addSpawn(platform, (m_random() % 2) ? -1 : m_random(-1, PLAYERS - 1));
+
+	for (int i = 0; i < 10; ++i)
+		addRandomEntity(hub);
 }
