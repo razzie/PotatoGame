@@ -15,7 +15,7 @@
 #include "Potato.hpp"
 
 #define PLAYERS 3
-#define HUB_DISTANCE 32
+#define HUB_DISTANCE 48
 
 Demo::Demo(Potato& potato) :
 	m_potato(&potato),
@@ -24,7 +24,7 @@ Demo::Demo(Potato& potato) :
 	m_handler(potato),
 	m_progress(1)
 {
-	const unsigned radius = m_random(2u, 3u);
+	const unsigned radius = m_random(3u, 4u);
 	const unsigned complexity = m_random(5u, 8u);
 
 	const float angle_step = static_cast<float>(common::PI * 2 / complexity);
@@ -38,8 +38,8 @@ Demo::Demo(Potato& potato) :
 	{
 		for (size_t j = 0; j < complexity; ++j)
 		{
-			float x = std::sin(angle_rad) * (HUB_DISTANCE * (i + 2)) + m_random(-4, 4);
-			float y = -std::cos(angle_rad) * (HUB_DISTANCE * (i + 2)) + m_random(-4, 4);
+			float x = std::sin(angle_rad) * (HUB_DISTANCE * (i + 1)) + m_random(-8, 8);
+			float y = -std::cos(angle_rad) * (HUB_DISTANCE * (i + 1)) + m_random(-8, 8);
 
 			builder.insert_point((int)x, (int)y);
 			angle_rad += angle_step;
@@ -53,12 +53,15 @@ Demo::Demo(Potato& potato) :
 
 void Demo::operator()()
 {
-	if (m_progress < m_diagram.vertices().size() && m_timer.peekElapsed() > 1500)
+	if (m_progress < m_diagram.vertices().size() && m_timer.peekElapsed() > 1000)
 	{
 		auto& vertex = m_diagram.vertices()[m_progress];
 
 		if (vertex.is_degenerate())
+		{
+			++m_progress;
 			return;
+		}
 
 		auto* edge = vertex.incident_edge();
 		do {
@@ -86,7 +89,7 @@ const boost::polygon::voronoi_vertex<double>& Demo::findCloseVertex(const boost:
 	for (auto& vertex : m_diagram.vertices())
 	{
 		common::Point2D<double> p2{ vertex.vertex().x(), vertex.vertex().y() };
-		if (p1.getDistanceFromSq(p2) < 100 && vertex.color())
+		if (p1.getDistanceFromSq(p2) < 400 && vertex.color())
 			return vertex;
 	}
 
@@ -97,7 +100,7 @@ void Demo::addHub(const boost::polygon::voronoi_vertex<double>& v)
 {
 	if (!v.is_degenerate() && !v.color())
 	{
-		auto result = m_entities.addHub(m_random(), m_random(5u, 7u), { (float)v.vertex().x(), (float)v.vertex().y() });
+		auto result = m_entities.addHub(m_random(), m_random(4u, 9u), { (float)v.vertex().x(), (float)v.vertex().y() });
 		v.color(result.entity.id);
 	}
 }
