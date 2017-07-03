@@ -38,7 +38,9 @@ void main()
 	
 	if (position.y < 1.0)
 	{
-		float horizon = smoothstep(0.4, 0.6, Noise3D(position + vec3(time, time, 0.0), 4.0)) * 0.05 + 0.95;
+		float horizon = smoothstep(0.4, 0.6, Noise3D(position + vec3(time, time, 0.0), 4.0)) * 0.05;
+		horizon += smoothstep(0.4, 0.6, Noise3D(position + vec3(time, time * 0.5, 0.0), 2.0)) * 0.05;
+		horizon += 0.9;
 		color = mix(vec3(horizon), color, position.y);
 	}
 	
