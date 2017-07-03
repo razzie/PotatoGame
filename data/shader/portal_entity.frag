@@ -1,13 +1,14 @@
 #version 150
 
 uniform float time;
+uniform vec4 diffuse_color;
 
 in vec3 frag_position;
 in vec3 frag_local_position;
 
-out vec3 out_color;
-out vec3 out_normal;
-out vec3 out_position;
+out vec4 out_color;
+out vec4 out_normal;
+out vec4 out_position;
 
 float Noise3D(in vec3 coord, in float wavelength);
 
@@ -18,9 +19,9 @@ void main()
 	if (noise > 0.75 * (1.0 - (frag_local_position.y * 0.5)))
 		discard;
 
-	out_color = vec3(0.0);
-	out_normal = vec3(0.0);
-	out_position = frag_position;
+	out_color = diffuse_color;
+	out_normal = vec4(vec3(0.0), 1.0);
+	out_position = vec4(frag_position, 1.0);
 }
 
 float rand3D(in vec3 co)

@@ -110,7 +110,7 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 	float height = pos.Y * random(0.8f, 1.2f);
 	auto* edge = cell.incident_edge();
 
-	GL::Color color = random(0, 1) ? GL::Color(224, 224, 224) : GL::Color(128, 128, 128);
+	GL::Color color = random(0, 1) ? GL::Color(0, 0, 0, 32) : GL::Color(192, 192, 192, 64);
 
 	do
 	{

@@ -14,10 +14,11 @@ out vec4 out_color;
 
 float Noise3D(in vec3 coord, in float wavelength);
 float GetEdgeWeight();
+float horizon(in vec3 position);
 
 void main()
 {
-	vec4 fog_color = vec4(vec3(1.0), 1.0);
+	vec4 fog_color = vec4(vec3(0.0), 1.0);
 
 	float depth = texture(depth_tex, frag_position).r;
 	if (depth == 1.0)
@@ -26,20 +27,29 @@ void main()
 		return;
 	}
 	
-	vec3 color = texture(color_tex, frag_position).rgb;
+	vec4 color_rgba = texture(color_tex, frag_position);
+	vec3 color = color_rgba.rgb;
 	vec3 normal = texture(normal_tex, frag_position).xyz;
 	vec3 position = texture(position_tex, frag_position).xyz;
 	
 	float light = dot(normalize(camera - position), normal);
 	color = mix(color, vec3(1.0), light * light * 0.5);
 	
+	if (color_rgba.a < 1.0)
+	{
+		float noise = horizon(position);
+		color = mix(vec3(noise), color, color_rgba.a);
+	}
+	
 	float outline = 1.0 - GetEdgeWeight();
-	color *= outline;
+	color *= outline * 0.5 + 0.5;
+	//color *= outline;
+	//color = mix(vec3(1.0), color, outline);
 	
 	if (position.y < 1.0)
 	{
-		float horizon = smoothstep(0.4, 0.6, Noise3D(position + vec3(time, time, 0.0), 4.0)) * 0.05 + 0.95;
-		color = mix(vec3(horizon), color, position.y);
+		float noise = horizon(position);
+		color = mix(vec3(noise), color, position.y);
 	}
 	
 	float distance = length(camera - position);
@@ -151,4 +161,11 @@ float GetEdgeWeight()
 	normalResults = max(normalResults, depthResults);
 
 	return dot(normalResults, vec4(1.0, 1.0, 1.0, 1.0)) * 0.25;
+}
+
+float horizon(in vec3 position)
+{
+	float noise = smoothstep(0.4, 0.6, Noise3D(position + vec3(time, time, 0.0), 4.0)) * 0.05;
+	noise += smoothstep(0.4, 0.6, Noise3D(position + vec3(time, time, 0.0), 2.0)) * 0.05;
+	return noise;
 }
