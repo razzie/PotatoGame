@@ -30,7 +30,7 @@ void gfx::shape::PlatformShape::generate(gfx::core::MeshBuffer<>& meshbuffer) co
 
 	GL::Vec3 edges[MAX_EDGES];
 	size_t num_edges = random(5u, MAX_EDGES);
-	uint8_t shade = (uint8_t)random(192u, 240u);
+	uint8_t shade = (uint8_t)random(192u, 255u);
 	GL::Color color(shade, shade, shade);
 
 	const float angle_step = static_cast<float>(common::PI * 2 / num_edges);
@@ -84,7 +84,7 @@ void gfx::shape::PlatformShape::generate(gfx::core::MeshBuffer<>& meshbuffer) co
 	}
 
 	// adding platform body
-	color = GL::Color(64, 64, 64);
+	color = GL::Color(128, 128, 128);
 	for (size_t level = 0, levels = random(3u, 4u); level < levels; ++level)
 	{
 		base_index = (uint16_t)meshbuffer.vertices.size() - num_edges;

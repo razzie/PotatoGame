@@ -48,7 +48,7 @@ static void insertWires(const gfx::shape::Platforms& platforms, raz::Random& ran
 	
 		p1.Y -= 0.75f;
 	
-		gfx::shape::WireShape wire(p1, p2, 8, 0.25f * radius, 0.125f, GL::Color(128, 128, 128));
+		gfx::shape::WireShape wire(p1, p2, 8, 0.25f * radius);
 		wire.generate(meshbuffer);
 	}
 }
