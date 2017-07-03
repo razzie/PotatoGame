@@ -23,14 +23,14 @@ gfx::scene::model::PortalModel::PortalModel(Scene& scene, uint32_t id, uint32_t 
 	float angle_rad = 0.f;
 	uint16_t base_index = (uint16_t)meshbuffer.vertices.size();
 
-	meshbuffer.vertices.push_back(gfx::core::Vertex{ GL::Vec3(0.f, 2.f, 0.f), GL::Vec3(), GL::Color() });
+	meshbuffer.vertices.push_back(gfx::core::Vertex{ GL::Vec3(0.f, 2.f, 0.f), GL::Vec3(), GL::Color(255, 255, 255) });
 
 	for (unsigned i = 0; i < edges; ++i)
 	{
 		float x = 0.25f * std::sin(angle_rad);
 		float z = 0.25f * -std::cos(angle_rad);
 
-		gfx::core::Vertex v{ GL::Vec3(x, 0.f, z), GL::Vec3(), GL::Color() };
+		gfx::core::Vertex v{ GL::Vec3(x, 0.f, z), GL::Vec3(), GL::Color(255, 255, 255) };
 		meshbuffer.vertices.push_back(v);
 
 		angle_rad += angle_step;
@@ -44,4 +44,5 @@ gfx::scene::model::PortalModel::PortalModel(Scene& scene, uint32_t id, uint32_t 
 	getMesh() = meshbuffer;
 
 	setPosition(platform.center);
+	setColor(GL::Color(128, 128, 128));
 }

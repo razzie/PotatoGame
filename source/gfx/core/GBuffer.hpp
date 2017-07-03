@@ -7,8 +7,6 @@
 #pragma once
 
 #include <array>
-//#include <GL/GL/Texture.hpp>
-//#include <GL/GL/Renderbuffer.hpp>
 #include <GL/GL/Framebuffer.hpp>
 
 #define PUSHSTATE() GLint restoreId; glGetIntegerv( GL_DRAW_FRAMEBUFFER_BINDING, &restoreId );
@@ -42,7 +40,7 @@ namespace core
 			{
 				// Create texture to hold color buffer
 				GL::Texture& tex = m_attachments[i];
-				tex.Image2D(0, GL::DataType::Float, GL::Format::RGB, width, height, GL::InternalFormat::RGB32F);
+				tex.Image2D(0, GL::DataType::Float, GL::Format::RGBA, width, height, GL::InternalFormat::RGBA16F);
 				tex.SetWrapping(GL::Wrapping::ClampEdge, GL::Wrapping::ClampEdge);
 				tex.SetFilters(GL::Filter::Linear, GL::Filter::Linear);
 				glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, tex, 0);
