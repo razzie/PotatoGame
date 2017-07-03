@@ -26,7 +26,7 @@ gfx::scene::model::TransportModel::TransportModel(Scene& scene, uint32_t id, uin
 		p1.Y -= 0.25f;
 		p2.Y -= 0.25f;
 
-		shape::WireShape wire(p1, p2, 8, random(0.5f, 3.f), 0.125f, GL::Color(128, 128, 128));
+		shape::WireShape wire(p1, p2, 8, random(0.5f, 3.f));
 		wire.generate(meshbuffer);
 	}
 
