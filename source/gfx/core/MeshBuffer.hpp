@@ -53,7 +53,7 @@ namespace core
 
 		GL::Vec3* getVector(VertexType* vertex, const char* attrib_name)
 		{
-			const gx::VertexAttribute* attrib = getVertexAttributeByName<VertexType>(attrib_name);
+			const gfx::core::VertexAttribute* attrib = getVertexAttributeByName<VertexType>(attrib_name);
 			if (attrib == nullptr)
 				return nullptr;
 
@@ -76,7 +76,7 @@ namespace core
 
 		bool transform(const GL::Mat4& matrix, const char* attrib_name)
 		{
-			const gx::VertexAttribute* attrib = getVertexAttributeByName<VertexType>(attrib_name);
+			const gfx::core::VertexAttribute* attrib = getVertexAttributeByName<VertexType>(attrib_name);
 			if (attrib == nullptr)
 				return nullptr;
 

@@ -6,6 +6,7 @@
 
 #include "gfx/scene/Scene.hpp"
 #include "gfx/scene/model/HubModel.hpp"
+#include "gfx/shape/CreatureShape.hpp"
 #include "gfx/shape/VoronoiPillarShape.hpp"
 
 gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, uint32_t size, GL::Vec2 position) :
@@ -57,9 +58,15 @@ void gfx::scene::model::HubModel::render(MaterialType& material, GL::Context& gl
 gfx::core::MeshBuffer<> gfx::scene::model::HubModel::generate(uint64_t seed, unsigned size, unsigned complexity)
 {
 	core::MeshBuffer<> meshbuffer;
+	raz::Random random(seed);
+
+	gfx::shape::CreatureShape creature(random);
+	creature.generate(meshbuffer);
+	GL::Mat4 mat;
+	mat.Scale({ (float)size, (float)size, (float)size });
+	meshbuffer.transform(mat, "position");
 
 	gfx::shape::VoronoiPillarShape pillar((float)size, complexity);
-	raz::Random random(seed);
 	pillar.generate(random, meshbuffer);
 
 	gfx::shape::PlatformRingShape platformring(size, complexity);

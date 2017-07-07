@@ -90,7 +90,7 @@ static size_t getVoronoiCellPointCount(const boost::polygon::voronoi_cell<double
 			auto point = getVoronoiEdgePoint(edge);
 			float distance = point.getDistanceFrom({ 0.f, 0.f });
 
-			if (distance < radius)
+			if (distance < radius && distance > radius * 0.25f)
 				++valid_points;
 		}
 
@@ -119,7 +119,7 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 			auto point = getVoronoiEdgePoint(edge);
 			float distance = point.getDistanceFrom(center);
 
-			if (distance < radius)
+			if (distance < radius && distance > radius * 0.25f)
 			{
 				gfx::core::Vertex v{ GL::Vec3(point.x, 0.f, point.y), GL::Vec3(0.f, 1.f, 0.f), color };
 				meshbuffer.vertices.push_back(v);
@@ -139,7 +139,7 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 	else
 	{
 		uint16_t base_index = (uint16_t)meshbuffer.vertices.size() - points_inserted;
-		float radius = random(0.f, 0.5f);
+		float radius = random(1.0f, 1.25f);
 
 		// duplicating vertices for top
 		for (unsigned i = base_index, len = meshbuffer.vertices.size(); i < len; ++i)
@@ -151,7 +151,7 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 			v.position.X = 0.5f * std::cbrt(0.75f * v.position.X) + (pos.X * radius);
 			v.position.Z = 0.5f * std::cbrt(0.75f * v.position.Z) + (pos.Z * radius);
 
-			v.position.Y = 3.f * height + 0.25f * (radius - distance);
+			v.position.Y = height + 0.25f * (radius - distance);
 
 			v.color = color;
 

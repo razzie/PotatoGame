@@ -36,7 +36,8 @@ static void insertWires(const gfx::shape::Platforms& platforms, raz::Random& ran
 		p1.Y -= 0.25f;
 		p2.Y -= 0.25f;
 	
-		gfx::shape::WireShape wire(p1, p2, 8, 0.25f * distance);
+		uint8_t shade = (uint8_t)random(128u, 240u);
+		gfx::shape::WireShape wire(p1, p2, 8, 0.25f * distance, random(0.0625f, 0.125f), GL::Color(shade, shade, shade));
 		wire.generate(meshbuffer);
 	}
 	
@@ -44,11 +45,12 @@ static void insertWires(const gfx::shape::Platforms& platforms, raz::Random& ran
 	{
 		auto& platform = platforms[random(0u, max_platform)];
 		GL::Vec3 p1 = platform.center;
-		GL::Vec3 p2 { 0.f, random(0.f, 0.25f * radius), 0.f };
+		GL::Vec3 p2 { 0.f, random(0.5f, 0.75f) * radius, 0.f };
 	
 		p1.Y -= 0.75f;
 	
-		gfx::shape::WireShape wire(p1, p2, 8, 0.25f * radius);
+		uint8_t shade = (uint8_t)random(128u, 240u);
+		gfx::shape::WireShape wire(p1, p2, 8, 0.25f * radius, random(0.0625f, 0.25f), GL::Color(shade, shade, shade));
 		wire.generate(meshbuffer);
 	}
 }
