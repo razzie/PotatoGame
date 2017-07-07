@@ -26,9 +26,9 @@ void main()
 		return;
 	}
 	
-	vec3 color = texture(color_tex, frag_position).rgb;
 	vec3 normal = texture(normal_tex, frag_position).xyz;
 	vec3 position = texture(position_tex, frag_position).xyz;
+	vec3 color = texture(color_tex, frag_position).rgb * 0.8 + normal * 0.1 + normalize(position) * 0.1;
 	
 	float light = dot(normalize(camera - position), normal);
 	color = mix(color, vec3(1.0), light * light * 0.5);
