@@ -103,8 +103,8 @@ vec4 fxaa(sampler2D tex, vec2 fragCoord, vec2 resolution,
 void main()
 {
 	vec2 resolution = textureSize(color_tex, 0);
-	vec2 uvx = vec2(1.0 / resolution.x, 0.0);
-	vec2 uvy = vec2(0.0, 1.0 / resolution.y);
+	vec2 uvx = vec2(0.5 / resolution.x, 0.0);
+	vec2 uvy = vec2(0.0, 0.5 / resolution.y);
 
 	out_color = fxaa(color_tex, frag_position * resolution, resolution,
 		frag_position - uvy - uvx, frag_position - uvy + uvx,
