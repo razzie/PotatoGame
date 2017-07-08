@@ -8,12 +8,10 @@
 
 #include <future>
 #include <GL/Math/Vec2.hpp>
-#include "gfx/scene/model/Model.hpp"
+#include "gfx/model/Model.hpp"
 #include "gfx/shape/PlatformRingShape.hpp"
 
 namespace gfx
-{
-namespace scene
 {
 namespace model
 {
@@ -30,6 +28,5 @@ namespace model
 
 		static gfx::core::MeshBuffer<> generate(uint64_t seed, unsigned size, unsigned complexity);
 	};
-}
 }
 }

@@ -6,19 +6,16 @@
 
 #pragma once
 
-#include "gfx/scene/model/Model.hpp"
+#include "gfx/model/Model.hpp"
 
 namespace gfx
 {
-namespace scene
-{
 namespace model
 {
-	class ResourceModel : public Model<>
+	class TransportModel : public Model<>
 	{
 	public:
-		ResourceModel(Scene& scene, uint32_t id, uint32_t value, uint32_t hub_id, uint32_t platform_id);
+		TransportModel(gfx::scene::Scene& scene, uint32_t id, uint32_t hub1_id, uint32_t hub1_platform_id, uint32_t hub2_id, uint32_t hub2_platform_id);
 	};
-}
 }
 }

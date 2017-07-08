@@ -6,19 +6,16 @@
 
 #pragma once
 
-#include "gfx/scene/model/Model.hpp"
+#include "gfx/model/Model.hpp"
 
 namespace gfx
 {
-namespace scene
-{
 namespace model
 {
-	class ChargeModel : public Model<>
+	class TraceModel : public Model<>
 	{
 	public:
-		ChargeModel(Scene& scene, uint32_t id, uint32_t hub_id, uint32_t platform_id);
+		TraceModel(gfx::scene::Scene& scene, uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id);
 	};
-}
 }
 }

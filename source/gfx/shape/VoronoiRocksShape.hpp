@@ -15,10 +15,10 @@ namespace gfx
 {
 namespace shape
 {
-	class VoronoiPillarShape
+	class VoronoiRocksShape
 	{
 	public:
-		VoronoiPillarShape(float radius, unsigned complexity);
+		VoronoiRocksShape(float radius, unsigned complexity);
 		void generate(raz::Random& random, gfx::core::MeshBuffer<>& meshbuffer) const;
 
 	private:

@@ -16,10 +16,10 @@ namespace scene
 {
 	class Scene;
 
-	class CameraManager
+	class FreeCameraController
 	{
 	public:
-		CameraManager();
+		FreeCameraController();
 		bool feed(const GL::Event& ev, const common::InputHelper& helper);
 		void update(Scene& scene);
 
