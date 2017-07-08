@@ -5,11 +5,11 @@
  */
 
 #include "gfx/scene/Scene.hpp"
-#include "gfx/scene/model/HubModel.hpp"
+#include "gfx/model/HubModel.hpp"
 #include "gfx/shape/CreatureShape.hpp"
-#include "gfx/shape/VoronoiPillarShape.hpp"
+#include "gfx/shape/VoronoiRocksShape.hpp"
 
-gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, uint32_t size, GL::Vec2 position) :
+gfx::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t seed, uint32_t size, GL::Vec2 position) :
 	Model(id),
 	m_platforms(scene.getMemoryPool())
 {
@@ -25,7 +25,7 @@ gfx::scene::model::HubModel::HubModel(scene::Scene& scene, uint32_t id, uint64_t
 	setColor(GL::Color(224, 224, 224));
 }
 
-bool gfx::scene::model::HubModel::getPlatform(size_t platform_id, gfx::shape::PlatformShape& platform) const
+bool gfx::model::HubModel::getPlatform(size_t platform_id, gfx::shape::PlatformShape& platform) const
 {
 	if (platform_id < m_platforms.size())
 	{
@@ -36,7 +36,7 @@ bool gfx::scene::model::HubModel::getPlatform(size_t platform_id, gfx::shape::Pl
 	return false;
 }
 
-void gfx::scene::model::HubModel::render(MaterialType& material, GL::Context& gl)
+void gfx::model::HubModel::render(MaterialType& material, GL::Context& gl)
 {
 	auto& mesh = getMesh();
 	if (mesh)
@@ -55,7 +55,7 @@ void gfx::scene::model::HubModel::render(MaterialType& material, GL::Context& gl
 	}
 }
 
-gfx::core::MeshBuffer<> gfx::scene::model::HubModel::generate(uint64_t seed, unsigned size, unsigned complexity)
+gfx::core::MeshBuffer<> gfx::model::HubModel::generate(uint64_t seed, unsigned size, unsigned complexity)
 {
 	core::MeshBuffer<> meshbuffer;
 	raz::Random random(seed);
@@ -66,7 +66,7 @@ gfx::core::MeshBuffer<> gfx::scene::model::HubModel::generate(uint64_t seed, uns
 	mat.Scale({ (float)size, (float)size, (float)size });
 	meshbuffer.transform(mat, "position");
 
-	gfx::shape::VoronoiPillarShape pillar((float)size, complexity);
+	gfx::shape::VoronoiRocksShape pillar((float)size, complexity);
 	pillar.generate(random, meshbuffer);
 
 	gfx::shape::PlatformRingShape platformring(size, complexity);

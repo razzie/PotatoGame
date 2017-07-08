@@ -11,11 +11,9 @@
 #include <GL/Math/Mat4.hpp>
 #include "gfx/core/Mesh.hpp"
 #include "gfx/core/Material.hpp"
-#include "gfx/scene/animator/Animator.hpp"
+#include "gfx/model/animator/Animator.hpp"
 
 namespace gfx
-{
-namespace scene
 {
 namespace model
 {
@@ -115,7 +113,7 @@ namespace model
 			return m_mesh;
 		}
 
-		gfx::scene::animator::Animator<Model>& getAnimator()
+		gfx::model::animator::Animator<Model>& getAnimator()
 		{
 			return m_animator;
 		}
@@ -149,8 +147,7 @@ namespace model
 		mutable bool m_dirty;
 		GL::Color m_color;
 		gfx::core::Mesh m_mesh;
-		gfx::scene::animator::Animator<Model> m_animator;
+		gfx::model::animator::Animator<Model> m_animator;
 	};
-}
 }
 }

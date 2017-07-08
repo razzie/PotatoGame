@@ -7,9 +7,9 @@
 #include <cmath>
 #include "common/PI.hpp"
 #include "gfx/scene/Scene.hpp"
-#include "gfx/scene/model/PortalModel.hpp"
+#include "gfx/model/PortalModel.hpp"
 
-gfx::scene::model::PortalModel::PortalModel(Scene& scene, uint32_t id, uint32_t hub_id, uint32_t platform_id) :
+gfx::model::PortalModel::PortalModel(gfx::scene::Scene& scene, uint32_t id, uint32_t hub_id, uint32_t platform_id) :
 	Model(id)
 {
 	gfx::shape::PlatformShape platform;

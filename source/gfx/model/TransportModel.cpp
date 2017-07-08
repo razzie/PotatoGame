@@ -7,9 +7,9 @@
 #include <raz/random.hpp>
 #include "gfx/scene/Scene.hpp"
 #include "gfx/shape/WireShape.hpp"
-#include "gfx/scene/model/TransportModel.hpp"
+#include "gfx/model/TransportModel.hpp"
 
-gfx::scene::model::TransportModel::TransportModel(Scene& scene, uint32_t id, uint32_t hub1_id, uint32_t hub1_platform_id, uint32_t hub2_id, uint32_t hub2_platform_id) :
+gfx::model::TransportModel::TransportModel(gfx::scene::Scene& scene, uint32_t id, uint32_t hub1_id, uint32_t hub1_platform_id, uint32_t hub2_id, uint32_t hub2_platform_id) :
 	Model(id)
 {
 	gfx::shape::PlatformShape platform1, platform2;

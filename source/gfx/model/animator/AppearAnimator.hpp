@@ -10,7 +10,7 @@
 
 namespace gfx
 {
-namespace scene
+namespace model
 {
 namespace animator
 {

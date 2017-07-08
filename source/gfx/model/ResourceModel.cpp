@@ -7,9 +7,9 @@
 #include <raz/random.hpp>
 #include "gfx/shape/SphereShape.hpp"
 #include "gfx/scene/Scene.hpp"
-#include "gfx/scene/model/ResourceModel.hpp"
+#include "gfx/model/ResourceModel.hpp"
 
-gfx::scene::model::ResourceModel::ResourceModel(Scene& scene, uint32_t id, uint32_t value, uint32_t hub_id, uint32_t platform_id) :
+gfx::model::ResourceModel::ResourceModel(gfx::scene::Scene& scene, uint32_t id, uint32_t value, uint32_t hub_id, uint32_t platform_id) :
 	Model(id)
 {
 	gfx::shape::PlatformShape platform;

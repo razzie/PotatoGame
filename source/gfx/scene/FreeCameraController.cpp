@@ -7,9 +7,9 @@
 #include "common/equals.hpp"
 #include "common/GLlerp.hpp"
 #include "gfx/scene/Scene.hpp"
-#include "gfx/scene/CameraManager.hpp"
+#include "gfx/scene/FreeCameraController.hpp"
 
-gfx::scene::CameraManager::CameraManager() :
+gfx::scene::FreeCameraController::FreeCameraController() :
 	m_cam_movement(0.f, 0.f),
 	m_cam_prev_movement(0.f, 0.f),
 	m_cam_rotation(0.f, 0.f),
@@ -17,7 +17,7 @@ gfx::scene::CameraManager::CameraManager() :
 {
 }
 
-bool gfx::scene::CameraManager::feed(const GL::Event& ev, const common::InputHelper& helper)
+bool gfx::scene::FreeCameraController::feed(const GL::Event& ev, const common::InputHelper& helper)
 {
 	if (ev.Type == GL::Event::KeyDown)
 	{
@@ -73,7 +73,7 @@ bool gfx::scene::CameraManager::feed(const GL::Event& ev, const common::InputHel
 	return false;
 }
 
-void gfx::scene::CameraManager::update(Scene& scene)
+void gfx::scene::FreeCameraController::update(Scene& scene)
 {
 	auto& cam = scene.getCamera();
 

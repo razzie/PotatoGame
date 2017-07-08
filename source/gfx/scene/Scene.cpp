@@ -9,7 +9,7 @@
 #include "common/ColorGenerator.hpp"
 #include "gfx/RenderThread.hpp"
 #include "gfx/scene/Scene.hpp"
-#include "gfx/scene/model/HubModel.hpp"
+#include "gfx/model/HubModel.hpp"
 
 gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	m_render_thread(render_thread),
@@ -135,12 +135,12 @@ void gfx::scene::Scene::reset()
 }
 
 
-gfx::scene::model::HubModel* gfx::scene::Scene::addHub(uint32_t id, uint64_t seed, uint32_t size, GL::Vec2 position)
+gfx::model::HubModel* gfx::scene::Scene::addHub(uint32_t id, uint64_t seed, uint32_t size, GL::Vec2 position)
 {
 	return m_hubs.add(*this, id, seed, size, position);
 }
 
-gfx::scene::model::HubModel* gfx::scene::Scene::getHub(uint32_t id)
+gfx::model::HubModel* gfx::scene::Scene::getHub(uint32_t id)
 {
 	return m_hubs.get(id);
 }
@@ -170,23 +170,23 @@ bool gfx::scene::Scene::getPlatform(uint32_t hub_id, uint32_t platform_id, gfx::
 }
 
 
-gfx::scene::model::TransportModel* gfx::scene::Scene::addTransport(uint32_t id, uint32_t hub1_id, uint32_t hub1_platform_id, uint32_t hub2_id, uint32_t hub2_platform_id)
+gfx::model::TransportModel* gfx::scene::Scene::addTransport(uint32_t id, uint32_t hub1_id, uint32_t hub1_platform_id, uint32_t hub2_id, uint32_t hub2_platform_id)
 {
 	return m_transports.add(*this, id, hub1_id, hub1_platform_id, hub2_id, hub2_platform_id);
 }
 
-gfx::scene::model::TransportModel* gfx::scene::Scene::getTransport(uint32_t id)
+gfx::model::TransportModel* gfx::scene::Scene::getTransport(uint32_t id)
 {
 	return m_transports.get(id);
 }
 
 
-gfx::scene::model::ChargeModel* gfx::scene::Scene::addCharge(uint32_t id, uint32_t hub_id, uint32_t platform_id)
+gfx::model::ChargeModel* gfx::scene::Scene::addCharge(uint32_t id, uint32_t hub_id, uint32_t platform_id)
 {
 	return m_charges.add(*this, id, hub_id, platform_id);
 }
 
-gfx::scene::model::ChargeModel* gfx::scene::Scene::getCharge(uint32_t id)
+gfx::model::ChargeModel* gfx::scene::Scene::getCharge(uint32_t id)
 {
 	return m_charges.get(id);
 }
@@ -197,12 +197,12 @@ void gfx::scene::Scene::removeCharge(uint32_t id)
 }
 
 
-gfx::scene::model::ResourceModel* gfx::scene::Scene::addResource(uint32_t id, uint32_t value, uint32_t hub_id, uint32_t platform_id)
+gfx::model::ResourceModel* gfx::scene::Scene::addResource(uint32_t id, uint32_t value, uint32_t hub_id, uint32_t platform_id)
 {
 	return m_resources.add(*this, id, value, hub_id, platform_id);
 }
 
-gfx::scene::model::ResourceModel* gfx::scene::Scene::getResource(uint32_t id)
+gfx::model::ResourceModel* gfx::scene::Scene::getResource(uint32_t id)
 {
 	return m_resources.get(id);
 }
@@ -213,12 +213,12 @@ void gfx::scene::Scene::removeResource(uint32_t id)
 }
 
 
-gfx::scene::model::TraceModel* gfx::scene::Scene::addTrace(uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id)
+gfx::model::TraceModel* gfx::scene::Scene::addTrace(uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id)
 {
 	return m_traces.add(*this, id, color, hub_id, platform_id);
 }
 
-gfx::scene::model::TraceModel* gfx::scene::Scene::getTrace(uint32_t id)
+gfx::model::TraceModel* gfx::scene::Scene::getTrace(uint32_t id)
 {
 	return m_traces.get(id);
 }
@@ -229,12 +229,12 @@ void gfx::scene::Scene::removeTrace(uint32_t id)
 }
 
 
-gfx::scene::model::SpawnModel* gfx::scene::Scene::addSpawn(uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id)
+gfx::model::SpawnModel* gfx::scene::Scene::addSpawn(uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id)
 {
 	return m_spawns.add(*this, id, color, hub_id, platform_id);
 }
 
-gfx::scene::model::SpawnModel* gfx::scene::Scene::getSpawn(uint32_t id)
+gfx::model::SpawnModel* gfx::scene::Scene::getSpawn(uint32_t id)
 {
 	return m_spawns.get(id);
 }
@@ -247,23 +247,23 @@ void gfx::scene::Scene::changeSpawnColor(uint32_t id, GL::Color color)
 }
 
 
-gfx::scene::model::PortalModel* gfx::scene::Scene::addPortal(uint32_t id, uint32_t hub_id, uint32_t platform_id)
+gfx::model::PortalModel* gfx::scene::Scene::addPortal(uint32_t id, uint32_t hub_id, uint32_t platform_id)
 {
 	return m_portals.add(*this, id, hub_id, platform_id);
 }
 
-gfx::scene::model::PortalModel* gfx::scene::Scene::getPortal(uint32_t id)
+gfx::model::PortalModel* gfx::scene::Scene::getPortal(uint32_t id)
 {
 	return m_portals.get(id);
 }
 
 
-gfx::scene::model::TrapModel* gfx::scene::Scene::addTrap(uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id)
+gfx::model::TrapModel* gfx::scene::Scene::addTrap(uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id)
 {
 	return m_traps.add(*this, id, color, hub_id, platform_id);
 }
 
-gfx::scene::model::TrapModel* gfx::scene::Scene::getTrap(uint32_t id)
+gfx::model::TrapModel* gfx::scene::Scene::getTrap(uint32_t id)
 {
 	return m_traps.get(id);
 }
@@ -274,12 +274,12 @@ void gfx::scene::Scene::removeTrap(uint32_t id)
 }
 
 
-gfx::scene::model::CreatureModel* gfx::scene::Scene::addCreature(uint32_t id, uint64_t seed, GL::Color color, uint32_t hub_id, uint32_t platform_id)
+gfx::model::CreatureModel* gfx::scene::Scene::addCreature(uint32_t id, uint64_t seed, GL::Color color, uint32_t hub_id, uint32_t platform_id)
 {
 	return m_creatures.add(*this, id, seed, color, hub_id, platform_id);
 }
 
-gfx::scene::model::CreatureModel* gfx::scene::Scene::getCreature(uint32_t id)
+gfx::model::CreatureModel* gfx::scene::Scene::getCreature(uint32_t id)
 {
 	return m_creatures.get(id);
 }

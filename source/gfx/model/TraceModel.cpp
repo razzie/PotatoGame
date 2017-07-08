@@ -7,9 +7,9 @@
 #include <cmath>
 #include "common/PI.hpp"
 #include "gfx/scene/Scene.hpp"
-#include "gfx/scene/model/TraceModel.hpp"
+#include "gfx/model/TraceModel.hpp"
 
-gfx::scene::model::TraceModel::TraceModel(Scene& scene, uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id) :
+gfx::model::TraceModel::TraceModel(gfx::scene::Scene& scene, uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id) :
 	Model(id)
 {
 	gfx::shape::PlatformShape platform;

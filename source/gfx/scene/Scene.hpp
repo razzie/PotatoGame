@@ -15,17 +15,17 @@
 #include <raz/timer.hpp>
 #include "gfx/scene/PostFX.hpp"
 #include "gfx/scene/Camera.hpp"
-#include "gfx/scene/CameraManager.hpp"
+#include "gfx/scene/FreeCameraController.hpp"
 #include "gfx/scene/Horizon.hpp"
-#include "gfx/scene/model/HubModel.hpp"
-#include "gfx/scene/model/TransportModel.hpp"
-#include "gfx/scene/model/ChargeModel.hpp"
-#include "gfx/scene/model/ResourceModel.hpp"
-#include "gfx/scene/model/TraceModel.hpp"
-#include "gfx/scene/model/SpawnModel.hpp"
-#include "gfx/scene/model/PortalModel.hpp"
-#include "gfx/scene/model/TrapModel.hpp"
-#include "gfx/scene/model/CreatureModel.hpp"
+#include "gfx/model/HubModel.hpp"
+#include "gfx/model/TransportModel.hpp"
+#include "gfx/model/ChargeModel.hpp"
+#include "gfx/model/ResourceModel.hpp"
+#include "gfx/model/TraceModel.hpp"
+#include "gfx/model/SpawnModel.hpp"
+#include "gfx/model/PortalModel.hpp"
+#include "gfx/model/TrapModel.hpp"
+#include "gfx/model/CreatureModel.hpp"
 
 namespace gfx
 {
@@ -117,7 +117,7 @@ namespace scene
 				models.emplace_back(scene, std::forward<Args>(args)...);
 				T* model = &models.back();
 				model->getMesh().bindShader(material.shader);
-				model->animate(animator::AnimatorType::APPEAR, scene.getElapsedTime());
+				model->animate(gfx::model::animator::AnimatorType::APPEAR, scene.getElapsedTime());
 				return model;
 			}
 
@@ -183,7 +183,7 @@ namespace scene
 		float m_time;
 		PostFX::GBuffer m_gbuffer;
 		Camera m_cam;
-		CameraManager m_cam_mgr;
+		FreeCameraController m_cam_mgr;
 		Horizon m_horizon;
 		ModelContainer<model::HubModel> m_hubs;
 		ModelContainer<model::TransportModel> m_transports;

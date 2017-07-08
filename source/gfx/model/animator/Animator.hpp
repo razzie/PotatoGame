@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "gfx/scene/animator/AppearAnimator.hpp"
+#include "gfx/model/animator/AppearAnimator.hpp"
 
 namespace gfx
 {
-namespace scene
+namespace model
 {
 namespace animator
 {

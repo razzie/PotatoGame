@@ -4,11 +4,11 @@
  * Proprietary and confidential
  */
 
-#include "gfx/shape/SpikeShape.hpp"
+#include "gfx/shape/SphereShape.hpp"
 #include "gfx/scene/Scene.hpp"
-#include "gfx/scene/model/TrapModel.hpp"
+#include "gfx/model/ChargeModel.hpp"
 
-gfx::scene::model::TrapModel::TrapModel(Scene& scene, uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id) :
+gfx::model::ChargeModel::ChargeModel(gfx::scene::Scene& scene, uint32_t id, uint32_t hub_id, uint32_t platform_id) :
 	Model(id)
 {
 	gfx::shape::PlatformShape platform;
@@ -16,18 +16,12 @@ gfx::scene::model::TrapModel::TrapModel(Scene& scene, uint32_t id, GL::Color col
 		return;
 
 	core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
-	raz::Random random(platform.seed);
 
-	for (int i = 0, spikes = random(4u, 8u); i < spikes; ++i)
-	{
-		GL::Vec3 pos = platform.getRandomPosition(random) - platform.center;
-		gfx::shape::SpikeShape shape(pos, random(3, 5) * 0.0125f);
-		shape.generate(meshbuffer);
-	}
+	shape::SphereShape sphere(GL::Vec3(0.f, 0.2f, 0.f), 0.2f, 8, GL::Color(240, 240, 240));
+	sphere.generate(meshbuffer);
 
 	meshbuffer.recalculateNormals();
 	getMesh() = meshbuffer;
 
 	setPosition(platform.center);
-	setColor(color);
 }

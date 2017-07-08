@@ -6,19 +6,19 @@
 
 #pragma once
 
-#include "gfx/scene/model/Model.hpp"
+#include "gfx/model/Model.hpp"
 
 namespace gfx
 {
-namespace scene
-{
 namespace model
 {
-	class TransportModel : public Model<>
+	class TrapModel : public Model<>
 	{
 	public:
-		TransportModel(Scene& scene, uint32_t id, uint32_t hub1_id, uint32_t hub1_platform_id, uint32_t hub2_id, uint32_t hub2_platform_id);
+		TrapModel(gfx::scene::Scene& scene, uint32_t id, GL::Color color, uint32_t hub_id, uint32_t platform_id);
+
+	private:
+		GL::Color m_color;
 	};
-}
 }
 }

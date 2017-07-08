@@ -9,7 +9,7 @@
 #include <boost/polygon/voronoi_diagram.hpp>
 #include "common/Point2D.hpp"
 #include "common/PI.hpp"
-#include "gfx/shape/VoronoiPillarShape.hpp"
+#include "gfx/shape/VoronoiRocksShape.hpp"
 
 static constexpr size_t VORONOI_SCALE = 64;
 
@@ -193,13 +193,13 @@ static void insertVoronoiCell(const boost::polygon::voronoi_cell<double>& cell, 
 	}
 }
 
-gfx::shape::VoronoiPillarShape::VoronoiPillarShape(float radius, unsigned complexity) :
+gfx::shape::VoronoiRocksShape::VoronoiRocksShape(float radius, unsigned complexity) :
 	m_radius(radius),
 	m_complexity(complexity)
 {
 }
 
-void gfx::shape::VoronoiPillarShape::generate(raz::Random& random, gfx::core::MeshBuffer<>& meshbuffer) const
+void gfx::shape::VoronoiRocksShape::generate(raz::Random& random, gfx::core::MeshBuffer<>& meshbuffer) const
 {
 	boost::polygon::voronoi_diagram<double> diagram;
 
