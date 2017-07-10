@@ -48,8 +48,8 @@ namespace model
 			m_gl.UseProgram(container.material.shader);
 			container.material.time = m_time;
 			container.material.camera_mat = m_cam.getMatrix();
-			container.model.animate(material.time);
-			container.model.render(material, m_gl);
+			container.model.animate(container.material.time);
+			container.model.render(container.material, m_gl);
 		}
 
 	private:
