@@ -327,9 +327,6 @@
     <ClCompile Include="source\gfx\core\Vertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\gfx\scene\Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\gfx\scene\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -426,9 +423,6 @@
     <ClCompile Include="source\gfx\core\GBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\gfx\scene\PostFX.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\gfx\shape\PlatformShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -475,6 +469,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\gfx\model\TrapModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\gfx\model\ModelRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\gfx\core\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1118,9 +1118,6 @@
     <ClInclude Include="source\gfx\core\Vertex.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\gfx\scene\Camera.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\gfx\scene\Scene.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1238,9 +1235,6 @@
     <ClInclude Include="source\thirdparty\raz\hash.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\gfx\scene\PostFX.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\gfx\shape\PlatformShape.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1296,6 +1290,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\gfx\model\animator\AppearAnimator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gfx\model\ModelRenderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gfx\core\Camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -173,6 +173,7 @@
     <ClInclude Include="source\gfx\core\GBuffer.hpp" />
     <ClInclude Include="source\gfx\core\Material.hpp" />
     <ClInclude Include="source\gfx\core\MeshBuffer.hpp" />
+    <ClInclude Include="source\gfx\model\ModelRenderer.hpp" />
     <ClInclude Include="source\gfx\RenderThread.hpp" />
     <ClInclude Include="source\gfx\model\animator\Animator.hpp" />
     <ClInclude Include="source\gfx\model\animator\AppearAnimator.hpp" />
@@ -186,7 +187,6 @@
     <ClInclude Include="source\gfx\model\TraceModel.hpp" />
     <ClInclude Include="source\gfx\model\TransportModel.hpp" />
     <ClInclude Include="source\gfx\model\TrapModel.hpp" />
-    <ClInclude Include="source\gfx\scene\PostFX.hpp" />
     <ClInclude Include="source\gfx\scene\SceneEntityHandler.hpp" />
     <ClInclude Include="source\gfx\shape\PlatformShape.hpp" />
     <ClInclude Include="source\gfx\shape\SpawnShape.hpp" />
@@ -350,7 +350,7 @@
     <ClInclude Include="source\gfx\gui\RocketFileInterface.hpp" />
     <ClInclude Include="source\gfx\gui\RocketRenderInterface.hpp" />
     <ClInclude Include="source\gfx\gui\RocketSystemInterface.hpp" />
-    <ClInclude Include="source\gfx\scene\Camera.hpp" />
+    <ClInclude Include="source\gfx\core\Camera.hpp" />
     <ClInclude Include="source\gfx\core\Mesh.hpp" />
     <ClInclude Include="source\gfx\model\CreatureModel.hpp" />
     <ClInclude Include="source\gfx\shape\CreatureShape.hpp" />
@@ -442,6 +442,7 @@
     <ClCompile Include="source\game\player\Player.cpp" />
     <ClCompile Include="source\gfx\core\GBuffer.cpp" />
     <ClCompile Include="source\gfx\core\Mesh_.cpp" />
+    <ClCompile Include="source\gfx\model\ModelRenderer.cpp" />
     <ClCompile Include="source\gfx\RenderThread.cpp" />
     <ClCompile Include="source\gfx\scene\FreeCameraController.cpp" />
     <ClCompile Include="source\Demo.cpp" />
@@ -453,7 +454,6 @@
     <ClCompile Include="source\gfx\model\TraceModel.cpp" />
     <ClCompile Include="source\gfx\model\TransportModel.cpp" />
     <ClCompile Include="source\gfx\model\TrapModel.cpp" />
-    <ClCompile Include="source\gfx\scene\PostFX.cpp" />
     <ClCompile Include="source\gfx\scene\SceneEntityHandler.cpp" />
     <ClCompile Include="source\gfx\shape\PlatformShape.cpp" />
     <ClCompile Include="source\gfx\shape\SpawnShape.cpp" />
@@ -471,7 +471,7 @@
     <ClCompile Include="source\gfx\gui\RocketFileInterface.cpp" />
     <ClCompile Include="source\gfx\gui\RocketRenderInterface.cpp" />
     <ClCompile Include="source\gfx\gui\RocketSystemInterface.cpp" />
-    <ClCompile Include="source\gfx\scene\Camera.cpp" />
+    <ClCompile Include="source\gfx\core\Camera.cpp" />
     <ClCompile Include="source\gfx\model\CreatureModel.cpp" />
     <ClCompile Include="source\gfx\shape\CreatureShape.cpp" />
     <ClCompile Include="source\gfx\shape\PlatformRingShape.cpp" />

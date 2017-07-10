@@ -11,7 +11,7 @@
 
 namespace gfx
 {
-namespace scene
+namespace core
 {
 	class Camera
 	{

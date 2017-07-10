@@ -14,7 +14,6 @@ gfx::RenderThread::RenderThread(Potato& potato, raz::IMemoryPool* memory) :
 	m_memory(memory),
 	m_shader_loader(memory),
 	m_scene(*this),
-	m_postfx(*this),
 	m_gui(*this)
 {
 	//ShowCursor(FALSE);
@@ -71,11 +70,6 @@ gfx::scene::Scene& gfx::RenderThread::getScene()
 	return m_scene;
 }
 
-gfx::scene::PostFX& gfx::RenderThread::getPostFX()
-{
-	return m_postfx;
-}
-
 gfx::gui::GUI& gfx::RenderThread::getGUI()
 {
 	return m_gui;
@@ -106,7 +100,6 @@ void gfx::RenderThread::operator()()
 		m_gui.update();
 
 		m_scene.render();
-		m_postfx.render(m_scene);
 		m_gui.render();
 
 		m_window.Present();
