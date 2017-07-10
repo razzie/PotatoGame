@@ -22,6 +22,7 @@ namespace model
 	class CreatureModel : public Model<CreatureEntityMaterial>
 	{
 	public:
+		CreatureModel(uint64_t seed, GL::Color color);
 		CreatureModel(scene::Scene& scene, uint32_t id, uint64_t seed, GL::Color color, uint32_t hub_id, uint32_t platform_id);
 	};
 }

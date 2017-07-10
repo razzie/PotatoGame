@@ -8,6 +8,20 @@
 #include "gfx/scene/Scene.hpp"
 #include "gfx/model/CreatureModel.hpp"
 
+gfx::model::CreatureModel::CreatureModel(uint64_t seed, GL::Color color) :
+	Model(0)
+{
+	gfx::core::MeshBuffer<> meshbuffer;
+
+	gfx::shape::CreatureShape shape(seed);
+	shape.generate(meshbuffer);
+
+	meshbuffer.recalculateNormals();
+	getMesh() = meshbuffer;
+
+	setColor(color);
+}
+
 gfx::model::CreatureModel::CreatureModel(scene::Scene& scene, uint32_t id, uint64_t seed, GL::Color color, uint32_t hub_id, uint32_t platform_id) :
 	Model(id)
 {
