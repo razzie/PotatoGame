@@ -12,7 +12,6 @@
 #include "common/InputHelper.hpp"
 #include "resource/ShaderLoader.hpp"
 #include "gfx/scene/Scene.hpp"
-#include "gfx/scene/PostFX.hpp"
 #include "gfx/gui/GUI.hpp"
 #include "game/event/entityevents.hpp"
 
@@ -34,7 +33,6 @@ namespace gfx
 		const common::InputHelper& getInputHelper() const;
 		resource::ShaderLoader& getShaderLoader();
 		gfx::scene::Scene& getScene();
-		gfx::scene::PostFX& getPostFX();
 		gfx::gui::GUI& getGUI();
 
 		// raz::Thread compatibility:
@@ -67,7 +65,6 @@ namespace gfx
 		common::InputHelper m_input;
 		resource::ShaderLoader m_shader_loader;
 		gfx::scene::Scene m_scene;
-		gfx::scene::PostFX m_postfx;
 		gfx::gui::GUI m_gui;
 	};
 }

@@ -9,12 +9,9 @@
 #include <vector>
 #include <GL/Math/Mat4.hpp>
 #include <GL/GL/Context.hpp>
-#include <GL/GL/Program.hpp>
 #include <GL/Window/Event.hpp>
 #include <raz/memory.hpp>
-#include <raz/timer.hpp>
-#include "gfx/scene/PostFX.hpp"
-#include "gfx/scene/Camera.hpp"
+#include "gfx/model/ModelRenderer.hpp"
 #include "gfx/scene/FreeCameraController.hpp"
 #include "gfx/scene/Horizon.hpp"
 #include "gfx/model/HubModel.hpp"
@@ -33,17 +30,12 @@ class RenderThread;
 
 namespace scene
 {
-	class Scene
+	class Scene : public gfx::model::ModelRenderer
 	{
 	public:
 		Scene(RenderThread& render_thread);
 		~Scene();
-		GL::Context& getContext();
 		raz::IMemoryPool* getMemoryPool();
-		PostFX::GBuffer& getGBuffer();
-		Camera& getCamera();
-		const Camera& getCamera() const;
-		float getElapsedTime() const;
 		bool feed(const GL::Event& ev);
 		void render();
 		void reset();
@@ -177,12 +169,7 @@ namespace scene
 		};
 
 		RenderThread& m_render_thread;
-		GL::Context& m_gl;
 		raz::IMemoryPool* m_memory;
-		raz::Timer m_timer;
-		float m_time;
-		PostFX::GBuffer m_gbuffer;
-		Camera m_cam;
 		FreeCameraController m_cam_mgr;
 		Horizon m_horizon;
 		ModelContainer<model::HubModel> m_hubs;

@@ -12,11 +12,9 @@
 #include "gfx/model/HubModel.hpp"
 
 gfx::scene::Scene::Scene(RenderThread& render_thread) :
+	ModelRenderer(render_thread),
 	m_render_thread(render_thread),
-	m_gl(render_thread.getContext()),
 	m_memory(render_thread.getMemoryPool()),
-	m_gbuffer(render_thread.getWindow().GetWidth(), render_thread.getWindow().GetHeight()),
-	m_cam(render_thread.getAspectRatio(), render_thread.getRenderDistance()),
 	m_horizon(m_render_thread.getShaderLoader().get("horizon")),
 #define CONTAINER_INIT m_memory, std::ref(m_render_thread.getShaderLoader())
 	m_hubs(CONTAINER_INIT),
@@ -30,44 +28,17 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	m_creatures(CONTAINER_INIT)
 #undef CONTAINER_INIT
 {
-	m_cam.setPosition({ -8, 8, -8 });
-	m_cam.setTarget({ 0, 5, 0 });
-
-	m_timer.reset();
+	getCamera().setPosition({ -8, 8, -8 });
+	getCamera().setTarget({ 0, 5, 0 });
 }
 
 gfx::scene::Scene::~Scene()
 {
 }
 
-GL::Context& gfx::scene::Scene::getContext()
-{
-	return m_gl;
-}
-
 raz::IMemoryPool* gfx::scene::Scene::getMemoryPool()
 {
 	return m_memory;
-}
-
-gfx::scene::PostFX::GBuffer& gfx::scene::Scene::getGBuffer()
-{
-	return m_gbuffer;
-}
-
-gfx::scene::Camera& gfx::scene::Scene::getCamera()
-{
-	return m_cam;
-}
-
-const gfx::scene::Camera& gfx::scene::Scene::getCamera() const
-{
-	return m_cam;
-}
-
-float gfx::scene::Scene::getElapsedTime() const
-{
-	return m_time;
 }
 
 bool gfx::scene::Scene::feed(const GL::Event& ev)
@@ -96,17 +67,9 @@ bool gfx::scene::Scene::feed(const GL::Event& ev)
 
 void gfx::scene::Scene::render()
 {
-	m_time = 0.001f * m_timer.peekElapsed();
+	begin();
 
 	m_cam_mgr.update(*this);
-
-	glDisable(GL_BLEND);
-
-	m_gl.DepthMask(true);
-	m_gl.Enable(GL::Capability::DepthTest);
-
-	m_gbuffer.bind();
-	m_gl.Clear(GL::Buffer::Color | GL::Buffer::Depth);
 
 	m_horizon.render(*this);
 
@@ -119,6 +82,8 @@ void gfx::scene::Scene::render()
 	m_portals.render(*this);
 	m_traps.render(*this);
 	m_creatures.render(*this);
+
+	present();
 }
 
 void gfx::scene::Scene::reset()

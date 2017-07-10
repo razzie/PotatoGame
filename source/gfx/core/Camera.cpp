@@ -5,16 +5,16 @@
  */
 
 #include <GL/Math/Util.hpp>
-#include "gfx/scene/Camera.hpp"
+#include "gfx/core/Camera.hpp"
 #include "common/equals.hpp"
 #include "common/Quaternion.hpp"
 
-gfx::scene::Camera::Camera(float aspect_ratio, float max_depth) :
+gfx::core::Camera::Camera(float aspect_ratio, float max_depth) :
 	Camera(aspect_ratio, max_depth, GL::Vec3(1.f, 1.f, 1.f), GL::Vec3(0.f, 0.f, 0.f))
 {
 }
 
-gfx::scene::Camera::Camera(float aspect_ratio, float render_distance, GL::Vec3 position, GL::Vec3 target) :
+gfx::core::Camera::Camera(float aspect_ratio, float render_distance, GL::Vec3 position, GL::Vec3 target) :
 	m_aspect_ratio(aspect_ratio),
 	m_render_distance(render_distance),
 	m_position(position),
@@ -24,57 +24,57 @@ gfx::scene::Camera::Camera(float aspect_ratio, float render_distance, GL::Vec3 p
 	m_proj = GL::Mat4::Perspective(GL::Rad(90), m_aspect_ratio, 0.1f, m_render_distance);
 }
 
-gfx::scene::Camera::~Camera()
+gfx::core::Camera::~Camera()
 {
 }
 
-float gfx::scene::Camera::getAspectRatio() const
+float gfx::core::Camera::getAspectRatio() const
 {
 	return m_aspect_ratio;
 }
 
-void gfx::scene::Camera::setAspectRatio(float aspect_ratio)
+void gfx::core::Camera::setAspectRatio(float aspect_ratio)
 {
 	m_aspect_ratio = aspect_ratio;
 	m_proj = GL::Mat4::Perspective(GL::Rad(90), m_aspect_ratio, 0.1f, m_render_distance);
 	m_dirty = true;
 }
 
-float gfx::scene::Camera::getRenderDistance() const
+float gfx::core::Camera::getRenderDistance() const
 {
 	return m_render_distance;
 }
 
-void gfx::scene::Camera::setRenderDistance(float render_distance)
+void gfx::core::Camera::setRenderDistance(float render_distance)
 {
 	m_render_distance = render_distance;
 	m_proj = GL::Mat4::Perspective(GL::Rad(90), m_aspect_ratio, 0.1f, m_render_distance);
 	m_dirty = true;
 }
 
-GL::Vec3 gfx::scene::Camera::getPosition() const
+GL::Vec3 gfx::core::Camera::getPosition() const
 {
 	return m_position;
 }
 
-void gfx::scene::Camera::setPosition(GL::Vec3 position)
+void gfx::core::Camera::setPosition(GL::Vec3 position)
 {
 	m_position = position;
 	m_dirty = true;
 }
 
-GL::Vec3 gfx::scene::Camera::getTarget() const
+GL::Vec3 gfx::core::Camera::getTarget() const
 {
 	return m_target;
 }
 
-void gfx::scene::Camera::setTarget(GL::Vec3 target)
+void gfx::core::Camera::setTarget(GL::Vec3 target)
 {
 	m_target = target;
 	m_dirty = true;
 }
 
-const GL::Mat4& gfx::scene::Camera::getMatrix() const
+const GL::Mat4& gfx::core::Camera::getMatrix() const
 {
 	if (m_dirty)
 	{
@@ -86,14 +86,14 @@ const GL::Mat4& gfx::scene::Camera::getMatrix() const
 	return m_cam_matrix;
 }
 
-void gfx::scene::Camera::zoom(float rate)
+void gfx::core::Camera::zoom(float rate)
 {
 	GL::Vec3 direction = (m_target - m_position).Normal() * rate;
 	m_position += direction;
 	m_dirty = true;
 }
 
-void gfx::scene::Camera::move(float axial, float lateral)
+void gfx::core::Camera::move(float axial, float lateral)
 {
 	GL::Vec3 movement;
 	GL::Vec3 direction = m_target - m_position;
@@ -115,7 +115,7 @@ void gfx::scene::Camera::move(float axial, float lateral)
 	m_dirty = true;
 }
 
-void gfx::scene::Camera::rotate(float horizontal, float vertical)
+void gfx::core::Camera::rotate(float horizontal, float vertical)
 {
 	GL::Vec3 pos = m_position;
 	pos -= m_target;
