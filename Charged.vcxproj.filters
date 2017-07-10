@@ -477,6 +477,9 @@
     <ClCompile Include="source\gfx\core\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\gfx\model\PlatformModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\common\IDPool.hpp">
@@ -1296,6 +1299,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\gfx\core\Camera.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gfx\model\PlatformModel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
