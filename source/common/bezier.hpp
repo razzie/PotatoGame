@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <array>
 #include <vector>
 #include <raz/memory.hpp>
 #include "common/lerp.hpp"
@@ -29,5 +30,24 @@ namespace common
 		}
 
 		return temp.front();
+	}
+
+	template<class T, size_t N>
+	T bezier(const std::array<T, N>& control_points, size_t count, float t)
+	{
+		if (count == 0)
+			return {};
+
+		std::array<T, N> temp(control_points);
+
+		for (; count > 1; --count)
+		{
+			for (size_t i = 0; i < count - 1; ++i)
+			{
+				temp[i] = lerp(temp[i], temp[i + 1], t);
+			}
+		}
+
+		return temp[0];
 	}
 }

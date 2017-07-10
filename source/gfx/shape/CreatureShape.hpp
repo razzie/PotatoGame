@@ -6,11 +6,10 @@
 
 #pragma once
 
-#include <vector>
+#include <array>
+#include <cstdint>
 #include <GL/Math/Vec3.hpp>
 #include <GL/Util/Color.hpp>
-#include <raz/memory.hpp>
-#include <raz/random.hpp>
 #include "common/Point2D.hpp"
 #include "gfx/core/Mesh.hpp"
 
@@ -21,16 +20,15 @@ namespace shape
 	class CreatureShape
 	{
 	public:
-		typedef std::vector<uint8_t, raz::Allocator<uint8_t>> Dimensions;
-		typedef std::vector<common::Point2D<float>, raz::Allocator<common::Point2D<float>>> ControlPoints;
+		static constexpr size_t MAX_HEIGHT = 7;
 
-		CreatureShape(raz::Random& random, raz::IMemoryPool* memory = nullptr);
-		CreatureShape(const Dimensions& dimensions, unsigned char shade, unsigned edge_mode);
+		CreatureShape(uint64_t seed);
 		void generate(gfx::core::MeshBuffer<>& meshbuffer) const;
 
 	private:
-		ControlPoints m_control_points;
-		unsigned char m_shade;
+		std::array<common::Point2D<float>, MAX_HEIGHT + 2> m_control_points;
+		size_t m_control_points_count;
+		uint8_t m_shade;
 		unsigned m_edge_mode;
 	};
 }

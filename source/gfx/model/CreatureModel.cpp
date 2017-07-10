@@ -15,10 +15,9 @@ gfx::model::CreatureModel::CreatureModel(scene::Scene& scene, uint32_t id, uint6
 	if (!scene.getPlatform(hub_id, platform_id, platform))
 		return;
 
-	raz::Random random(seed);
 	gfx::core::MeshBuffer<> meshbuffer(scene.getMemoryPool());
 
-	gfx::shape::CreatureShape shape(random);
+	gfx::shape::CreatureShape shape(seed);
 	shape.generate(meshbuffer);
 
 	meshbuffer.recalculateNormals();

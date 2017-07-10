@@ -58,14 +58,14 @@ void gfx::model::HubModel::render(MaterialType& material, GL::Context& gl)
 gfx::core::MeshBuffer<> gfx::model::HubModel::generate(uint64_t seed, unsigned size, unsigned complexity)
 {
 	core::MeshBuffer<> meshbuffer;
-	raz::Random random(seed);
 
-	gfx::shape::CreatureShape creature(random);
+	gfx::shape::CreatureShape creature(seed);
 	creature.generate(meshbuffer);
 	GL::Mat4 mat;
 	mat.Scale({ (float)size, (float)size, (float)size });
 	meshbuffer.transform(mat, "position");
 
+	raz::Random random(seed);
 	gfx::shape::VoronoiRocksShape pillar((float)size, complexity);
 	pillar.generate(random, meshbuffer);
 
