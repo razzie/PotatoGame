@@ -113,7 +113,7 @@ gfx::shape::CreatureShape::CreatureShape(uint64_t seed)
 	raz::Random random(seed);
 
 	m_control_points_count = random(5u, MAX_HEIGHT);
-	m_shade = (uint8_t)random(192u, 255u);
+	m_shade = (uint8_t)random(160u, 255u);
 	m_edge_mode = random(0u, 2u);
 
 	m_control_points[0] = { 0.0625f, 0.f };

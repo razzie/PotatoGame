@@ -28,7 +28,7 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	m_creatures(CONTAINER_INIT)
 #undef CONTAINER_INIT
 {
-	getCamera().setPosition({ -8, 8, -8 });
+	getCamera().setPosition({ 1, 50, 1 });
 	getCamera().setTarget({ 0, 5, 0 });
 }
 
@@ -71,7 +71,7 @@ void gfx::scene::Scene::render()
 
 	m_cam_mgr.update(*this);
 
-	m_horizon.render(*this);
+	m_horizon.render(getContext(), getCamera().getMatrix());
 
 	m_hubs.render(*this);
 	m_transports.render(*this);
