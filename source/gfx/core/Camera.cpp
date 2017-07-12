@@ -7,6 +7,7 @@
 #include <GL/Math/Util.hpp>
 #include "gfx/core/Camera.hpp"
 #include "common/equals.hpp"
+#include "common/PI.hpp"
 #include "common/Quaternion.hpp"
 
 gfx::core::Camera::Camera(float aspect_ratio, float max_depth) :
@@ -88,8 +89,14 @@ const GL::Mat4& gfx::core::Camera::getMatrix() const
 
 void gfx::core::Camera::zoom(float rate)
 {
-	GL::Vec3 direction = (m_target - m_position).Normal() * rate;
-	m_position += direction;
+	GL::Vec3 direction = m_target - m_position;
+	float direction_len = direction.Length();
+
+	if (rate > direction_len - 1.f)
+		rate = direction_len - 1.f;
+
+	GL::Vec3 movement = (direction * rate) / direction_len;
+	m_position += movement;
 	m_dirty = true;
 }
 
@@ -127,8 +134,16 @@ void gfx::core::Camera::rotate(float horizontal, float vertical)
 
 	if (!common::equals(vertical, 0.f))
 	{
+		vertical = GL::Rad(vertical);
+
+		const float pitch = std::acos(pos.Normal().Y);
+		if (vertical > pitch - 0.01f)
+			vertical = pitch - 0.01f;
+		else if (vertical < pitch - 0.5f * common::PI)
+			vertical = pitch - 0.5f * common::PI;
+
 		GL::Vec3 right = GL::Vec3(0.f, 1.f, 0.f).Cross(m_target - m_position).Normal();
-		common::rotateVectorAroundAxis(pos, right, GL::Rad(vertical));
+		common::rotateVectorAroundAxis(pos, right, vertical);
 	}
 
 	pos += m_target;

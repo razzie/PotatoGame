@@ -41,8 +41,8 @@ void gfx::shape::WireShape::generate(gfx::core::MeshBuffer<>& meshbuffer) const
 		GL::Vec3 pnext = common::lerp(m_start, m_end, tnext) + pdrop;
 
 		GL::Vec3 direction = (pnext - p).Normal();
-		float pitch = acos(direction.Y);
-		float yaw = atan2(direction.Z, direction.X);
+		float pitch = std::acos(direction.Y);
+		float yaw = std::atan2(direction.Z, direction.X);
 
 		GL::Vec3 axis(std::sin(yaw), 0.f, -std::cos(yaw));
 
