@@ -49,6 +49,13 @@ Demo::Demo(Potato& potato) :
 	}
 
 	builder.construct(&m_diagram);
+
+	for (auto& v : m_diagram.vertices())
+	{
+		common::Point2D<double> p{ v.vertex().x(), v.vertex().y() };
+		if (p.getDistanceFrom({ 0.0, 0.0 }) > radius * HUB_DISTANCE)
+			v.color(~0);
+	}
 }
 
 void Demo::operator()()
@@ -100,7 +107,7 @@ void Demo::addHub(const boost::polygon::voronoi_vertex<double>& v)
 {
 	if (!v.is_degenerate() && !v.color())
 	{
-		auto result = m_entities.addHub(m_random(), m_random(4u, 9u), { (float)v.vertex().x(), (float)v.vertex().y() });
+		auto result = m_entities.addHub(m_random(), m_random(5u, 8u), { (float)v.vertex().x(), (float)v.vertex().y() });
 		v.color(result.entity.id);
 	}
 }

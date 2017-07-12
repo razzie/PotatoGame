@@ -6,21 +6,21 @@
 
 #pragma once
 
+#include <GL/Math/Mat4.hpp>
+#include <GL/GL/Context.hpp>
 #include <GL/GL/Program.hpp>
 #include <GL/GL/VertexBuffer.hpp>
 #include <GL/GL/VertexArray.hpp>
 
 namespace gfx
 {
-namespace scene
+namespace model
 {
-	class Scene;
-
 	class Horizon
 	{
 	public:
 		Horizon(GL::Program& shader);
-		void render(Scene& scene);
+		void render(GL::Context& gl, const GL::Mat4& wvp);
 
 	private:
 		GL::VertexBuffer m_vertices;

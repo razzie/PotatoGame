@@ -6,6 +6,23 @@ in vec2 frag_position;
 
 out vec4 out_color;
 
+vec4 fxaa(sampler2D tex, vec2 fragCoord, vec2 resolution,
+            vec2 v_rgbNW, vec2 v_rgbNE, 
+            vec2 v_rgbSW, vec2 v_rgbSE, 
+            vec2 v_rgbM);
+
+void main()
+{
+	vec2 resolution = textureSize(color_tex, 0);
+	vec2 uvx = vec2(0.5 / resolution.x, 0.0);
+	vec2 uvy = vec2(0.0, 0.5 / resolution.y);
+
+	out_color = fxaa(color_tex, frag_position * resolution, resolution,
+		frag_position - uvy - uvx, frag_position - uvy + uvx,
+		frag_position + uvy - uvx, frag_position + uvy + uvx,
+		frag_position);
+}
+
 /**
 Basic FXAA implementation based on the code on geeks3d.com with the
 modification that the texture2DLod stuff was removed since it's
@@ -98,16 +115,4 @@ vec4 fxaa(sampler2D tex, vec2 fragCoord, vec2 resolution,
     else
         color = vec4(rgbB, texColor.a);
     return color;
-}
-
-void main()
-{
-	vec2 resolution = textureSize(color_tex, 0);
-	vec2 uvx = vec2(0.5 / resolution.x, 0.0);
-	vec2 uvy = vec2(0.0, 0.5 / resolution.y);
-
-	out_color = fxaa(color_tex, frag_position * resolution, resolution,
-		frag_position - uvy - uvx, frag_position - uvy + uvx,
-		frag_position + uvy - uvx, frag_position + uvy + uvx,
-		frag_position);
 }

@@ -6,8 +6,7 @@
 
 #include <GL/Math/Vec4.hpp>
 #include <GL/GL/Context.hpp>
-#include "gfx/scene/Scene.hpp"
-#include "gfx/scene/Horizon.hpp"
+#include "gfx/model/Horizon.hpp"
 
 static const GL::Vec4 vertices[] = {
 	GL::Vec4( 0.f, 0.f,  0.f, 1.f),
@@ -25,7 +24,7 @@ static const GL::ushort indices[] = {
 };
 
 
-gfx::scene::Horizon::Horizon(GL::Program& shader) :
+gfx::model::Horizon::Horizon(GL::Program& shader) :
 	m_vertices(vertices, sizeof(vertices), GL::BufferUsage::StaticCopy),
 	m_indices(indices, sizeof(indices), GL::BufferUsage::StaticCopy),
 	m_shader(shader)
@@ -34,12 +33,9 @@ gfx::scene::Horizon::Horizon(GL::Program& shader) :
 	m_vertex_array.BindElements(m_indices);
 }
 
-void gfx::scene::Horizon::render(Scene& scene)
+void gfx::model::Horizon::render(GL::Context& gl, const GL::Mat4& wvp)
 {
-	GL::Context& gl = scene.getContext();
 	gl.UseProgram(m_shader);
-
-	m_shader.SetUniform("wvp_mat", scene.getCamera().getMatrix());
-
+	m_shader.SetUniform("wvp_mat", wvp);
 	gl.DrawElements(m_vertex_array, GL::Primitive::Triangles, 0, 12, GL::Type::UnsignedShort);
 }

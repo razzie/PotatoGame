@@ -21,7 +21,7 @@ namespace common
 			return ((p.x - x) * (p.x - x)) + ((p.y - y) * (p.y - y));
 		}
 
-		float getDistanceFrom(Point2D<T> p) const
+		auto getDistanceFrom(Point2D<T> p) const
 		{
 			return std::sqrt(getDistanceFromSq(p));
 		}
