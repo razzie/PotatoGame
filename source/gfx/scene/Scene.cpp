@@ -54,10 +54,12 @@ bool gfx::scene::Scene::feed(const GL::Event& ev)
 		switch (ev.Key.Code)
 		{
 		case GL::Key::Comma:
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			setBlur(true);
 			return true;
 		case GL::Key::Period:
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			setBlur(false);
 			return true;
 		}
 	}

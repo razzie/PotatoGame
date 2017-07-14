@@ -39,6 +39,7 @@ namespace model
 		core::Camera& getCamera();
 		const core::Camera& getCamera() const;
 		float getElapsedTime() const;
+		void setBlur(bool enabled);
 		void begin();
 		void present(GL::Framebuffer* framebuffer = nullptr);
 
@@ -63,6 +64,7 @@ namespace model
 		float m_time;
 		GBuffer m_gbuffer;
 		core::Camera m_cam;
+		bool m_blur;
 	};
 }
 }

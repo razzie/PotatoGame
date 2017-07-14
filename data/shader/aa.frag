@@ -1,11 +1,13 @@
 #version 150
 
 uniform sampler2D color_tex;
+uniform bool blur;
 
 in vec2 frag_position;
 
 out vec4 out_color;
 
+vec3 dof(sampler2D tex, vec2 uv, vec2 res, float rad);
 vec4 fxaa(sampler2D tex, vec2 fragCoord, vec2 resolution,
             vec2 v_rgbNW, vec2 v_rgbNE, 
             vec2 v_rgbSW, vec2 v_rgbSE, 
@@ -14,13 +16,40 @@ vec4 fxaa(sampler2D tex, vec2 fragCoord, vec2 resolution,
 void main()
 {
 	vec2 resolution = textureSize(color_tex, 0);
-	vec2 uvx = vec2(0.5 / resolution.x, 0.0);
-	vec2 uvy = vec2(0.0, 0.5 / resolution.y);
+	
+	if (blur)
+	{
+		out_color = vec4(dof(color_tex, frag_position, resolution, 0.5), 1.0);
+	}
+	else
+	{
+		vec2 uvx = vec2(0.5 / resolution.x, 0.0);
+		vec2 uvy = vec2(0.0, 0.5 / resolution.y);
 
-	out_color = fxaa(color_tex, frag_position * resolution, resolution,
-		frag_position - uvy - uvx, frag_position - uvy + uvx,
-		frag_position + uvy - uvx, frag_position + uvy + uvx,
-		frag_position);
+		out_color = fxaa(color_tex, frag_position * resolution, resolution,
+			frag_position - uvy - uvx, frag_position - uvy + uvx,
+			frag_position + uvy - uvx, frag_position + uvy + uvx,
+			frag_position);
+	}
+}
+
+// 	simplyfied version of Dave Hoskins blur
+vec3 dof(sampler2D tex, vec2 uv, vec2 res, float rad)
+{
+	const float GA = 2.399; 
+	const mat2 rot = mat2(cos(GA), sin(GA), -sin(GA), cos(GA));
+
+	vec3 acc = vec3(0);
+    vec2 pixel = vec2(.002 * res.y / res.x, .002), angle = vec2(0, rad);
+    rad = 1.;
+	for (int j = 0; j < 80; j++)
+    {  
+        rad += 1. / rad;
+	    angle *= rot;
+        vec4 col = texture(tex, uv + pixel * (rad - 1.) * angle);
+		acc += col.xyz;
+	}
+	return acc / 80.;
 }
 
 /**

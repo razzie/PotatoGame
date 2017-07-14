@@ -25,7 +25,8 @@ gfx::model::ModelRenderer::ModelRenderer(RenderThread& render_thread) :
 	m_fbo(render_thread.getWindow().GetWidth(), render_thread.getWindow().GetHeight(), 24, 8),
 	m_time(0.f),
 	m_gbuffer(render_thread.getWindow().GetWidth(), render_thread.getWindow().GetHeight()),
-	m_cam(render_thread.getAspectRatio(), render_thread.getRenderDistance())
+	m_cam(render_thread.getAspectRatio(), render_thread.getRenderDistance()),
+	m_blur(false)
 {
 	m_vao.BindAttribute(m_postfx.GetAttribute("position"), m_vbo, GL::Type::Float, 2, sizeof(float) * 2, 0);
 	m_timer.reset();
@@ -54,6 +55,11 @@ const gfx::core::Camera& gfx::model::ModelRenderer::getCamera() const
 float gfx::model::ModelRenderer::getElapsedTime() const
 {
 	return m_time;
+}
+
+void gfx::model::ModelRenderer::setBlur(bool enabled)
+{
+	m_blur = enabled;
 }
 
 void gfx::model::ModelRenderer::begin()
@@ -111,6 +117,7 @@ void gfx::model::ModelRenderer::present(GL::Framebuffer* framebuffer)
 	m_gl.BindTexture(m_fbo.GetTexture(), 0);
 
 	m_aa.SetUniform("color_tex", 0);
+	m_aa.SetUniform("blur", m_blur);
 
 	m_gl.DrawArrays(m_vao, GL::Primitive::Triangles, 0, 6);
 }
