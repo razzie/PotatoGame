@@ -8,6 +8,7 @@
 
 #pragma warning(disable: 4307) // integral constant overflow
 
+#include <raz/memory.hpp>
 #include "game/event/serverevents.hpp"
 #include "game/event/entityevents.hpp"
 

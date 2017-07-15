@@ -214,6 +214,7 @@
     <ClInclude Include="source\thirdparty\raz\callback.hpp" />
     <ClInclude Include="source\thirdparty\raz\color.hpp" />
     <ClInclude Include="source\thirdparty\raz\event.hpp" />
+    <ClInclude Include="source\thirdparty\raz\eventutil.hpp" />
     <ClInclude Include="source\thirdparty\raz\functional.hpp" />
     <ClInclude Include="source\thirdparty\raz\hash.hpp" />
     <ClInclude Include="source\thirdparty\raz\memory.hpp" />
