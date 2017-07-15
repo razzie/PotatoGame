@@ -1304,6 +1304,9 @@
     <ClInclude Include="source\gfx\model\Horizon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\thirdparty\raz\eventutil.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\thirdparty\Rocket\Core\Colour.inl">
