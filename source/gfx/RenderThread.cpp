@@ -16,7 +16,7 @@ gfx::RenderThread::RenderThread(Potato& potato, raz::IMemoryPool* memory) :
 	m_scene(*this),
 	m_gui(*this)
 {
-	//ShowCursor(FALSE);
+	ShowCursor(FALSE);
 
 	glClearDepth(1.0);
 	m_gl.ClearColor(GL::Color(255, 255, 255));

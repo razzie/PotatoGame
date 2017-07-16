@@ -7,15 +7,10 @@
 #include <cstring>
 #include "gfx/gui/RocketFileInterface.hpp"
 
-gfx::gui::RocketFileInterface::RocketFileInterface(raz::IMemoryPool* memory) :
-	m_memory(memory),
-	m_archive("gui.res", memory)
+gfx::gui::RocketFileInterface::RocketFileInterface(resource::ArchiveReader& archive, raz::IMemoryPool* memory) :
+	m_archive(archive),
+	m_memory(memory)
 {
-}
-
-resource::ArchiveReader* gfx::gui::RocketFileInterface::getArchive()
-{
-	return &m_archive;
 }
 
 Rocket::Core::FileHandle gfx::gui::RocketFileInterface::Open(const Rocket::Core::String& path)

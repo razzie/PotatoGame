@@ -6,27 +6,35 @@
 
 #pragma once
 
-#include <GL/Math/Mat4.hpp>
 #include <GL/GL/Context.hpp>
 #include <GL/GL/Program.hpp>
 #include <GL/GL/VertexBuffer.hpp>
 #include <GL/GL/VertexArray.hpp>
+#include "common/InputHelper.hpp"
 
 namespace gfx
 {
-namespace model
+namespace gui
 {
-	class Horizon
+	class GUI;
+
+	class MousePointer
 	{
 	public:
-		Horizon();
-		void render(GL::Context& gl, const GL::Mat4& wvp);
+		MousePointer(GUI& gui, GL::Window& window);
+		void update(const common::InputHelper& input);
+		void render();
 
 	private:
-		GL::VertexBuffer m_vertices;
-		GL::VertexBuffer m_indices;
-		GL::VertexArray m_vertex_array;
+		GL::Context& m_gl;
+		GL::Texture m_texture;
 		GL::Program m_shader;
+		GL::VertexBuffer m_vbo;
+		GL::VertexArray m_vao;
+		GL::Mat4 m_proj;
+		GL::Mat4 m_transform;
+		GL::Vec2 m_mouse_back_pos;
+		float m_size;
 	};
 }
 }

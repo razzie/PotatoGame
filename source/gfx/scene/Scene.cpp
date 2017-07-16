@@ -15,7 +15,6 @@ gfx::scene::Scene::Scene(RenderThread& render_thread) :
 	ModelRenderer(render_thread),
 	m_render_thread(render_thread),
 	m_memory(render_thread.getMemoryPool()),
-	m_horizon(m_render_thread.getShaderLoader().get("horizon")),
 #define CONTAINER_INIT m_memory, std::ref(m_render_thread.getShaderLoader())
 	m_hubs(CONTAINER_INIT),
 	m_transports(CONTAINER_INIT),
