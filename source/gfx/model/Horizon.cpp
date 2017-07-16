@@ -23,13 +23,37 @@ static const GL::ushort indices[] = {
 	0, 4, 1
 };
 
+static const char* vert = GLSL(
+uniform mat4 wvp_mat;
+in vec4 position;
+out vec4 frag_position;
+void main()
+{
+	frag_position = position;
+	gl_Position = wvp_mat * position;
+}
+);
 
-gfx::model::Horizon::Horizon(GL::Program& shader) :
+static const char* frag = GLSL(
+in vec4 frag_position;
+out vec3 out_color;
+out vec3 out_normal;
+out vec3 out_position;
+void main()
+{
+	out_color = vec3(1.0, 1.0, 1.0);
+	out_normal = vec3(0.0, 1.0, 0.0);
+	out_position = frag_position.xyz / frag_position.w;
+}
+);
+
+
+gfx::model::Horizon::Horizon() :
 	m_vertices(vertices, sizeof(vertices), GL::BufferUsage::StaticCopy),
 	m_indices(indices, sizeof(indices), GL::BufferUsage::StaticCopy),
-	m_shader(shader)
+	m_shader(GL::Shader(GL::ShaderType::Vertex, vert), GL::Shader(GL::ShaderType::Fragment, frag))
 {
-	m_vertex_array.BindAttribute(shader.GetAttribute("position"), m_vertices, GL::Type::Float, 4, sizeof(float) * 4, 0);
+	m_vertex_array.BindAttribute(m_shader.GetAttribute("position"), m_vertices, GL::Type::Float, 4, sizeof(float) * 4, 0);
 	m_vertex_array.BindElements(m_indices);
 }
 

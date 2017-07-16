@@ -29,8 +29,7 @@ namespace gui
 			size_t read_position;
 		};
 
-		RocketFileInterface(raz::IMemoryPool* memory = nullptr);
-		resource::ArchiveReader* getArchive();
+		RocketFileInterface(resource::ArchiveReader& archive, raz::IMemoryPool* memory = nullptr);
 		virtual Rocket::Core::FileHandle Open(const Rocket::Core::String& path);
 		virtual void Close(Rocket::Core::FileHandle file_handle);
 		virtual size_t Read(void* buffer, size_t size, Rocket::Core::FileHandle file_handle);
@@ -38,8 +37,8 @@ namespace gui
 		virtual size_t Tell(Rocket::Core::FileHandle file_handle);
 
 	private:
+		resource::ArchiveReader& m_archive;
 		raz::IMemoryPool* m_memory;
-		resource::ArchiveReader m_archive;
 	};
 }
 }

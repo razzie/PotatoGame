@@ -173,6 +173,7 @@
     <ClInclude Include="source\gfx\core\GBuffer.hpp" />
     <ClInclude Include="source\gfx\core\Material.hpp" />
     <ClInclude Include="source\gfx\core\MeshBuffer.hpp" />
+    <ClInclude Include="source\gfx\gui\MousePointer.hpp" />
     <ClInclude Include="source\gfx\model\ModelRenderer.hpp" />
     <ClInclude Include="source\gfx\model\PlatformModel.hpp" />
     <ClInclude Include="source\gfx\RenderThread.hpp" />
@@ -444,6 +445,7 @@
     <ClCompile Include="source\game\player\Player.cpp" />
     <ClCompile Include="source\gfx\core\GBuffer.cpp" />
     <ClCompile Include="source\gfx\core\Mesh_.cpp" />
+    <ClCompile Include="source\gfx\gui\MousePointer.cpp" />
     <ClCompile Include="source\gfx\model\ModelRenderer.cpp" />
     <ClCompile Include="source\gfx\model\PlatformModel.cpp" />
     <ClCompile Include="source\gfx\RenderThread.cpp" />

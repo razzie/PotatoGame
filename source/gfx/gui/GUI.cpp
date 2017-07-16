@@ -11,11 +11,43 @@
 #include "gfx/RenderThread.hpp"
 #include "gfx/gui/GUI.hpp"
 
+static const char* vert = GLSL(
+uniform mat4 transform;
+in vec2 position;
+in vec4 color;
+in vec2 tcoords;
+out vec4 frag_color;
+out vec2 frag_tcoords;
+void main()
+{
+	frag_color = vec4(color.r / 255.0, color.g / 255.0, color.b / 255.0, color.a / 255.0);
+	frag_tcoords = tcoords;
+	gl_Position = transform * vec4(position, 0.0, 1.0);
+}
+);
+
+static const char* frag = GLSL(
+uniform sampler2D texture;
+uniform bool use_texture;
+in vec4 frag_color;
+in vec2 frag_tcoords;
+out vec4 out_color;
+void main()
+{
+	if (use_texture)
+		out_color = texture2D(texture, frag_tcoords) * frag_color;
+	else
+		out_color = frag_color;
+}
+);
+
 gfx::gui::GUI::GUI(gfx::RenderThread& render_thread) :
 	m_render_thread(render_thread),
-	m_gui_shader(render_thread.getShaderLoader().get("gui")),
-	m_file_if(render_thread.getMemoryPool()),
-	m_render_if(render_thread.getWindow(), render_thread.getContext(), m_gui_shader, render_thread.getMemoryPool())
+	m_gui_shader(GL::Shader(GL::ShaderType::Vertex, vert), GL::Shader(GL::ShaderType::Fragment, frag)),
+	m_archive("gui.res", render_thread.getMemoryPool()),
+	m_file_if(m_archive, render_thread.getMemoryPool()),
+	m_render_if(render_thread.getWindow(), render_thread.getContext(), m_gui_shader, render_thread.getMemoryPool()),
+	m_mouse(*this, render_thread.getWindow())
 {
 	Rocket::Core::SetFileInterface(&m_file_if);
 	Rocket::Core::SetRenderInterface(&m_render_if);
@@ -40,8 +72,10 @@ gfx::gui::GUI::GUI(gfx::RenderThread& render_thread) :
 	m_context->AddEventListener("mouseup", this);
 	m_context->AddEventListener("mousemove", this);
 
-	//Rocket::Debugger::Initialise(m_context);
-	//Rocket::Debugger::SetVisible(true);
+#ifdef _DEBUG
+	Rocket::Debugger::Initialise(m_context);
+	Rocket::Debugger::SetVisible(true);
+#endif
 
 	//Rocket::Core::ElementDocument* document = m_context->LoadDocument("tutorial.rml");
 	//if (document != NULL)
@@ -55,6 +89,26 @@ gfx::gui::GUI::~GUI()
 {
 	m_context->RemoveReference();
 	Rocket::Core::Shutdown();
+}
+
+GL::Context& gfx::gui::GUI::getContext()
+{
+	return m_render_thread.getContext();
+}
+
+raz::IMemoryPool* gfx::gui::GUI::getMemoryPool()
+{
+	return m_render_thread.getMemoryPool();
+}
+
+GL::Program& gfx::gui::GUI::getShader()
+{
+	return m_gui_shader;
+}
+
+resource::ArchiveReader& gfx::gui::GUI::getArchive()
+{
+	return m_archive;
 }
 
 bool gfx::gui::GUI::feed(const GL::Event& ev)
@@ -93,6 +147,7 @@ bool gfx::gui::GUI::feed(const GL::Event& ev)
 
 void gfx::gui::GUI::update()
 {
+	m_mouse.update(m_render_thread.getInputHelper());
 	m_context->Update();
 }
 
@@ -107,8 +162,9 @@ void gfx::gui::GUI::render()
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	gl.UseProgram(m_gui_shader);
-
 	m_context->Render();
+
+	m_mouse.render();
 }
 
 void gfx::gui::GUI::ProcessEvent(Rocket::Core::Event& ev)

@@ -8,6 +8,10 @@
 #include "Potato.hpp"
 #include "Demo.hpp"
 
+using namespace raz::literal;
+
+static raz::MemoryPool<100_MB> render_thread_memory;
+
 Potato::Settings::Settings(int argc, char** argv) :
 	screen_width(1366),
 	screen_height(768),
@@ -45,7 +49,7 @@ int Potato::run()
 	auto exit_code_future = m_exit_code.get_future();
 
 	m_game_thread.start(std::ref(*this), nullptr);
-	m_render_thread.start(std::ref(*this), nullptr);
+	m_render_thread.start(std::ref(*this), &render_thread_memory);
 
 	raz::Thread<Demo> demo_thread;
 	demo_thread.start(std::ref(*this));

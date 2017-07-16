@@ -22,7 +22,7 @@ gfx::core::Camera::Camera(float aspect_ratio, float render_distance, GL::Vec3 po
 	m_target(target),
 	m_dirty(true)
 {
-	m_proj = GL::Mat4::Perspective(GL::Rad(90), m_aspect_ratio, 0.1f, m_render_distance);
+	m_proj = GL::Mat4::Perspective(GL::Rad(60), m_aspect_ratio, 0.1f, m_render_distance);
 }
 
 gfx::core::Camera::~Camera()
@@ -139,8 +139,8 @@ void gfx::core::Camera::rotate(float horizontal, float vertical)
 		const float pitch = std::acos(pos.Normal().Y);
 		if (vertical > pitch - 0.01f)
 			vertical = pitch - 0.01f;
-		else if (vertical < pitch - 0.5f * common::PI)
-			vertical = pitch - 0.5f * common::PI;
+		else if (vertical < pitch - 0.5f * (float)common::PI)
+			vertical = pitch - 0.5f * (float)common::PI;
 
 		GL::Vec3 right = GL::Vec3(0.f, 1.f, 0.f).Cross(m_target - m_position).Normal();
 		common::rotateVectorAroundAxis(pos, right, vertical);
