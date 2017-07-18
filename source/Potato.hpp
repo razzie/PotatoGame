@@ -36,4 +36,6 @@ private:
 	std::promise<int> m_exit_code;
 	raz::Thread<game::GameThread> m_game_thread;
 	raz::Thread<gfx::RenderThread> m_render_thread;
+
+	void superviseThread(std::future<void> future);
 };

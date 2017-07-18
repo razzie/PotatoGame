@@ -48,11 +48,11 @@ int Potato::run()
 {
 	auto exit_code_future = m_exit_code.get_future();
 
-	m_game_thread.start(std::ref(*this), nullptr);
-	m_render_thread.start(std::ref(*this), &render_thread_memory);
+	//superviseThread( m_game_thread.start(std::ref(*this), nullptr) );
+	superviseThread( m_render_thread.start(std::ref(*this), &render_thread_memory) );
 
 	raz::Thread<Demo> demo_thread;
-	demo_thread.start(std::ref(*this));
+	superviseThread( demo_thread.start(std::ref(*this)) );
 
 	int exit_code = exit_code_future.get();
 
@@ -70,4 +70,30 @@ void Potato::exit(int code, const char* msg)
 	}
 
 	m_exit_code.set_value(code);
+}
+
+void Potato::superviseThread(std::future<void> future)
+{
+	auto supervisor = [](Potato* potato, std::future<void>* future_ptr) -> void
+	{
+		std::future<void> future = std::move(*future_ptr);
+
+		try
+		{
+			future.get();
+		}
+		catch (std::future_error&)
+		{
+		}
+		catch (std::exception& e)
+		{
+			potato->exit(-1, e.what());
+			return;
+		}
+
+		//potato->exit(0, nullptr);
+	};
+
+	std::thread t(supervisor, this, &future);
+	t.detach();
 }
