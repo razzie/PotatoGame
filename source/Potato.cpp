@@ -74,10 +74,8 @@ void Potato::exit(int code, const char* msg)
 
 void Potato::superviseThread(std::future<void> future)
 {
-	auto supervisor = [](Potato* potato, std::future<void>* future_ptr) -> void
+	auto supervisor = [](Potato* potato, std::shared_future<void> future) -> void
 	{
-		std::future<void> future = std::move(*future_ptr);
-
 		try
 		{
 			future.get();
@@ -94,6 +92,6 @@ void Potato::superviseThread(std::future<void> future)
 		//potato->exit(0, nullptr);
 	};
 
-	std::thread t(supervisor, this, &future);
+	std::thread t(supervisor, this, std::move(future));
 	t.detach();
 }
