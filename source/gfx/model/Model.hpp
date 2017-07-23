@@ -113,11 +113,6 @@ namespace model
 			return m_mesh;
 		}
 
-		gfx::model::animator::Animator<Model>& getAnimator()
-		{
-			return m_animator;
-		}
-
 		void animate(animator::AnimatorType type, float start_time)
 		{
 			m_animator.start(type, this, start_time);
