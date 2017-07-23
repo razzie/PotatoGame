@@ -11,6 +11,7 @@
 #include <GL/Math/Mat4.hpp>
 #include "gfx/core/Mesh.hpp"
 #include "gfx/core/Material.hpp"
+#include "gfx/model/ModelFlag.hpp"
 #include "gfx/model/animator/Animator.hpp"
 
 namespace gfx
@@ -29,7 +30,8 @@ namespace model
 			m_rotation(0.f, 0.f, 0.f),
 			m_scale(1.f, 1.f, 1.f),
 			m_dirty(true),
-			m_color(255, 255, 255)
+			m_color(255, 255, 255),
+			m_flags(0)
 		{
 		}
 
@@ -108,6 +110,19 @@ namespace model
 			return m_color;
 		}
 
+		void setFlag(ModelFlag flag, bool enable = true)
+		{
+			if (enable)
+				m_flags |= flag;
+			else
+				m_flags &= ~flag;
+		}
+
+		bool getFlag(ModelFlag flag) const
+		{
+			return ((m_flags & flag) != 0);
+		}
+
 		gfx::core::Mesh& getMesh()
 		{
 			return m_mesh;
@@ -141,6 +156,7 @@ namespace model
 		mutable GL::Mat4 m_normal_mat;
 		mutable bool m_dirty;
 		GL::Color m_color;
+		int m_flags;
 		gfx::core::Mesh m_mesh;
 		gfx::model::animator::Animator<Model> m_animator;
 	};

@@ -8,6 +8,7 @@
 
 #include <tuple>
 #include "gfx/model/animator/AppearAnimator.hpp"
+#include "gfx/model/animator/DisappearAnimator.hpp"
 
 namespace gfx
 {
@@ -64,7 +65,7 @@ namespace animator
 
 		AnimatorType m_type;
 		float m_start_time;
-		AnimatorContainer<Model, AppearAnimator> m_animators;
+		AnimatorContainer<Model, AppearAnimator, DisappearAnimator> m_animators;
 
 		static constexpr size_t ANIMS = std::tuple_size<decltype(m_animators)>::value;
 

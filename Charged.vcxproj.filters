@@ -1313,6 +1313,12 @@
     <ClInclude Include="source\gfx\gui\MousePointer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\gfx\model\animator\DisappearAnimator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gfx\model\ModelFlag.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\thirdparty\Rocket\Core\Colour.inl">

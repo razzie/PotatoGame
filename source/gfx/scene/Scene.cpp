@@ -175,7 +175,9 @@ gfx::model::ResourceModel* gfx::scene::Scene::getResource(uint32_t id)
 
 void gfx::scene::Scene::removeResource(uint32_t id)
 {
-	m_resources.remove(id);
+	//m_resources.remove(id);
+	auto* resource = m_resources.get(id);
+	resource->animate(gfx::model::animator::AnimatorType::DISAPPEAR, getElapsedTime());
 }
 
 
@@ -191,7 +193,9 @@ gfx::model::TraceModel* gfx::scene::Scene::getTrace(uint32_t id)
 
 void gfx::scene::Scene::removeTrace(uint32_t id)
 {
-	m_traces.remove(id);
+	//m_traces.remove(id);
+	auto* trace = m_traces.get(id);
+	trace->animate(gfx::model::animator::AnimatorType::DISAPPEAR, getElapsedTime());
 }
 
 
@@ -236,7 +240,9 @@ gfx::model::TrapModel* gfx::scene::Scene::getTrap(uint32_t id)
 
 void gfx::scene::Scene::removeTrap(uint32_t id)
 {
-	m_traps.remove(id);
+	//m_traps.remove(id);
+	auto* trap = m_traps.get(id);
+	trap->animate(gfx::model::animator::AnimatorType::DISAPPEAR, getElapsedTime());
 }
 
 
@@ -264,5 +270,7 @@ void gfx::scene::Scene::changeCreatureColor(uint32_t id, GL::Color color)
 
 void gfx::scene::Scene::removeCreature(uint32_t id)
 {
-	m_creatures.remove(id);
+	//m_creatures.remove(id);
+	auto* creature = m_creatures.get(id);
+	creature->animate(gfx::model::animator::AnimatorType::DISAPPEAR, getElapsedTime());
 }
