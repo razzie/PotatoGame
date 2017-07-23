@@ -39,9 +39,6 @@ namespace animator
 		{
 			model->getMesh().setCompleteness(1.f);
 		}
-
-	private:
-		unsigned m_num_faces;
 	};
 }
 }
