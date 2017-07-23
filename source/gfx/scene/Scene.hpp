@@ -160,10 +160,15 @@ namespace scene
 				material.time = scene.getElapsedTime();
 				material.camera_mat = scene.getCamera().getMatrix();
 
-				for (auto& model : models)
+				for (auto it = models.begin(); it != models.end(); )
 				{
-					model.animate(material.time);
-					model.render(material, gl);
+					it->animate(material.time);
+					it->render(material, gl);
+
+					if (it->getFlag(model::ModelFlag::REMOVE))
+						it = models.erase(it);
+					else
+						++it;
 				}
 			}
 		};
