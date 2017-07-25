@@ -47,6 +47,7 @@ namespace model
 		const core::Camera& getCamera() const;
 		float getElapsedTime() const;
 		void setBlur(Blur blur);
+		void setAntiAliasing(bool enabled);
 		void begin();
 		void present(GL::Framebuffer* framebuffer = nullptr);
 
@@ -63,7 +64,7 @@ namespace model
 	private:
 		GL::Context& m_gl;
 		GL::Program m_postfx;
-		GL::Program m_aa;
+		GL::Program m_postfx2;
 		GL::VertexBuffer m_vbo;
 		GL::VertexArray m_vao;
 		GL::Framebuffer m_fbo;
@@ -72,6 +73,7 @@ namespace model
 		GBuffer m_gbuffer;
 		core::Camera m_cam;
 		Blur m_blur;
+		bool m_aa;
 	};
 }
 }
