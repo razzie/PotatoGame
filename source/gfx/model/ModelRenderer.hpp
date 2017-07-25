@@ -31,6 +31,13 @@ namespace model
 	class ModelRenderer
 	{
 	public:
+		enum Blur
+		{
+			NONE,
+			DEPTH,
+			FULL
+		};
+
 		typedef core::GBuffer<3> GBuffer;
 
 		ModelRenderer(RenderThread& render_thread);
@@ -39,7 +46,7 @@ namespace model
 		core::Camera& getCamera();
 		const core::Camera& getCamera() const;
 		float getElapsedTime() const;
-		void setBlur(bool enabled);
+		void setBlur(Blur blur);
 		void begin();
 		void present(GL::Framebuffer* framebuffer = nullptr);
 
@@ -64,7 +71,7 @@ namespace model
 		float m_time;
 		GBuffer m_gbuffer;
 		core::Camera m_cam;
-		bool m_blur;
+		Blur m_blur;
 	};
 }
 }
