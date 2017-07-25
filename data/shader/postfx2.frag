@@ -6,6 +6,7 @@ uniform sampler2D depth_tex;
 uniform float render_distance;
 uniform vec3 camera;
 uniform int blur;
+uniform bool antialias;
 
 in vec2 frag_position;
 
@@ -23,8 +24,8 @@ void main()
 	}
 	else if (blur == 1)
 	{
-		float mask = blur_mask(0.5);
-		out_color = mix(fxaa(), blur_color(0.5), mask);
+		float mask = blur_mask(0.25);
+		out_color = mix(fxaa(), blur_color(0.25), mask);
 	}
 	else
 	{
@@ -60,7 +61,7 @@ float normalized_distance(vec2 uv)
 	vec3 pos = texture(position_tex, uv).xyz;
 	
 	if (depth == 1.)
-		return 1.;
+		return 0.5;
 	else
 		return length(pos - camera) / render_distance;
 }
@@ -182,12 +183,19 @@ vec4 fxaa(sampler2D tex, vec2 fragCoord, vec2 resolution,
 
 vec4 fxaa()
 {
-	vec2 resolution = textureSize(color_tex, 0);
-	vec2 uvx = vec2(0.5 / resolution.x, 0.0);
-	vec2 uvy = vec2(0.0, 0.5 / resolution.y);
+	if (antialias)
+	{
+		vec2 resolution = textureSize(color_tex, 0);
+		vec2 uvx = vec2(0.5 / resolution.x, 0.0);
+		vec2 uvy = vec2(0.0, 0.5 / resolution.y);
 
-	return fxaa(color_tex, frag_position * resolution, resolution,
-		frag_position - uvy - uvx, frag_position - uvy + uvx,
-		frag_position + uvy - uvx, frag_position + uvy + uvx,
-		frag_position);
+		return fxaa(color_tex, frag_position * resolution, resolution,
+			frag_position - uvy - uvx, frag_position - uvy + uvx,
+			frag_position + uvy - uvx, frag_position + uvy + uvx,
+			frag_position);
+	}
+	else
+	{
+		return texture(color_tex, frag_position);
+	}
 }

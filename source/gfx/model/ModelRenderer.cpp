@@ -20,15 +20,17 @@ static const float vertices[] = {
 gfx::model::ModelRenderer::ModelRenderer(RenderThread& render_thread) :
 	m_gl(render_thread.getContext()),
 	m_postfx(render_thread.getShaderLoader().get("postfx")),
-	m_aa(render_thread.getShaderLoader().get("aa")),
+	m_postfx2(render_thread.getShaderLoader().get("postfx2")),
 	m_vbo(vertices, sizeof(vertices), GL::BufferUsage::StaticCopy),
 	m_fbo(render_thread.getWindow().GetWidth(), render_thread.getWindow().GetHeight(), 24, 8),
 	m_time(0.f),
 	m_gbuffer(render_thread.getWindow().GetWidth(), render_thread.getWindow().GetHeight()),
 	m_cam(render_thread.getAspectRatio(), render_thread.getRenderDistance()),
-	m_blur(Blur::NONE)
+	m_blur(Blur::NONE),
+	m_aa(true)
 {
 	m_vao.BindAttribute(m_postfx.GetAttribute("position"), m_vbo, GL::Type::Float, 2, sizeof(float) * 2, 0);
+	m_vao.BindAttribute(m_postfx2.GetAttribute("position"), m_vbo, GL::Type::Float, 2, sizeof(float) * 2, 0);
 	m_timer.reset();
 }
 
@@ -60,6 +62,11 @@ float gfx::model::ModelRenderer::getElapsedTime() const
 void gfx::model::ModelRenderer::setBlur(Blur blur)
 {
 	m_blur = blur;
+}
+
+void gfx::model::ModelRenderer::setAntiAliasing(bool enabled)
+{
+	m_aa = enabled;
 }
 
 void gfx::model::ModelRenderer::begin()
@@ -112,18 +119,19 @@ void gfx::model::ModelRenderer::present(GL::Framebuffer* framebuffer)
 
 	m_gl.Clear(GL::Buffer::Color | GL::Buffer::Depth);
 
-	m_gl.UseProgram(m_aa);
+	m_gl.UseProgram(m_postfx2);
 
 	m_gl.BindTexture(m_fbo.GetTexture(), 0);
 	m_gl.BindTexture(m_gbuffer.GetTexture(2), 1);
 	m_gl.BindTexture(m_gbuffer.GetDepthTexture(), 2);
 
-	m_aa.SetUniform("color_tex", 0);
-	m_aa.SetUniform("position_tex", 1);
-	m_aa.SetUniform("depth_tex", 2);
-	m_aa.SetUniform("render_distance", m_cam.getRenderDistance());
-	m_aa.SetUniform("camera", m_cam.getPosition());
-	m_aa.SetUniform("blur", m_blur);
+	m_postfx2.SetUniform("color_tex", 0);
+	m_postfx2.SetUniform("position_tex", 1);
+	m_postfx2.SetUniform("depth_tex", 2);
+	m_postfx2.SetUniform("render_distance", m_cam.getRenderDistance());
+	m_postfx2.SetUniform("camera", m_cam.getPosition());
+	m_postfx2.SetUniform("blur", m_blur);
+	m_postfx2.SetUniform("antialias", m_aa);
 
 	m_gl.DrawArrays(m_vao, GL::Primitive::Triangles, 0, 6);
 }

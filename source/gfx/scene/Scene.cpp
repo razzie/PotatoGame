@@ -52,6 +52,12 @@ bool gfx::scene::Scene::feed(const GL::Event& ev)
 	{
 		switch (ev.Key.Code)
 		{
+		case GL::Key::PageUp:
+			setAntiAliasing(true);
+			break;
+		case GL::Key::PageDown:
+			setAntiAliasing(false);
+			break;
 		case GL::Key::Comma:
 			setBlur(Blur::NONE);
 			return true;
