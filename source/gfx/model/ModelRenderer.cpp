@@ -26,7 +26,7 @@ gfx::model::ModelRenderer::ModelRenderer(RenderThread& render_thread) :
 	m_time(0.f),
 	m_gbuffer(render_thread.getWindow().GetWidth(), render_thread.getWindow().GetHeight()),
 	m_cam(render_thread.getAspectRatio(), render_thread.getRenderDistance()),
-	m_blur(false)
+	m_blur(Blur::NONE)
 {
 	m_vao.BindAttribute(m_postfx.GetAttribute("position"), m_vbo, GL::Type::Float, 2, sizeof(float) * 2, 0);
 	m_timer.reset();
@@ -57,9 +57,9 @@ float gfx::model::ModelRenderer::getElapsedTime() const
 	return m_time;
 }
 
-void gfx::model::ModelRenderer::setBlur(bool enabled)
+void gfx::model::ModelRenderer::setBlur(Blur blur)
 {
-	m_blur = enabled;
+	m_blur = blur;
 }
 
 void gfx::model::ModelRenderer::begin()
@@ -115,8 +115,14 @@ void gfx::model::ModelRenderer::present(GL::Framebuffer* framebuffer)
 	m_gl.UseProgram(m_aa);
 
 	m_gl.BindTexture(m_fbo.GetTexture(), 0);
+	m_gl.BindTexture(m_gbuffer.GetTexture(2), 1);
+	m_gl.BindTexture(m_gbuffer.GetDepthTexture(), 2);
 
 	m_aa.SetUniform("color_tex", 0);
+	m_aa.SetUniform("position_tex", 1);
+	m_aa.SetUniform("depth_tex", 2);
+	m_aa.SetUniform("render_distance", m_cam.getRenderDistance());
+	m_aa.SetUniform("camera", m_cam.getPosition());
 	m_aa.SetUniform("blur", m_blur);
 
 	m_gl.DrawArrays(m_vao, GL::Primitive::Triangles, 0, 6);
