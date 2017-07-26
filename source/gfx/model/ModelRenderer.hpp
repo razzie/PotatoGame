@@ -41,6 +41,7 @@ namespace model
 		typedef core::GBuffer<3> GBuffer;
 
 		ModelRenderer(RenderThread& render_thread);
+		ModelRenderer(RenderThread& render_thread, unsigned width, unsigned height);
 		GL::Context& getContext();
 		GBuffer& getGBuffer();
 		core::Camera& getCamera();
@@ -74,6 +75,7 @@ namespace model
 		core::Camera m_cam;
 		Blur m_blur;
 		bool m_aa;
+		bool m_horizon;
 	};
 }
 }

@@ -7,6 +7,7 @@ uniform sampler2D depth_tex;
 uniform float time;
 uniform float render_distance;
 uniform vec3 camera;
+uniform bool horizon;
 
 in vec2 frag_position;
 
@@ -39,11 +40,8 @@ void main()
 	float outline = 1.0 - GetEdgeWeight();
 	color *= outline;
 	
-	if (position.y < 1.0)
-	{
-		vec3 horizon = water(position.xz * 0.35, cam_vector);
-		color = mix(horizon, color, position.y);
-	}
+	if (horizon && position.y < 1.0)
+		color = mix(water(position.xz * 0.35, cam_vector), color, position.y);
 	
 	if (distance < render_distance)
 		out_color = mix(vec4(color, 1.0), fog_color, distance / render_distance);
