@@ -18,16 +18,23 @@ static const float vertices[] = {
 };
 
 gfx::model::ModelRenderer::ModelRenderer(RenderThread& render_thread) :
+	ModelRenderer(render_thread, render_thread.getWindow().GetWidth(), render_thread.getWindow().GetHeight())
+{
+	m_horizon = true;
+}
+
+gfx::model::ModelRenderer::ModelRenderer(RenderThread& render_thread, unsigned width, unsigned height) :
 	m_gl(render_thread.getContext()),
 	m_postfx(render_thread.getShaderLoader().get("postfx")),
 	m_postfx2(render_thread.getShaderLoader().get("postfx2")),
 	m_vbo(vertices, sizeof(vertices), GL::BufferUsage::StaticCopy),
-	m_fbo(render_thread.getWindow().GetWidth(), render_thread.getWindow().GetHeight(), 24, 8),
+	m_fbo(width, height, 24, 8),
 	m_time(0.f),
-	m_gbuffer(render_thread.getWindow().GetWidth(), render_thread.getWindow().GetHeight()),
+	m_gbuffer(width, height),
 	m_cam(render_thread.getAspectRatio(), render_thread.getRenderDistance()),
 	m_blur(Blur::NONE),
-	m_aa(true)
+	m_aa(true),
+	m_horizon(false)
 {
 	m_vao.BindAttribute(m_postfx.GetAttribute("position"), m_vbo, GL::Type::Float, 2, sizeof(float) * 2, 0);
 	m_vao.BindAttribute(m_postfx2.GetAttribute("position"), m_vbo, GL::Type::Float, 2, sizeof(float) * 2, 0);
@@ -108,6 +115,7 @@ void gfx::model::ModelRenderer::present(GL::Framebuffer* framebuffer)
 	m_postfx.SetUniform("time", m_time);
 	m_postfx.SetUniform("render_distance", m_cam.getRenderDistance());
 	m_postfx.SetUniform("camera", m_cam.getPosition());
+	m_postfx.SetUniform("horizon", m_horizon);
 
 	m_gl.DrawArrays(m_vao, GL::Primitive::Triangles, 0, 6);
 
