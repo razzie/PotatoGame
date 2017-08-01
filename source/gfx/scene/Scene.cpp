@@ -79,8 +79,6 @@ void gfx::scene::Scene::render()
 
 	m_cam_mgr.update(*this);
 
-	m_horizon.render(getContext(), getCamera().getMatrix());
-
 	m_hubs.render(*this);
 	m_transports.render(*this);
 	m_charges.render(*this);

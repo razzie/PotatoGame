@@ -29,7 +29,7 @@ gfx::model::TransportModel::TransportModel(gfx::scene::Scene& scene, uint32_t id
 		p1.Y -= 0.25f;
 		p2.Y -= 0.25f;
 
-		shape::WireShape wire(p1, p2, 16, random(0.5f, 3.f), random(0.0625f, 0.125f));
+		shape::WireShape wire(p1, p2, 16, random(0.5f, 3.f), random(0.125f, 0.15625f));
 		wire.generate(meshbuffer);
 	}
 

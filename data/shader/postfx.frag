@@ -7,7 +7,7 @@ uniform sampler2D depth_tex;
 uniform float time;
 uniform float render_distance;
 uniform vec3 camera;
-uniform bool horizon;
+uniform bool horizon_texture;
 
 in vec2 frag_position;
 
@@ -37,10 +37,10 @@ void main()
 	float light = dot(cam_vector, normal);
 	color = mix(color, vec3(1.0), light * light * 0.75);
 	
-	float outline = 1.0 - GetEdgeWeight();
+	float outline = 1.0 - sqrt(GetEdgeWeight());
 	color *= outline;
 	
-	if (horizon && position.y < 1.0)
+	if (horizon_texture && position.y < 1.0)
 		color = mix(water(position.xz * 0.35, cam_vector), color, position.y);
 	
 	if (distance < render_distance)
@@ -73,6 +73,7 @@ void main()
 
 //-----------------------------------------------------------------------------
 
+// replaced WATER_COL, WATER2_COL and FOAM_COL by custom values
 #define WATER_COL vec3(0.95, 0.954453, 0.957305)
 #define WATER2_COL vec3(0.90, 0.904180, 0.906758)
 #define FOAM_COL vec3(1.0)

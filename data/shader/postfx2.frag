@@ -5,86 +5,117 @@ uniform sampler2D position_tex;
 uniform sampler2D depth_tex;
 uniform float render_distance;
 uniform vec3 camera;
-uniform int blur;
-uniform bool antialias;
+uniform int blur_mode;
+uniform bool enable_antialiasing;
 
 in vec2 frag_position;
 
 out vec4 out_color;
 
-vec4 blur_color(float rad);
-float blur_mask(float rad);
+float distance(vec2 uv);
+float mindistance(float rad);
+vec4 blur(float rad, float min_depth);
+vec4 blur(float rad);
 vec4 fxaa();
 
 void main()
 {
-	if (blur == 0)
+	if (blur_mode == 0)
 	{
 		out_color = fxaa();
 	}
-	else if (blur == 1)
+	else if (blur_mode == 1)
 	{
-		float mask = blur_mask(0.25);
-		out_color = mix(fxaa(), blur_color(0.25), mask);
+		float depth = distance(frag_position);
+		if (depth < 0.35)
+			out_color = fxaa();
+		else
+			out_color = blur(depth, mindistance(0.25));
 	}
 	else
 	{
-		out_color = blur_color(0.5);
+		out_color = blur(0.5);
 	}
 }
 
-// 	simplyfied version of Dave Hoskins blur
-vec4 blur_color(float rad)
+float distance(vec2 uv)
+{
+	if (texture2D(depth_tex, uv).r == 1.)
+		return 1.;
+	else
+		return length(texture2D(position_tex, uv).xyz - camera) / render_distance;
+}
+
+vec4 blur(float rad, float min_depth)
 {
 	vec2 res = textureSize(color_tex, 0);
-	vec2 uv = frag_position;
 
 	const float GA = 2.399; 
 	const mat2 rot = mat2(cos(GA), sin(GA), -sin(GA), cos(GA));
 
 	vec3 acc = vec3(0);
     vec2 pixel = vec2(.002 * res.y / res.x, .002), angle = vec2(0, rad);
+	int samples = 0;
+	
     rad = 1.;
-	for (int j = 0; j < 80; j++)
+	for (int j = 0; j < 10; j++)
     {  
         rad += 1. / rad;
 	    angle *= rot;
-        vec4 col = texture(color_tex, uv + pixel * (rad - 1.) * angle);
-		acc += col.xyz;
+		
+		vec2 uv = frag_position + pixel * (rad - 1.) * angle;
+		float depth = distance(uv);
+		
+		if (depth >= min_depth)
+		{
+			acc += texture(color_tex, uv).xyz;
+			++samples;
+		}
 	}
-	return vec4(acc / 80., 1.);
-}
-
-float normalized_distance(vec2 uv)
-{
-	float depth = texture(depth_tex, uv).r;
-	vec3 pos = texture(position_tex, uv).xyz;
 	
-	if (depth == 1.)
-		return 0.5;
-	else
-		return length(pos - camera) / render_distance;
+	return vec4(acc / samples, 1.);
 }
 
-float blur_mask(float rad)
+vec4 blur(float rad)
 {
 	vec2 res = textureSize(color_tex, 0);
-	vec2 uv = frag_position;
 
 	const float GA = 2.399; 
 	const mat2 rot = mat2(cos(GA), sin(GA), -sin(GA), cos(GA));
 
-	float acc = 0.;
+	vec3 acc = vec3(0);
     vec2 pixel = vec2(.002 * res.y / res.x, .002), angle = vec2(0, rad);
+	
     rad = 1.;
-	for (int j = 0; j < 80; j++)
+	for (int j = 0; j < 40; j++)
     {  
         rad += 1. / rad;
 	    angle *= rot;
-		float dist = normalized_distance(uv + pixel * (rad - 1.) * angle);
-		acc += smoothstep(.25, .75, dist);
+		acc += texture(color_tex, frag_position + pixel * (rad - 1.) * angle).xyz;
 	}
-	return acc / 80.;
+	
+	return vec4(acc / 40, 1.);
+}
+
+float mindistance(float rad)
+{
+	vec2 res = textureSize(color_tex, 0);
+
+	const float GA = 2.399; 
+	const mat2 rot = mat2(cos(GA), sin(GA), -sin(GA), cos(GA));
+
+	float dist = 1.;
+    vec2 pixel = vec2(.002 * res.y / res.x, .002), angle = vec2(0, rad);
+	
+    rad = 1.;
+	for (int j = 0; j < 10; j++)
+    {  
+        rad += 1. / rad;
+	    angle *= rot;
+		dist = min(distance(frag_position + pixel * (rad - 1.) * angle), dist);
+	}
+	
+	return dist;
 }
 
 /**
@@ -183,7 +214,7 @@ vec4 fxaa(sampler2D tex, vec2 fragCoord, vec2 resolution,
 
 vec4 fxaa()
 {
-	if (antialias)
+	if (enable_antialiasing)
 	{
 		vec2 resolution = textureSize(color_tex, 0);
 		vec2 uvx = vec2(0.5 / resolution.x, 0.0);
