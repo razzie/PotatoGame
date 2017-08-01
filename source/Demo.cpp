@@ -60,7 +60,7 @@ Demo::Demo(Potato& potato) :
 
 void Demo::operator()()
 {
-	if (m_progress < m_diagram.vertices().size() && m_timer.peekElapsed() > 1000)
+	if (m_progress < m_diagram.vertices().size() && m_timer.peekElapsed() > 1500)
 	{
 		auto& vertex = m_diagram.vertices()[m_progress];
 

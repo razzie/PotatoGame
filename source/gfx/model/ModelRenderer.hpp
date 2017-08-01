@@ -14,6 +14,7 @@
 #include <raz/timer.hpp>
 #include "gfx/core/Camera.hpp"
 #include "gfx/core/GBuffer.hpp"
+#include "gfx/model/Horizon.hpp"
 
 namespace gfx
 {
@@ -73,9 +74,10 @@ namespace model
 		float m_time;
 		GBuffer m_gbuffer;
 		core::Camera m_cam;
+		Horizon m_horizon;
 		Blur m_blur;
 		bool m_aa;
-		bool m_horizon;
+		bool m_horizon_texture;
 	};
 }
 }

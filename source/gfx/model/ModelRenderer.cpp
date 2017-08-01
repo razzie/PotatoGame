@@ -20,7 +20,8 @@ static const float vertices[] = {
 gfx::model::ModelRenderer::ModelRenderer(RenderThread& render_thread) :
 	ModelRenderer(render_thread, render_thread.getWindow().GetWidth(), render_thread.getWindow().GetHeight())
 {
-	m_horizon = true;
+	m_blur = Blur::DEPTH;
+	m_horizon_texture = true;
 }
 
 gfx::model::ModelRenderer::ModelRenderer(RenderThread& render_thread, unsigned width, unsigned height) :
@@ -34,7 +35,7 @@ gfx::model::ModelRenderer::ModelRenderer(RenderThread& render_thread, unsigned w
 	m_cam(render_thread.getAspectRatio(), render_thread.getRenderDistance()),
 	m_blur(Blur::NONE),
 	m_aa(true),
-	m_horizon(false)
+	m_horizon_texture(false)
 {
 	m_vao.BindAttribute(m_postfx.GetAttribute("position"), m_vbo, GL::Type::Float, 2, sizeof(float) * 2, 0);
 	m_vao.BindAttribute(m_postfx2.GetAttribute("position"), m_vbo, GL::Type::Float, 2, sizeof(float) * 2, 0);
@@ -91,6 +92,8 @@ void gfx::model::ModelRenderer::begin()
 
 void gfx::model::ModelRenderer::present(GL::Framebuffer* framebuffer)
 {
+	m_horizon.render(m_gl, m_cam.getMatrix());
+
 	m_gl.DepthMask(false);
 	m_gl.Disable(GL::Capability::DepthTest);
 
@@ -115,7 +118,7 @@ void gfx::model::ModelRenderer::present(GL::Framebuffer* framebuffer)
 	m_postfx.SetUniform("time", m_time);
 	m_postfx.SetUniform("render_distance", m_cam.getRenderDistance());
 	m_postfx.SetUniform("camera", m_cam.getPosition());
-	m_postfx.SetUniform("horizon", m_horizon);
+	m_postfx.SetUniform("horizon_texture", m_horizon_texture);
 
 	m_gl.DrawArrays(m_vao, GL::Primitive::Triangles, 0, 6);
 
@@ -138,8 +141,8 @@ void gfx::model::ModelRenderer::present(GL::Framebuffer* framebuffer)
 	m_postfx2.SetUniform("depth_tex", 2);
 	m_postfx2.SetUniform("render_distance", m_cam.getRenderDistance());
 	m_postfx2.SetUniform("camera", m_cam.getPosition());
-	m_postfx2.SetUniform("blur", m_blur);
-	m_postfx2.SetUniform("antialias", m_aa);
+	m_postfx2.SetUniform("blur_mode", m_blur);
+	m_postfx2.SetUniform("enable_antialiasing", m_aa);
 
 	m_gl.DrawArrays(m_vao, GL::Primitive::Triangles, 0, 6);
 }

@@ -13,7 +13,6 @@
 #include <raz/memory.hpp>
 #include "gfx/model/ModelRenderer.hpp"
 #include "gfx/scene/FreeCameraController.hpp"
-#include "gfx/model/Horizon.hpp"
 #include "gfx/model/HubModel.hpp"
 #include "gfx/model/TransportModel.hpp"
 #include "gfx/model/ChargeModel.hpp"
@@ -176,7 +175,6 @@ namespace scene
 		RenderThread& m_render_thread;
 		raz::IMemoryPool* m_memory;
 		FreeCameraController m_cam_mgr;
-		model::Horizon m_horizon;
 		ModelContainer<model::HubModel> m_hubs;
 		ModelContainer<model::TransportModel> m_transports;
 		ModelContainer<model::ChargeModel> m_charges;
