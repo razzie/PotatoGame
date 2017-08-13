@@ -1354,9 +1354,9 @@
     <Library Include="lib\RocketCore.lib" />
     <Library Include="lib\RocketControls_d.lib" />
     <Library Include="lib\RocketControls.lib" />
-    <Library Include="lib\freetype27.lib" />
-    <Library Include="lib\freetype27d.lib" />
     <Library Include="lib\RocketDebugger.lib" />
     <Library Include="lib\RocketDebugger_d.lib" />
+    <Library Include="lib\freetype27MT.lib" />
+    <Library Include="lib\freetype27MTd.lib" />
   </ItemGroup>
 </Project>
