@@ -223,6 +223,7 @@
     <ClInclude Include="source\thirdparty\raz\eventutil.hpp" />
     <ClInclude Include="source\thirdparty\raz\functional.hpp" />
     <ClInclude Include="source\thirdparty\raz\hash.hpp" />
+    <ClInclude Include="source\thirdparty\raz\logger.hpp" />
     <ClInclude Include="source\thirdparty\raz\memory.hpp" />
     <ClInclude Include="source\thirdparty\raz\network.hpp" />
     <ClInclude Include="source\thirdparty\raz\networkbackend.hpp" />
