@@ -1319,6 +1319,9 @@
     <ClInclude Include="source\gfx\model\ModelFlag.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\thirdparty\raz\logger.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\thirdparty\Rocket\Core\Colour.inl">
