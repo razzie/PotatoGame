@@ -15,5 +15,5 @@ int CALLBACK WinMain(
 	_In_ LPSTR     lpCmdLine,
 	_In_ int       nCmdShow)
 {
-	return Potato(1, &lpCmdLine).run();
+	return Potato(__argc, __argv).run();
 }
